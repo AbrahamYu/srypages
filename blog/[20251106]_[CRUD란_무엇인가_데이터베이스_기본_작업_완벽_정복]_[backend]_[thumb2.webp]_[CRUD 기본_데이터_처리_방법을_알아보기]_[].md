@@ -24,7 +24,7 @@ Create는 말 그대로 새로운 데이터 레코드나 객체를 생성하는 
 
 ```sql
 INSERT INTO users (username, email, password)
-VALUES ('gemini-user', 'gemini@example.com', 'password123');
+VALUES ('user', 'user@example.com', 'password123');
 ```
 
 **RESTful API 예제 (`POST`)**
@@ -36,8 +36,8 @@ POST /api/users
 Content-Type: application/json
 
 {
-  "username": "gemini-user",
-  "email": "gemini@example.com",
+  "username": "user",
+  "email": "user@example.com",
   "password": "password123"
 }
 ```
@@ -55,7 +55,7 @@ Read는 데이터베이스에 저장된 데이터를 조회하는 작업을 의�
 SELECT * FROM users;
 
 -- 특정 사용자 조회
-SELECT * FROM users WHERE username = 'gemini-user';
+SELECT * FROM users WHERE username = 'user-name';
 ```
 
 **RESTful API 예제 (`GET`)**
@@ -67,7 +67,7 @@ SELECT * FROM users WHERE username = 'gemini-user';
 GET /api/users
 
 -- 특정 사용자 정보 조회
-GET /api/users/gemini-user
+GET /api/users/{$user}
 ```
 
 ## 3. Update (수정)
@@ -80,8 +80,8 @@ Update는 이미 존재하는 데이터를 수정하는 작업을 의미합니�
 
 ```sql
 UPDATE users
-SET email = 'new-email@example.com'
-WHERE username = 'gemini-user';
+SET email = 'email@example.com'
+WHERE username = 'user';
 ```
 
 **RESTful API 예제 (`PUT` 또는 `PATCH`)**
@@ -89,11 +89,11 @@ WHERE username = 'gemini-user';
 `PUT`은 리소스 전체를 교체하는 의미가 강하고, `PATCH`는 리소스의 일부만 수정할 때 사용됩니다.
 
 ```http
-PATCH /api/users/gemini-user
+PATCH /api/users/{$user}
 Content-Type: application/json
 
 {
-  "email": "new-email@example.com"
+  "email": "email@example.com"
 }
 ```
 
@@ -106,7 +106,7 @@ Delete는 데이터베이스에서 특정 데이터를 영구적으로 제거하
 `DELETE` 구문은 테이블에서 레코드를 삭제합니다. `WHERE` 절을 사용하지 않으면 테이블의 모든 데이터가 삭제될 수 있으므로 주의해야 합니다.
 
 ```sql
-DELETE FROM users WHERE username = 'gemini-user';
+DELETE FROM users WHERE username = 'user';
 ```
 
 **RESTful API 예제 (`DELETE`)**
@@ -114,7 +114,7 @@ DELETE FROM users WHERE username = 'gemini-user';
 `DELETE` 메서드는 지정된 리소스를 삭제하도록 서버에 요청합니다.
 
 ```http
-DELETE /api/users/gemini-user
+DELETE /api/users/{$user}
 ```
 
 ## 마무리
