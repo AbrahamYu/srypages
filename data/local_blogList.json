@@ -1,10 +1,15 @@
+
 [
     {
-        "name": "[20251106]_[CRUD 기본 데이터 처리 방법 알아보기]_[backend]_[thumb2.webp]_[CRUD 기본 데이터 처리 방법 알아보기]_[].md",
-        "download_url": "/blog/[20251106]_[CRUD 기본 데이터 처리 방법 알아보기]_[backend]_[thumb2.webp]_[CRUD 기본 데이터 처리 방법 알아보기]_[].md"
+        "name": "[20251106]_[CRUD 기본 데이터 처리 방법 알아보기]_[backend]_[img_col_1.png]_[CRUD 기본 데이터 처리 방법 알아보기]_[].md",
+        "download_url": "/blog/[20251106]_[CRUD 기본 데이터 처리 방법 알아보기]_[backend]_[img_col_1.png]_[CRUD 기본 데이터 처리 방법 알아보기]_[].md"
     },
     {
-        "name": "[20251106]_[Node.js와 npm을 사용하여 새로운 프로젝트를 설정하기]_[nodejs]_[thumb1.webp]_[Node.js와 npm을 사용하여 새로운 프로젝트 설정하기]_[].md",
-        "download_url": "/blog/[20251106]_[Node.js와 npm을 사용하여 새로운 프로젝트를 설정하기]_[nodejs]_[thumb1.webp]_[Node.js와 npm을 사용하여 새로운 프로젝트 설정하기]_[].md"
+        "name": "[20251106]_[Node.js와 npm을 사용하여 새로운 프로젝트를 설정하기]_[nodejs]_[img_col_1.png]_[Node.js와 npm을 사용하여 새로운 프로젝트 설정하기]_[].md",
+        "download_url": "/blog/[20251106]_[Node.js와 npm을 사용하여 새로운 프로젝트를 설정하기]_[nodejs]_[img_col_1.png]_[Node.js와 npm을 사용하여 새로운 프로젝트 설정하기]_[].md"
+    },
+    {
+        "name": "[20251107]_[Node.js 비동기 처리, 프로미스와 Async Await]_[nodejs]_[img_col_2.png]_[Node.js의 핵심인 비동기 처리 방식, 콜백 지옥부터 프로미스(Promise)를 거쳐 최신 asyncawait 문법까지 완벽하게 이해하고 활용하는 방법을 알아봅니다.]_[].md",
+        "download_url": "/blog/[20251107]_[Node.js 비동기 처리, 프로미스와 Async Await]_[nodejs]_[img_col_2.png]_[Node.js의 핵심인 비동기 처리 방식, 콜백 지옥부터 프로미스(Promise)를 거쳐 최신 asyncawait 문법까지 완벽하게 이해하고 활용하는 방법을 알아봅니다.]_[].md"
     }
 ]
