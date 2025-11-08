@@ -31,8 +31,7 @@ function search(keyword, kinds) {
         const searchResult = blogList.filter((post) => {
           if (kinds === "category") {
             // post를 parsing하여 카테고리 내 검색
-            const postInfo = extractFileInfo(post.name);
-            if (postInfo.category.toLowerCase() === keyword) {
+            if (post.category.map(c => c.toLowerCase()).includes(keyword.toLowerCase())) {
               return post;
             }
           }
@@ -168,9 +167,9 @@ async function renderMenu() {
   });
 }
 
-function createCardElement(fileInfo, index) {
+function createCardElement(postInfo, index) {
   /*
-    정규표현식으로 파싱된 파일정보 fileInfo를 기반으로 blog의 card 생성, index를 받는 이유는 첫번째 카드는 넓이를 크게 차지해야 하기 때문
+    정규표현식으로 파싱된 파일정보 postInfo를 기반으로 blog의 card 생성, index를 받는 이유는 첫번째 카드는 넓이를 크게 차지해야 하기 때문
     */
   const card = document.createElement("div");
   if (index === 0) {
@@ -179,10 +178,10 @@ function createCardElement(fileInfo, index) {
     card.classList.add(...bloglistCardStyle.split(" "));
   }
 
-  if (fileInfo.thumbnail) {
+  if (postInfo.thumbnail) {
     const img = document.createElement("img");
-    img.src = fileInfo.thumbnail;
-    img.alt = fileInfo.title;
+    img.src = postInfo.thumbnail;
+    img.alt = postInfo.title;
     if (index === 0) {
       img.classList.add(...bloglistFirstCardImgStyle.split(" "));
     } else {
@@ -194,21 +193,27 @@ function createCardElement(fileInfo, index) {
   const cardBody = document.createElement("div");
   cardBody.classList.add(...bloglistCardBodyStyle.split(" "));
 
-  const category = document.createElement("span");
-  category.classList.add(...bloglistCardCategoryStyle.split(" "));
-  category.textContent = fileInfo.category;
-  cardBody.appendChild(category);
+  const categoryContainer = document.createElement("div");
+  // 복수 카테고리 간격
+  categoryContainer.classList.add("flex", "gap-2");
+  postInfo.category.forEach(cat => {
+    const category = document.createElement("span");
+    category.classList.add(...bloglistCardCategoryStyle.split(" "));
+    category.textContent = cat;
+    categoryContainer.appendChild(category);
 
-  // category 이벤트 생성으로 카테고리 클릭 시 해당 카테고리로 검색
-  category.onclick = (event) => {
-    // 클릭했을 때 카드가 클릭되는 것이 아니라 카테고리가 클릭되게 해야함
-    event.stopPropagation();
-    search(fileInfo.category, "category");
-  };
+    // category 이벤트 생성으로 카테고리 클릭 시 해당 카테고리로 검색
+    category.onclick = (event) => {
+      // 클릭했을 때 카드가 클릭되는 것이 아니라 카테고리가 클릭되게 해야함
+      event.stopPropagation();
+      search(cat, "category");
+    };
+  });
+  cardBody.appendChild(categoryContainer);
 
   const title = document.createElement("h2");
   title.classList.add(...bloglistCardTitleStyle.split(" "));
-  title.textContent = fileInfo.title;
+  title.textContent = postInfo.title;
   cardBody.appendChild(title);
 
   const description = document.createElement("p");
@@ -217,7 +222,7 @@ function createCardElement(fileInfo, index) {
   } else {
     description.classList.add(...bloglistCardDescriptionStyle.split(" "));
   }
-  description.textContent = fileInfo.description;
+  description.textContent = postInfo.description;
   cardBody.appendChild(description);
 
   const authorDiv = document.createElement("div");
@@ -225,19 +230,19 @@ function createCardElement(fileInfo, index) {
   cardBody.appendChild(authorDiv);
 
   const authorImg = document.createElement("img");
-  authorImg.src = users[fileInfo.author]["img"];
-  authorImg.alt = users[fileInfo.author]["username"];
+  authorImg.src = users[postInfo.author]["img"];
+  authorImg.alt = users[postInfo.author]["username"];
   authorImg.classList.add(...bloglistCardAuthorImgStyle.split(" "));
   authorDiv.appendChild(authorImg);
 
   const author = document.createElement("p");
   author.classList.add(...bloglistCardAuthorStyle.split(" "));
-  author.textContent = users[fileInfo.author]["username"];
+  author.textContent = users[postInfo.author]["username"];
   authorDiv.appendChild(author);
 
   const date = document.createElement("p");
   date.classList.add(...bloglistCardDateStyle.split(" "));
-  date.textContent = formatDate(fileInfo.date);
+  date.textContent = formatDate(postInfo.date);
   cardBody.appendChild(date);
 
   card.appendChild(cardBody);
@@ -252,114 +257,56 @@ function renderBlogList(searchResult = null, currentPage = 1) {
     2. 검색을 했을 때에만 searchResult에 목록이 담겨 들어옴
     */
   const pageUnit = 10;
+  const targetList = searchResult || blogList;
 
-  if (searchResult) {
-    // 검색 keyword가 있을 경우
-    document.getElementById("blog-posts").style.display = "grid";
-    document.getElementById("blog-posts").innerHTML = "";
+  document.getElementById("blog-posts").style.display = "grid";
+  document.getElementById("pagination").style.display = "flex";
+  document.getElementById("blog-posts").innerHTML = "";
 
-    const totalPage = Math.ceil(searchResult.length / pageUnit);
-    initPagination(totalPage);
-    renderPagination(totalPage, 1, searchResult);
+  const totalPage = Math.ceil(targetList.length / pageUnit);
+  initPagination(totalPage);
+  renderPagination(totalPage, currentPage, searchResult);
 
-    const startIndex = (currentPage - 1) * pageUnit;
-    const endIndex = currentPage * pageUnit;
-    searchResult.slice(startIndex, endIndex).forEach((post, index) => {
-      const postInfo = extractFileInfo(post.name);
-      if (postInfo) {
-        const cardElement = createCardElement(postInfo, index);
+  const startIndex = (currentPage - 1) * pageUnit;
+  const endIndex = currentPage * pageUnit;
 
-        cardElement.onclick = (event) => {
-          // 블로그 게시글 링크 클릭 시 이벤트 중지 후 post 내용을 읽어와 contents 영역에 렌더링
-          event.preventDefault();
-          // contents 영역을 보이게 처리
-          document.getElementById("contents").style.display = "block";
-          // blog-posts 영역을 보이지 않게 처리
-          document.getElementById("blog-posts").style.display = "none";
-          document.getElementById("pagination").style.display = "none";
-          fetch(post.download_url)
-            .then((response) => response.text())
-            .then((text) =>
-              postInfo.fileType === "md"
-                ? styleMarkdown("post", text, postInfo)
-                : styleJupyter("post", text, postInfo)
-            )
-            .then(() => {
-              // 렌더링 후에는 URL 변경(query string으로 블로그 포스트 이름 추가)
-              const url = new URL(origin);
-              url.searchParams.set("post", post.name);
-              window.history.pushState({}, "", url);
-              document.title = postInfo.title;
-            });
-        };
-        document.getElementById("blog-posts").appendChild(cardElement);
+  targetList.slice(startIndex, endIndex).forEach((post, index) => {
+    const cardElement = createCardElement(post, index);
+
+    cardElement.onclick = (event) => {
+      event.preventDefault();
+      document.getElementById("contents").style.display = "block";
+      document.getElementById("blog-posts").style.display = "none";
+      document.getElementById("pagination").style.display = "none";
+
+      let postDownloadUrl;
+      if (!isLocal && localDataUsing) {
+        postDownloadUrl = `${url.origin}/${siteConfig.repositoryName}${post.download_url}`;
+      } else {
+        postDownloadUrl = post.download_url;
       }
-    });
-    // contents 영역을 보이지 않게 처리
-    document.getElementById("contents").style.display = "none";
-  } else {
-    // 검색 keyword가 없을 경우
-    document.getElementById("blog-posts").style.display = "grid";
-    document.getElementById("pagination").style.display = "flex";
-    document.getElementById("blog-posts").innerHTML = "";
-
-    const totalPage = Math.ceil(blogList.length / pageUnit);
-    initPagination(totalPage);
-    renderPagination(totalPage, 1);
-
-    const startIndex = (currentPage - 1) * pageUnit;
-    const endIndex = currentPage * pageUnit;
-
-    // console.log("blogList", blogList);
-    blogList.slice(startIndex, endIndex).forEach((post, index) => {
-      const postInfo = extractFileInfo(post.name);
-      if (postInfo) {
-        // console.log(postInfo)
-        const cardElement = createCardElement(postInfo, index);
-
-        cardElement.onclick = (event) => {
-          // 블로그 게시글 링크 클릭 시 이벤트 중지 후 post 내용을 읽어와 contents 영역에 렌더링
-          event.preventDefault();
-          // contents 영역을 보이게 처리
-          document.getElementById("contents").style.display = "block";
-          // blog-posts 영역을 보이지 않게 처리
-          document.getElementById("blog-posts").style.display = "none";
-          document.getElementById("pagination").style.display = "none";
-
-          // console.log(post)
-          // console.log(post.download_url)
-          let postDownloadUrl;
-          if (!isLocal && localDataUsing) {
-            postDownloadUrl = `${url.origin}/${siteConfig.repositoryName}${post.download_url}`;
-          } else {
-            postDownloadUrl = post.download_url;
-          }
-          try {
-            fetch(postDownloadUrl)
-              .then((response) => response.text())
-              .then((text) =>
-                postInfo.fileType === "md"
-                  ? styleMarkdown("post", text, postInfo)
-                  : styleJupyter("post", text, postInfo)
-              )
-              .then(() => {
-                // 렌더링 후에는 URL 변경(query string으로 블로그 포스트 이름 추가)
-                const url = new URL(origin);
-                url.searchParams.set("post", post.name);
-                window.history.pushState({}, "", url);
-                document.title = postInfo.title;
-              });
-          } catch (error) {
-            styleMarkdown("post", "# Error입니다. 파일명을 확인해주세요.");
-          }
-        };
-        document.getElementById("blog-posts").appendChild(cardElement);
+      try {
+        fetch(postDownloadUrl)
+          .then((response) => response.text())
+          .then((text) =>
+            post.fileType === "md"
+              ? styleMarkdown("post", text, post)
+              : styleJupyter("post", text, post)
+          )
+          .then(() => {
+            const url = new URL(origin);
+            url.searchParams.set("post", post.name);
+            window.history.pushState({}, "", url);
+            document.title = post.title;
+          });
+      } catch (error) {
+        styleMarkdown("post", "# Error입니다. 파일명을 확인해주세요.");
       }
-    });
+    };
+    document.getElementById("blog-posts").appendChild(cardElement);
+  });
 
-    // contents 영역을 보이지 않게 처리
-    document.getElementById("contents").style.display = "none";
-  }
+  document.getElementById("contents").style.display = "none";
 }
 
 function renderOtherContents(menu) {
@@ -407,14 +354,14 @@ function renderBlogCategory() {
     */
   const categoryList = {};
   blogList.forEach((post) => {
-    const postInfo = extractFileInfo(post.name);
-    if (postInfo) {
-      if (categoryList[postInfo.category.toLowerCase()]) {
-        categoryList[postInfo.category.toLowerCase()] += 1;
+    post.category.forEach(cat => {
+      const lowerCat = cat.toLowerCase();
+      if (categoryList[lowerCat]) {
+        categoryList[lowerCat] += 1;
       } else {
-        categoryList[postInfo.category.toLowerCase()] = 1;
+        categoryList[lowerCat] = 1;
       }
-    }
+    });
   });
   const categoryArray = Object.keys(categoryList);
   categoryArray.sort();
@@ -661,27 +608,40 @@ async function initialize() {
         styleMarkdown("menu", "# Error입니다. 파일명을 확인해주세요.");
       }
     } else if (url.search.split("=")[0] === "?post") {
-      document.getElementById("contents").style.display = "block";
-      document.getElementById("blog-posts").style.display = "none";
-      postNameDecode = decodeURI(url.search.split("=")[1]).replaceAll("+", " ");
-      // console.log(postNameDecode);
-      postInfo = extractFileInfo(postNameDecode);
-      try {
-        fetch(origin + "blog/" + postNameDecode)
-          .then((response) => response.text())
-          .then((text) =>
-            postInfo.fileType === "md"
-              ? styleMarkdown("post", text, postInfo)
-              : styleJupyter("post", text, postInfo)
-          )
-          .then(() => {
-            // 렌더링 후에는 URL 변경(query string으로 블로그 포스트 이름 추가)
-            const url = new URL(window.location.href);
-            window.history.pushState({}, "", url);
-          });
-      } catch (error) {
-        styleMarkdown("post", "# Error입니다. 파일명을 확인해주세요.");
-      }
+        await initDataBlogList(); // Ensure blogList is loaded
+        document.getElementById("contents").style.display = "block";
+        document.getElementById("blog-posts").style.display = "none";
+        const postNameDecode = decodeURI(url.search.split("=")[1]).replaceAll("+", " ");
+
+        const postInfo = blogList.find(p => p.name === postNameDecode); // Find the post
+
+        if (postInfo) {
+            try {
+                let postDownloadUrl;
+                if (!isLocal && localDataUsing) {
+                    postDownloadUrl = `${url.origin}/${siteConfig.repositoryName}${postInfo.download_url}`;
+                } else {
+                    postDownloadUrl = postInfo.download_url;
+                }
+                fetch(postDownloadUrl)
+                    .then((response) => response.text())
+                    .then((text) =>
+                        postInfo.fileType === "md"
+                            ? styleMarkdown("post", text, postInfo)
+                            : styleJupyter("post", text, postInfo)
+                    )
+                    .then(() => {
+                        const url = new URL(window.location.href);
+                        window.history.pushState({}, "", url);
+                        document.title = postInfo.title;
+                    });
+            } catch (error) {
+                styleMarkdown("post", "# Error입니다. 파일명을 확인해주세요.");
+            }
+        } else {
+            // Post not found
+            styleMarkdown("post", "# Error: Post not found.");
+        }
     }
   }
 }
