@@ -1,5 +1,17 @@
 [
     {
+        "name": "[20251111]_[Ubuntu에 Nginx 설치 및 서버 블록 설정 완벽 가이드].md",
+        "download_url": "/blog/[20251111]_[Ubuntu에 Nginx 설치 및 서버 블록 설정 완벽 가이드].md",
+        "category": [
+            "nginx",
+            "ubuntu",
+            "server"
+        ],
+        "thumnail": "thumb2.webp",
+        "description": "초보자를 위한 Nginx 설치, 방화벽 설정, 서버 블록(가상 호스트)을 이용한 폴더 구조화까지 전반적인 과정을 다룹니다.",
+        "author": ""
+    },
+    {
         "name": "[20251110]_[Crontab을 이용한 주기적 작업 자동화 가이드].md",
         "download_url": "/blog/[20251110]_[Crontab을 이용한 주기적 작업 자동화 가이드].md",
         "category": [
