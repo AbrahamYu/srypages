@@ -7,6 +7,10 @@
         "name": "blog.md",
         "download_url": "/menu/blog.md"
     },
+     {
+        "name": "calculator.md",
+        "download_url": "/menu/calculator.md"
+    },
     {
         "name": "contact.md",
         "download_url": "/menu/contact.md"

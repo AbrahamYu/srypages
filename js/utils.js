@@ -51,3 +51,28 @@ function formatDate(dateString) {
 
   return `${year}/${month}/${day}`;
 }
+
+function loadCss(href) {
+    if (!document.querySelector(`link[href="${href}"]`)) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        document.head.appendChild(link);
+    }
+}
+
+function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        // Check if the script is already present
+        if (document.querySelector(`script[src="${src}"]`)) {
+            resolve();
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error(`Script load error for ${src}`));
+        // Append to body to ensure it loads after the DOM is mostly ready
+        document.body.appendChild(script);
+    });
+}

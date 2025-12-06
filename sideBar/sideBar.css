@@ -1,0 +1,15 @@
+.sidebar-link {
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    font-medium: 600;
+    color: #4B5563; /* text-gray-600 */
+}
+
+.sidebar-link:hover {
+    background-color: #E5E7EB; /* bg-gray-200 */
+}
+
+.sidebar-link.active {
+    background-color: #DBEAFE; /* bg-blue-100 */
+    color: #1D4ED8; /* text-blue-700 */
+    font-weight: 600; /* font-semibold */
+}

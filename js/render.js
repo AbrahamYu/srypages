@@ -315,6 +315,7 @@ function renderOtherContents(menu) {
     */
   // main 영역에 blog.md를 제외한 다른 파일을 렌더링
   document.getElementById("blog-posts").style.display = "none";
+  document.getElementById("pagination").style.display = "none";
   document.getElementById("contents").style.display = "block";
 
   // 만약 menu가 string type 이라면 download_url, name을 menu로 설정
@@ -324,8 +325,7 @@ function renderOtherContents(menu) {
       name: menu.split("/")[menu.split("/").length - 1],
     };
   }
-  // console.log(menu)
-  // console.log(menu.download_url)
+  
   let menuDownloadUrl;
   if (!isLocal && localDataUsing) {
     menuDownloadUrl =
@@ -336,7 +336,27 @@ function renderOtherContents(menu) {
   try {
     fetch(menuDownloadUrl)
       .then((response) => response.text())
-      .then((text) => styleMarkdown("menu", text, undefined))
+      .then((text) => {
+        const contentsDiv = document.getElementById("contents");
+        contentsDiv.innerHTML = text; // Inject the HTML first
+
+        if (menu.name === 'calculator.md') {
+            // For the calculator, load all assets and then run setup functions
+            loadCss('sideBar/sideBar.css');
+            loadScript('sideBar/sideBar.js')
+                .then(() => loadScript('js/calculatorPage.js'))
+                .then(() => {
+                    // Both scripts are loaded, now execute the setup functions
+                    setupSidebar();
+                    setupCalculators();
+                })
+                .catch(error => console.error('Error setting up calculator page:', error));
+        } else {
+            // For other markdown files, use the existing styleMarkdown function
+            // We assume it handles the conversion and rendering
+            styleMarkdown("menu", text, undefined);
+        }
+      })
       .then(() => {
         // 렌더링 후에는 URL 변경(query string으로 블로그 포스트 이름 추가)
         const url = new URL(origin);
@@ -344,7 +364,12 @@ function renderOtherContents(menu) {
         window.history.pushState({}, "", url);
       });
   } catch (error) {
-    styleMarkdown("menu", "# Error입니다. 파일명을 확인해주세요.", undefined);
+    // In case of a fetch error, render an error message.
+    // Note: styleMarkdown might not be defined if it's part of the dynamic content,
+    // so a simple innerHTML is a safer fallback.
+    const contentsDiv = document.getElementById("contents");
+    contentsDiv.innerHTML = "<h1>Error</h1><p>Could not load content.</p>";
+    console.error("Error fetching menu content:", error);
   }
 }
 
