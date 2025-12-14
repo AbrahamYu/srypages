@@ -302,4 +302,75 @@ function setupTriangleCalculator() {
 
     calcBtn.addEventListener('click', calculateTriangle);
     resetBtn.addEventListener('click', resetCalculator);
+
+    setupVatCalculator();
+}
+
+function setupVatCalculator() {
+    const totalInput = document.getElementById('vat-total');
+    const supplyInput = document.getElementById('vat-supply');
+    const taxInput = document.getElementById('vat-tax');
+    const resetBtn = document.getElementById('vat-reset-btn');
+
+    let isCalculating = false;
+
+    const formatNumber = (num) => {
+        if (isNaN(num) || num === null) return '';
+        return Math.round(num).toLocaleString();
+    };
+
+    const parseNumber = (str) => {
+        if (typeof str !== 'string') return NaN;
+        return parseFloat(str.replace(/,/g, '')) || 0;
+    };
+
+    const updateValues = (source) => {
+        if (isCalculating) return;
+        isCalculating = true;
+
+        const value = parseNumber(source.value);
+
+        if (source.id === 'vat-total') {
+            const supply = value / 1.1;
+            const tax = value - supply;
+            supplyInput.value = formatNumber(supply);
+            taxInput.value = formatNumber(tax);
+        } else if (source.id === 'vat-supply') {
+            const tax = value * 0.1;
+            const total = value + tax;
+            totalInput.value = formatNumber(total);
+            taxInput.value = formatNumber(tax);
+        } else if (source.id === 'vat-tax') {
+            const supply = value * 10;
+            const total = supply + value;
+            totalInput.value = formatNumber(total);
+            supplyInput.value = formatNumber(supply);
+        }
+        
+        // Format the source input field as well
+        if (document.activeElement === source) {
+            source.value = formatNumber(value);
+        }
+
+        isCalculating = false;
+    };
+
+    [totalInput, supplyInput, taxInput].forEach(input => {
+        input.addEventListener('input', (e) => {
+            updateValues(e.target);
+        });
+        // also format when user leaves the input field
+        input.addEventListener('change', (e) => {
+            const value = parseNumber(e.target.value);
+            e.target.value = formatNumber(value);
+        });
+    });
+
+    resetBtn.addEventListener('click', () => {
+        isCalculating = true;
+        totalInput.value = '';
+        supplyInput.value = '';
+        taxInput.value = '';
+        isCalculating = false;
+    });
 }

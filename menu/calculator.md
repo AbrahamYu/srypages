@@ -117,5 +117,29 @@
                 </div>
             </div>
         </div>
+
+        <!-- VAT Calculator -->
+        <div id="vat-calculator" class="calculator-panel" style="display: none;">
+            <div class="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto">
+                <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">부가세 계산기</h1>
+                <div class="space-y-4">
+                    <div>
+                        <label for="vat-total" class="block text-sm font-medium text-gray-700">합계 금액 (Total)</label>
+                        <input type="text" id="vat-total" class="vat-input w-full p-3 mt-1 text-lg text-right border border-gray-300 rounded-md" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="vat-supply" class="block text-sm font-medium text-gray-700">공급가액 (Price)</label>
+                        <input type="text" id="vat-supply" class="vat-input w-full p-3 mt-1 text-lg text-right border border-gray-300 rounded-md" placeholder="0">
+                    </div>
+                    <div>
+                        <label for="vat-tax" class="block text-sm font-medium text-gray-700">부가세 (VAT)</label>
+                        <input type="text" id="vat-tax" class="vat-input w-full p-3 mt-1 text-lg text-right border border-gray-300 rounded-md" placeholder="0">
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <button id="vat-reset-btn" class="w-full bg-gray-500 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-600">초기화</button>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
