@@ -1,0 +1,17 @@
+{
+  "name": "srypages",
+  "version": "1.0.0",
+  "description": "sry github page",
+  "main": "config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^11.3.2",
+    "glob": "^13.0.0",
+    "marked": "^17.0.1"
+  }
+}
