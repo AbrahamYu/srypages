@@ -106,4 +106,200 @@ function setupCalculators() {
     if (modelSelect.value) {
         calculateLlmCost();
     }
+
+    setupTriangleCalculator();
+}
+
+function setupTriangleCalculator() {
+    const inputs = {
+        a: document.getElementById('side-a'),
+        b: document.getElementById('side-b'),
+        c: document.getElementById('side-c'),
+        A: document.getElementById('angle-A'),
+        B: document.getElementById('angle-B'),
+        C: document.getElementById('angle-C'),
+    };
+    const calcBtn = document.getElementById('triangle-calculate-btn');
+    const resetBtn = document.getElementById('triangle-reset-btn');
+    const canvas = document.getElementById('triangle-canvas');
+    const valuesDiv = document.getElementById('triangle-values');
+    const errorDiv = document.getElementById('triangle-error');
+    const ctx = canvas.getContext('2d');
+
+    const toRad = (deg) => deg * Math.PI / 180;
+    const toDeg = (rad) => rad * 180 / Math.PI;
+
+    function drawTriangle(triangle) {
+        // Set canvas resolution based on its displayed size
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientWidth * 0.8; // Maintain an aspect ratio
+
+        const { a, b, c, A, B, C } = triangle;
+        const padding = 40;
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.font = "14px Arial";
+        ctx.fillStyle = "black";
+
+        // Scale the triangle to fit the canvas
+        const maxSide = Math.max(a, b, c);
+        const scale = (Math.min(canvasWidth, canvasHeight) - 2 * padding) / maxSide;
+
+        // Let side 'a' be the base, from B to C
+        const pB = { x: padding, y: canvasHeight - padding };
+        const pC = { x: padding + a * scale, y: canvasHeight - padding };
+        const pA = { 
+            x: pB.x + c * scale * Math.cos(toRad(B)),
+            y: pB.y - c * scale * Math.sin(toRad(B))
+        };
+        
+        // Draw triangle
+        ctx.beginPath();
+        ctx.moveTo(pA.x, pA.y);
+        ctx.lineTo(pB.x, pB.y);
+        ctx.lineTo(pC.x, pC.y);
+        ctx.closePath();
+        ctx.strokeStyle = '#3b82f6';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw labels
+        // Vertices
+        ctx.fillText(`A (${A.toFixed(1)}°)`, pA.x - 10, pA.y - 10);
+        ctx.fillText(`B (${B.toFixed(1)}°)`, pB.x - 40, pB.y + 15);
+        ctx.fillText(`C (${C.toFixed(1)}°)`, pC.x + 10, pC.y + 15);
+
+        // Sides
+        ctx.save();
+        ctx.translate((pA.x + pB.x) / 2, (pA.y + pB.y) / 2);
+        ctx.rotate(-Math.atan2(pB.y - pA.y, pB.x - pA.x));
+        ctx.fillText(`c = ${c.toFixed(2)}`, -15, -8);
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate((pB.x + pC.x) / 2, (pB.y + pC.y) / 2);
+        ctx.fillText(`a = ${a.toFixed(2)}`, -15, 20);
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate((pC.x + pA.x) / 2, (pC.y + pA.y) / 2);
+        ctx.rotate(-Math.atan2(pA.y - pC.y, pA.x - pC.x));
+        ctx.fillText(`b = ${b.toFixed(2)}`, -15, -8);
+        ctx.restore();
+    }
+
+    function displayResults(triangle) {
+        drawTriangle(triangle);
+        valuesDiv.innerHTML = `
+            <div class="grid grid-cols-2 gap-y-2 gap-x-4 text-sm">
+                <span class="font-medium text-gray-600">Side a:</span><span class="font-bold">${triangle.a.toFixed(3)}</span>
+                <span class="font-medium text-gray-600">Angle A:</span><span class="font-bold">${triangle.A.toFixed(3)}°</span>
+                <span class="font-medium text-gray-600">Side b:</span><span class="font-bold">${triangle.b.toFixed(3)}</span>
+                <span class="font-medium text-gray-600">Angle B:</span><span class="font-bold">${triangle.B.toFixed(3)}°</span>
+                <span class="font-medium text-gray-600">Side c:</span><span class="font-bold">${triangle.c.toFixed(3)}</span>
+                <span class="font-medium text-gray-600">Angle C:</span><span class="font-bold">${triangle.C.toFixed(3)}°</span>
+            </div>
+            <hr class="my-3">
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-lg">Area:</span>
+                <span class="font-extrabold text-xl">${triangle.area.toFixed(3)}</span>
+            </div>
+        `;
+        errorDiv.textContent = '';
+    }
+
+    function calculateTriangle() {
+        let sides = { a: parseFloat(inputs.a.value), b: parseFloat(inputs.b.value), c: parseFloat(inputs.c.value) };
+        let angles = { A: parseFloat(inputs.A.value), B: parseFloat(inputs.B.value), C: parseFloat(inputs.C.value) };
+
+        const sideCount = Object.values(sides).filter(v => !isNaN(v) && v > 0).length;
+        const angleCount = Object.values(angles).filter(v => !isNaN(v) && v > 0).length;
+
+        if (sideCount + angleCount !== 3) {
+            errorDiv.textContent = 'Please enter exactly 3 positive values.';
+            return;
+        }
+
+        try {
+            // SSS case
+            if (sideCount === 3) {
+                const { a, b, c } = sides;
+                if (a + b <= c || a + c <= b || b + c <= a) throw new Error("Invalid sides (triangle inequality).");
+                angles.A = toDeg(Math.acos((b * b + c * c - a * a) / (2 * b * c)));
+                angles.B = toDeg(Math.acos((a * a + c * c - b * b) / (2 * a * c)));
+                angles.C = 180 - angles.A - angles.B;
+            }
+            // SAS case
+            else if (sideCount === 2 && angleCount === 1) {
+                if (!isNaN(sides.a) && !isNaN(sides.b) && !isNaN(angles.C)) { // a, b, C
+                    sides.c = Math.sqrt(sides.a**2 + sides.b**2 - 2 * sides.a * sides.b * Math.cos(toRad(angles.C)));
+                    angles.A = toDeg(Math.asin(sides.a * Math.sin(toRad(angles.C)) / sides.c));
+                    angles.B = 180 - angles.A - angles.C;
+                } else if (!isNaN(sides.b) && !isNaN(sides.c) && !isNaN(angles.A)) { // b, c, A
+                    sides.a = Math.sqrt(sides.b**2 + sides.c**2 - 2 * sides.b * sides.c * Math.cos(toRad(angles.A)));
+                    angles.B = toDeg(Math.asin(sides.b * Math.sin(toRad(angles.A)) / sides.a));
+                    angles.C = 180 - angles.A - angles.B;
+                } else if (!isNaN(sides.a) && !isNaN(sides.c) && !isNaN(angles.B)) { // a, c, B
+                    sides.b = Math.sqrt(sides.a**2 + sides.c**2 - 2 * sides.a * sides.c * Math.cos(toRad(angles.B)));
+                    angles.A = toDeg(Math.asin(sides.a * Math.sin(toRad(angles.B)) / sides.b));
+                    angles.C = 180 - angles.A - angles.B;
+                } else {
+                     // This is the ambiguous SSA case. For now, we'll ask for a non-ambiguous case.
+                     throw new Error("Ambiguous case (SSA). Please provide a non-ambiguous case like SAS, ASA, or SSS.");
+                }
+            }
+            // ASA or AAS case
+            else if (sideCount === 1 && angleCount === 2) {
+                const angleSum = Object.values(angles).filter(v => !isNaN(v)).reduce((s, v) => s + v, 0);
+                if (angleSum >= 180) throw new Error("Sum of two angles cannot be 180° or more.");
+
+                if (isNaN(angles.A)) angles.A = 180 - angles.B - angles.C;
+                if (isNaN(angles.B)) angles.B = 180 - angles.A - angles.C;
+                if (isNaN(angles.C)) angles.C = 180 - angles.A - angles.B;
+
+                const sinA = Math.sin(toRad(angles.A));
+                const sinB = Math.sin(toRad(angles.B));
+                const sinC = Math.sin(toRad(angles.C));
+
+                if (!isNaN(sides.a)) {
+                    sides.b = sides.a * sinB / sinA;
+                    sides.c = sides.a * sinC / sinA;
+                } else if (!isNaN(sides.b)) {
+                    sides.a = sides.b * sinA / sinB;
+                    sides.c = sides.b * sinC / sinB;
+                } else if (!isNaN(sides.c)) {
+                    sides.a = sides.c * sinA / sinC;
+                    sides.b = sides.c * sinB / sinC;
+                }
+            } else {
+                throw new Error("Unsupported combination of inputs. Please provide SSS, SAS, ASA, or AAS.");
+            }
+
+            const { a, b, c } = sides;
+            const { A, B, C } = angles;
+            if ([a,b,c,A,B,C].some(v => isNaN(v) || v <= 0)) throw new Error("Calculation resulted in invalid triangle values.");
+
+            const s = (a + b + c) / 2;
+            const area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+
+            displayResults({ a, b, c, A, B, C, area });
+
+        } catch (e) {
+            errorDiv.textContent = e.message;
+            valuesDiv.innerHTML = '<p class="text-gray-500 text-center">Calculation failed.</p>';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    function resetCalculator() {
+        Object.values(inputs).forEach(input => input.value = '');
+        valuesDiv.innerHTML = '<p class="text-gray-500 text-center">Results will appear here.</p>';
+        errorDiv.textContent = '';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    calcBtn.addEventListener('click', calculateTriangle);
+    resetBtn.addEventListener('click', resetCalculator);
 }

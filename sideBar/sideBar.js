@@ -36,6 +36,9 @@ function setupSidebar() {
             menuLinks.forEach(link => {
                 if (link.getAttribute('data-target') === targetId) {
                     link.classList.add('active');
+                    // Dynamically update page title
+                    const pageTitle = link.textContent.trim();
+                    document.title = `${pageTitle} | ${siteConfig.blogTitle || 'Calculators'}`;
                 } else {
                     link.classList.remove('active');
                 }

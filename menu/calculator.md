@@ -62,5 +62,60 @@
                 </div>
             </div>
         </div>
+
+        <!-- Triangle Calculator -->
+        <div id="triangle-calculator" class="calculator-panel" style="display: none;">
+            <div class="bg-gray-100 p-8 rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-6 text-gray-800">Triangle Solver</h1>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Input Section -->
+                    <div class="bg-white p-6 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-2">Enter 3 values</h2>
+                        <p class="text-sm text-gray-500 mb-4">최소 3개의 값은 입력해주세요.</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="side-a" class="block text-sm font-medium text-gray-700">Side a</label>
+                                <input type="number" id="side-a" class="tri-input w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="e.g., 5">
+                            </div>
+                            <div>
+                                <label for="angle-A" class="block text-sm font-medium text-gray-700">Angle A (°)</label>
+                                <input type="number" id="angle-A" class="tri-input w-full p-2 mt-1 border border-gray-300 rounded-md" placeholder="e.g., 60">
+                            </div>
+                            <div>
+                                <label for="side-b" class="block text-sm font-medium text-gray-700">Side b</label>
+                                <input type="number" id="side-b" class="tri-input w-full p-2 mt-1 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="angle-B" class="block text-sm font-medium text-gray-700">Angle B (°)</label>
+                                <input type="number" id="angle-B" class="tri-input w-full p-2 mt-1 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="side-c" class="block text-sm font-medium text-gray-700">Side c</label>
+                                <input type="number" id="side-c" class="tri-input w-full p-2 mt-1 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="angle-C" class="block text-sm font-medium text-gray-700">Angle C (°)</label>
+                                <input type="number" id="angle-C" class="tri-input w-full p-2 mt-1 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <div class="flex gap-4 mt-6">
+                            <button id="triangle-calculate-btn" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700">Calculate</button>
+                            <button id="triangle-reset-btn" class="w-full bg-gray-500 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-600">Reset</button>
+                        </div>
+                    </div>
+                    <!-- Result Section -->
+                    <div class="bg-white p-6 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-4">Results</h2>
+                        <div id="triangle-results" class="space-y-3">
+                            <canvas id="triangle-canvas" class="w-full mx-auto bg-gray-50 rounded-md"></canvas>
+                            <div id="triangle-values" class="mt-4">
+                                <p class="text-gray-500 text-center">Results will appear here.</p>
+                            </div>
+                        </div>
+                         <div id="triangle-error" class="mt-4 text-red-600 font-medium"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
