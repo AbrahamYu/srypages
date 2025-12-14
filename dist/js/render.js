@@ -328,8 +328,7 @@ function renderOtherContents(menu) {
   
   let menuDownloadUrl;
   if (!isLocal && localDataUsing) {
-    menuDownloadUrl =
-      menu.download_url = `${url.origin}/${siteConfig.repositoryName}${menu.download_url}`;
+    menuDownloadUrl = `${url.origin}/${siteConfig.repositoryName}${menu.download_url}`;
   } else {
     menuDownloadUrl = menu.download_url;
   }
