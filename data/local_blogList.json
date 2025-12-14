@@ -1,5 +1,16 @@
 [
     {
+        "name": "[20251214]_[Git 브랜치와 커밋 메시지 Prefix 전략].md",
+        "download_url": "/blog/[20251214]_[Git 브랜치와 커밋 메시지 Prefix 전략].md",
+        "category": [
+            "Git",
+            "DevOps"
+        ],
+        "thumnail": "default.png",
+        "description": "브랜치와 커밋 메시지에 Prefix를 사용하여 Git 히스토리를 체계적으로 관리하는 방법을 알아봅니다.",
+        "author": 0
+    },
+    {
         "name": "[20251112]_[도커(Docker) 기본 개념과 사용법].md",
         "download_url": "/blog/[20251112]_[도커(Docker) 기본 개념과 사용법].md",
         "category": [
