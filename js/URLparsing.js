@@ -20,47 +20,29 @@ if (window.location.pathname.endsWith("/index.html")) {
   history.replaceState(null, "", newPath);
 }
 
-if (isLocal) {
-  // 로컬 테스트 환경
+// 블로그 제목 설정
+const $blogTitle = document.getElementById("blog-title");
+$blogTitle.innerText = siteConfig.blogTitle || defaultTitle;
 
-  // 블로그 제목 설정
-  const $blogTitle = document.getElementById("blog-title");
-  $blogTitle.innerText = siteConfig.blogTitle || defaultTitle;
+// 홈페이지 title을 제목으로 설정
+document.title = siteConfig.blogTitle || defaultTitle;
 
-  // 홈페이지 title을 제목으로 설정
-  document.title = siteConfig.blogTitle || defaultTitle;
+// 클릭했을 때 메인페이지로 이동하는 이벤트 핸들러
+const goToMainPage = () => {
+    const rootUrl = new URL(window.location.origin);
+    // `render.js`가 로드된 후에 `renderBlogList`를 호출하기 위해
+    // 약간의 지연을 주거나 이벤트 시스템을 사용할 수 있습니다.
+    // 여기서는 `renderBlogList`가 전역적으로 사용 가능하다고 가정합니다.
+    if (typeof renderBlogList === "function") {
+        history.pushState({}, "", rootUrl);
+        renderBlogList();
+    } else {
+        // `renderBlogList`를 사용할 수 없는 경우, 페이지를 새로고침하여 홈으로 이동
+        window.location.href = rootUrl.href;
+    }
+};
 
-  // 클릭했을 때 메인페이지로 이동
-  $blogTitle.onclick = () => {
-    const mainUrl = new URL(`http://127.0.0.1${url.port ? ":" + url.port : ""}`);
-    window.history.pushState({}, "", mainUrl);
-    renderBlogList();
-  };
-} else {
-  // github 배포 상태
-
-  // config에서 값이 없을 경우 URL에서 추출
-  if (!siteConfig.username || !siteConfig.repositoryName) {
-    const urlConfig = extractFromUrl();
-    siteConfig.username = siteConfig.username || urlConfig.username;
-    siteConfig.repositoryName =
-      siteConfig.repositoryName || urlConfig.repositoryName;
-  }
-
-  // 블로그 제목 설정
-  const $blogTitle = document.getElementById("blog-title");
-  $blogTitle.innerText = siteConfig.blogTitle || defaultTitle;
-
-  // 홈페이지 title을 제목으로 설정
-  document.title = siteConfig.blogTitle || defaultTitle;
-
-  // 클릭했을 때 메인페이지로 이동
-  $blogTitle.onclick = () => {
-    const url = new URL(`https://${siteConfig.username}.github.io/${siteConfig.repositoryName}/`);
-    window.history.pushState({}, "", url);
-    renderBlogList();
-  };
-}
+$blogTitle.onclick = goToMainPage;
 
 // 브라우저의 뒤로가기/앞으로가기 버튼 처리
 window.addEventListener("popstate", (event) => {
