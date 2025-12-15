@@ -256,6 +256,9 @@ function renderBlogList(searchResult = null, currentPage = 1) {
     1. 검색 키워드 없이 대부분 renderBlogList()로 사용.
     2. 검색을 했을 때에만 searchResult에 목록이 담겨 들어옴
     */
+  // Reset page title to the default blog title
+  document.title = siteConfig.blogTitle || "SRY";
+
   const pageUnit = 10;
   const targetList = searchResult || blogList;
 
@@ -361,6 +364,12 @@ function renderOtherContents(menu) {
         const url = new URL(origin);
         url.searchParams.set("menu", menu.name);
         window.history.pushState({}, "", url);
+
+        // Set title after rendering is complete
+        if (menu.name !== 'calculator.md') {
+            const pageTitle = menu.name.split('.')[0].replace(/-/g, ' ');
+            document.title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${siteConfig.blogTitle}`;
+        }
       });
   } catch (error) {
     // In case of a fetch error, render an error message.

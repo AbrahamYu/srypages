@@ -1,5 +1,17 @@
 [
     {
+        "name": "[20251215]_[AI 비트코인 예측 알림 봇 만들기].md",
+        "download_url": "/blog/[20251215]_[AI 비트코인 예측 알림 봇 만들기].md",
+        "category": [
+            "AI",
+            "Python",
+            "Crypto"
+        ],
+        "thumnail": "default.png",
+        "description": "AI를 활용해 비트코인 가격을 예측하고, 중요한 순간에 텔레그램으로 알림까지 보내주는 나만의 '투자 비서 봇'을 만드는 과정을 공유합니다.",
+        "author": ""
+    },
+    {
         "name": "[20251214]_[Git 브랜치와 커밋 메시지 Prefix 전략].md",
         "download_url": "/blog/[20251214]_[Git 브랜치와 커밋 메시지 Prefix 전략].md",
         "category": [
