@@ -1,179 +1,97 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="img/icon/favicon.svg" type="image/x-icon" />
-    <title>contact - ABRAHAM_BLOG</title>
-
-    <!-- marked -->
-    <script src="./library/marked.min.js"></script>
-
-    <!-- adsend -->
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5988270223050126"
-     crossorigin="anonymous"></script>
-
-    <!-- hightlight.js -->
-    <link rel="stylesheet" href="./library/highlight_default.min.css" />
-    <script src="./library/highlight_highlight.min.js"></script>
-    <link rel="stylesheet" href="./library/highlight_ally-light.min.css" />
-
-    <!-- custom css -->
-    <link rel="stylesheet" href=" style/style.css" />
-
-    <!-- tailwind -->
-    <script src="./library/tailwind-3.4.1.js"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: "#2e6ff2",
-              background: "#fff",
-              surface: "#121314",
-              graylv1: "#f3f5fa",
-              graylv2: "#d9dbe0",
-              graylv3: "#8d9299",
-              graylv4: "#47494d",
-              error: "#ff3440",
-              lowError: "#ffc533",
-              activation: "#dee8ff",
-            },
-          },
-        },
-      };
-    </script>
-    <!-- // tailwind -->
-
-    <style>
-      @keyframes slideDown {
-        from {
-          transition: all 1s;
-          height: 0px;
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-          height: 60px;
-        }
-      }
-      .markdown-cell > ul > li > p {
-        display: inline-block;
-      }
-    </style>
-  </head>
-  <body class="font-sans w-full text-surface">
+    <title>contact | ABRAHAM</title>
+    <!-- ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5988270223050126" crossorigin="anonymous"></script>
+    <!-- HIGHLIGHT.JS -->
+    <link rel="stylesheet" href="/library/highlight_default.min.css" />
+    <script src="/library/highlight_highlight.min.js"></script>
+    <link rel="stylesheet" href="/library/highlight_ally-light.min.css" />
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="/style/style.css" />
+    <!-- TAILWIND -->
+    <script src="/library/tailwind-3.4.1.js"></script>
+</head>
+<body class="font-sans w-full text-surface">
     <header class="relative bg-white mx-auto border-b border-gray-300">
-      <nav
-        class="container max-w-[1190px] mx-auto md:p-[19px] p-4 flex items-center relative"
-      >
-        <!-- 블로그 제목 영역 -->
-        <h1
-          id="blog-title"
-          class="md:text-2xl text-lg leading-6 mr-auto font-semibold text-gray-900 cursor-pointer"
-        >
-          ABRAHAM_BLOG
-        </h1>
-        <!-- // 블로그 제목 영역 -->
-
-        <!-- 메뉴 영역 -->
-        <div class="md:hidden w-6 h-6">
-          <button id="menu-button">
-            <span class="sr-only">메뉴 열기</span>
-          </button>
-        </div>
-
-        <div id="menu" class="hidden md:flex items-center">
-          <!-- 메뉴 아이템들 -->
-        </div>
-
-        <button id="search-button" class="ml-10 md:hidden flex">
-          <span class="sr-only">검색창 열기</span>
-        </button>
-
-        <div
-          class="search-cont w-80 hidden md:block md:relative absolute z-10 rounded-2xl p-4 border border-graylv2 bottom-[-12px] right-2 xl:right-0 translate-y-full bg-background w-96 max-w-full box-border md:p-0 md:top-0 md:right-0 md:border-0 md:translate-y-0 md:w-80 md:ml-10"
-        >
-          <label for="search-input">
-            <input
-              type="text"
-              id="search-input"
-              class="search-input bg-graylv1 rounded-[10px] px-5 py-2.5 placeholder:font-normal placehoder:text-graylv3 focus:outline-0 shadow-sm w-full"
-              placeholder="Keyword"
-          /></label>
-          <div
-            class="btn-cont flex gap-2 justify-cetner items-center absolute top-1/2 md:right-4 right-8 -translate-y-1/2"
-          >
-            <button class="reset-inp-btn hidden">
-              <span class="sr-only">검색어 초기화</span>
-            </button>
-            <button class="search-inp-btn">
-              <span class="sr-only">검색하기</span>
-            </button>
-          </div>
-        </div>
-        <!-- // 메뉴 영역 -->
-      </nav>
-      <!-- 모바일에서 메뉴 영역이 보이도록 하는 영역 -->
-      <div
-        id="mobileMenu"
-        class="absolute bg-background w-full max-w-[1190px] border-b border-graylv2 z-10 md:hidden"
-      ></div>
-      <!-- // 모바일에서 메뉴 영역이 보이도록 하는 영역 -->
+        <nav class="container max-w-[1190px] mx-auto md:p-[19px] p-4 flex items-center relative">
+            <h1 id="blog-title" class="md:text-2xl text-lg leading-6 mr-auto font-semibold text-gray-900 cursor-pointer">
+                 <a href="/index.html">ABRAHAM</a>
+            </h1>
+            <div id="menu" class="hidden md:flex items-center">
+                <a href="/about.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">About</a><a href="/index.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Blog</a><a href="/calculator.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Calculator</a><a href="/contact.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden w-6 h-6">
+                <button id="menu-button"><span class="sr-only">메뉴 열기</span></button>
+            </div>
+        </nav>
+        <div id="mobileMenu" class="absolute bg-background w-full max-w-[1190px] border-b border-graylv2 z-10 md:hidden"></div>
     </header>
 
     <main class="container p-8 pb-4 w-full mx-auto max-w-[1190px] md:pt-[60px]">
-      <!-- 블로그 포스트 리스트 영역 -->
-      <div
-        id="blog-posts"
-        class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] lg:gap-y-10 gap-y-4 mb-20"
-      ></div>
-      <!-- // 블로그 포스트 리스트 영역-->
+        <div id="contents" class="mt-6 mb-28 grid-cols-3 max-w-[990px] mx-auto">
+            <h1>Contact</h1>
+<p>안녕하세요.<br><strong>ABRAHAM_BLOG</strong>를 운영하는 <strong>AbrahamYoo</strong>입니다.</p>
+<p>이 블로그는 주로 <strong>백엔드(Backend)</strong>, <strong>DevOps</strong>, 그리고 개발 과정에서 배우고 정리한 내용을 기록하고 공유하는 공간입니다. 블로그에 올라오는 글 역시 Docker, CRUD, 페이지네이션, Git 전략, AI를 활용한 자동화/알림 프로젝트처럼 실무와 학습이 연결되는 주제를 중심으로 다루고 있습니다.</p>
+<hr>
+<h2>함께 이야기할 수 있는 주제</h2>
+<p>다음과 같은 주제라면 편하게 연락 주세요.</p>
+<ul>
+<li>백엔드 개발과 API 설계</li>
+<li>DevOps, 배포, 운영 자동화</li>
+<li>Docker, Git, 협업 방식 정리</li>
+<li>학습 기록, 기술 글 작성 및 정리</li>
+<li>작은 프로젝트 협업 또는 아이디어 제안</li>
+</ul>
+<hr>
+<h2>이런 분들의 연락을 환영합니다</h2>
+<ul>
+<li>기술적인 이야기를 함께 나누고 싶은 개발자</li>
+<li>백엔드/인프라/자동화 관련 협업을 찾는 분</li>
+<li>블로그 글에 대해 질문이나 피드백을 주고 싶은 분</li>
+<li>기록과 성장을 꾸준히 이어가는 개발자와 연결되고 싶은 분</li>
+</ul>
+<hr>
+<h2>Contact</h2>
+<p>아래 채널 중 편한 방법으로 연락 주세요.</p>
+<ul>
+<li><strong>Email</strong>: <a href="mailto:xxx@xxx.com">xxx@xxx.com</a></li>
+<li><strong>GitHub</strong>: <a href="mailto:xxx@xxx.com">xxx@xxx.com</a></li>
+<li><strong>Blog</strong>: <a href="https://srypage.kr/">https://srypage.kr/</a></li>
+</ul>
+<blockquote>
+<p>아직 연락 채널을 정리하는 중이라면, 우선 이메일 한 줄만 남겨두고 나머지는 추후 추가해도 좋습니다.</p>
+</blockquote>
+<hr>
+<h2>Message Guide</h2>
+<p>연락 주실 때 아래 내용을 함께 남겨주시면 더 빠르게 답하기 좋습니다.</p>
+<ul>
+<li>간단한 자기소개</li>
+<li>문의 목적 또는 협업 주제</li>
+<li>참고할 수 있는 링크나 자료</li>
+<li>답변을 받고 싶은 방식</li>
+</ul>
+<hr>
+<h2>Note</h2>
+<p>모든 메시지에 바로 답변드리지는 못할 수 있지만,<br>의미 있는 제안과 진지한 이야기에는 최대한 성실하게 답변드리겠습니다.</p>
+<p>감사합니다.</p>
 
-      <!-- contents 영역 -->
-      <div
-        id="contents"
-        class="mt-6 mb-28 grid-cols-3 max-w-[990px] mx-auto"
-      ></div>
-      <!-- // contents 영역-->
-
-      <!-- pagination -->
-      
+        </div>
     </main>
 
-    <!-- category 검색 영역 -->
-    <section
-      class="category-aside hidden md:flex flex-col border border-graylv2 bg-white rounded-[10px] fixed top-24 right-8 overflow-y-auto w-fit h-fit"
-    >
-      <header class="flex items-center">
-        <h2 class="aside-tit sr-only text-sm font-semibold ml-5">content</h2>
-        <button id="aside-button">
-          <span class="sr-only">카테고리 열기</span>
-        </button>
-      </header>
-      <aside></aside>
-    </section>
-    <!-- // category 검색 영역 -->
-
-    <!-- utils -->
-    <script src="js/utils.js"></script>
-    <!-- convert ipynb to html -->
-    <script src="style/convertIpynbToHtml.js"></script>
-
-    <!-- style -->
-    <script src="style/globalStyle.js"></script>
-    <script src="style/blogContentsStyle.js"></script>
-
-    <!-- mobile menu toggle -->
-    <script src="js/mobileMenuToggle.js"></script>
-
-    <!-- lender -->
-    <script src="config.js"></script>
-    <script src="js/URLparsing.js"></script>
-    <script src="js/initData.js"></script>
-    <script src="js/render.js"></script>
-
-    <!-- registry -->
-    <script src="js/registry.js"></script>
-  </body>
+    <!-- MOBILE MENU TOGGLE -->
+    <script src="/js/mobileMenuToggle.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+</body>
 </html>

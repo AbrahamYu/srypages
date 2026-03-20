@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="img/icon/favicon.svg" type="image/x-icon" />
+    <title>undefined | ABRAHAM</title>
+    <!-- ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5988270223050126" crossorigin="anonymous"></script>
+    <!-- HIGHLIGHT.JS -->
+    <link rel="stylesheet" href="../library/highlight_default.min.css" />
+    <script src="../library/highlight_highlight.min.js"></script>
+    <link rel="stylesheet" href="../library/highlight_ally-light.min.css" />
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="../style/style.css" />
+    <!-- TAILWIND -->
+    <script src="../library/tailwind-3.4.1.js"></script>
+</head>
+<body class="font-sans w-full text-surface">
+    <header class="relative bg-white mx-auto border-b border-gray-300">
+        <nav class="container max-w-[1190px] mx-auto md:p-[19px] p-4 flex items-center relative">
+            <h1 id="blog-title" class="md:text-2xl text-lg leading-6 mr-auto font-semibold text-gray-900 cursor-pointer">
+                 <a href="/index.html">ABRAHAM</a>
+            </h1>
+            <div id="menu" class="hidden md:flex items-center">
+                <a href="/about.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">About</a><a href="/index.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Blog</a><a href="/calculator.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Calculator</a><a href="/contact.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden w-6 h-6">
+                <button id="menu-button"><span class="sr-only">메뉴 열기</span></button>
+            </div>
+        </nav>
+        <div id="mobileMenu" class="absolute bg-background w-full max-w-[1190px] border-b border-graylv2 z-10 md:hidden"></div>
+    </header>
+
+    <main class="container p-8 pb-4 w-full mx-auto max-w-[1190px] md:pt-[60px]">
+        <div id="contents" class="mt-6 mb-28 grid-cols-3 max-w-[990px] mx-auto">
+            <h1>오프셋과 커서 방식 정리</h1>
+<p>수많은 상품 목록이나 게시글을 스크롤하며 원하는 정보를 찾지 못해 답답했던 경험이 있나요? 웹 서비스에서 대량의 데이터를 효과적으로 보여주는 페이지네이션(Pagination)은 사용자 경험에 큰 영향을 미칩니다. 이번 글에서는 가장 널리 쓰이는 두 가지 페이지네이션 방식, <strong>오프셋 기반</strong>과 <strong>커서 기반</strong> 방식의 특징과 장단점을 알기 쉽게 비교하고, 어떤 상황에 어떤 방식을 선택하는 것이 좋을지 알아보겠습니다.</p>
+<h2>1. 오프셋 기반 페이지네이션 (Offset-based, 페이지 번호로 이동하기)</h2>
+<p>오프셋 기반 페이지네이션은 우리에게 가장 익숙한 &#39;페이지 번호&#39; 방식입니다. 온라인 쇼핑몰의 상품 목록이나 블로그의 게시글 목록 하단에서 흔히 볼 수 있습니다.</p>
+<blockquote>
+<p>&quot;3페이지로 가기&quot; 버튼을 누르면, 정해진 개수만큼의 데이터를 건너뛰고 그 다음 데이터를 보여주는 원리입니다.</p>
+</blockquote>
+<p>데이터베이스에서는 보통 다음과 같은 형태로 작동합니다.</p>
+<pre><code class="language-sql">-- 2페이지의 게시물 10개를 가져오는 경우 (1페이지당 10개씩 보여준다고 가정)
+SELECT * FROM posts
+ORDER BY created_at DESC
+LIMIT 10 OFFSET 10; -- 10개를 건너뛰고 10개를 가져온다.
+</code></pre>
+<h3>장점</h3>
+<ul>
+<li><strong>자유로운 이동</strong>: 사용자가 원하는 페이지 번호로 한 번에 이동할 수 있어 편리합니다.</li>
+<li><strong>예측 가능한 구조</strong>: 전체 데이터 양과 현재 위치를 명확하게 파악할 수 있습니다.</li>
+</ul>
+<h3>단점</h3>
+<ul>
+<li><strong>느려지는 뒷페이지</strong>: 데이터가 수백만 개에 달할 경우, 뒤쪽 페이지로 갈수록 건너뛰어야 할 데이터가 많아져 성능이 눈에 띄게 저하될 수 있습니다.</li>
+<li><strong>데이터 중복 또는 누락</strong>: 사용자가 페이지를 넘기는 순간 새로운 데이터가 추가되면, 페이지 내용이 밀리면서 같은 데이터를 중복해서 보거나 특정 데이터를 놓칠 수 있습니다.</li>
+</ul>
+<h2>2. 커서 기반 페이지네이션 (Cursor-based, 더 보기 버튼)</h2>
+<p>커서 기반 페이지네이션은 페이스북이나 트위터 같은 소셜 미디어 피드에서 흔히 볼 수 있는 &#39;더 보기&#39; 또는 &#39;무한 스크롤&#39; 방식입니다. 마지막으로 본 데이터의 위치를 &#39;커서(Cursor)&#39;로 기억하고, 그 지점부터 다음 데이터를 불러옵니다.</p>
+<blockquote>
+<p>사용자는 스크롤을 내리거나 &quot;더 보기&quot; 버튼을 눌러 새로운 콘텐츠를 계속해서 로드할 수 있습니다.</p>
+</blockquote>
+<p>데이터베이스에서는 주로 이렇게 구현됩니다.</p>
+<pre><code class="language-sql">-- 마지막으로 본 게시물의 ID가 100인 경우
+SELECT * FROM posts
+WHERE id &lt; 100 -- 마지막으로 본 게시물(커서)보다 오래된 게시물을 찾는다
+ORDER BY id DESC
+LIMIT 10; -- 10개를 가져온다.
+</code></pre>
+<h3>장점</h3>
+<ul>
+<li><strong>빠르고 일정한 성능</strong>: 데이터가 얼마나 많든, 특정 지점부터 조회를 시작하므로 매우 빠르고 일정한 성능을 유지합니다.</li>
+<li><strong>데이터 정합성</strong>: 실시간으로 데이터가 변동되어도 기준점(커서)이 명확하므로 데이터 누락이나 중복 문제가 발생하지 않습니다.</li>
+</ul>
+<h3>단점</h3>
+<ul>
+<li><strong>제한적인 이동</strong>: 특정 페이지로 한 번에 건너뛸 수 없고, 오직 &#39;다음&#39; 목록만 순차적으로 볼 수 있습니다.</li>
+<li><strong>복잡한 구현</strong>: 오프셋 방식에 비해 커서로 사용할 고유하고 순차적인 값(예: ID, 생성 시간)을 관리해야 하므로 구현이 조금 더 복잡할 수 있습니다.</li>
+</ul>
+<h2>어떤 방식을 선택해야 할까?</h2>
+<p>두 방식의 장단점이 명확하기 때문에, 서비스의 특징에 맞춰 현명하게 선택해야 합니다.</p>
+<p><strong>오프셋 기반 페이지네이션이 적합한 경우</strong> :</p>
+<blockquote>
+<ul>
+<li>전체 데이터의 양이 예측 가능하고, 자주 변동되지 않는 경우 (예: 검색 결과, 쇼핑몰 카테고리별 상품 목록)</li>
+<li>사용자가 특정 페이지로 바로 이동해야 하는 기능이 중요한 경우</li>
+<li>각 페이지가 고유한 URL(<code>example.com/posts?page=3</code>)을 갖게 되어 공유나 북마크에 유리합니다.</li>
+</ul>
+</blockquote>
+<p><strong>커서 기반 페이지네이션이 적합한 경우</strong> : </p>
+<blockquote>
+<ul>
+<li>실시간으로 데이터가 계속 추가되고 양이 매우 많은 경우 (예: 소셜 미디어 피드, 실시간 채팅 목록)</li>
+<li>사용자가 최신 콘텐츠부터 순차적으로 소비하는 것이 중요한 경우</li>
+<li>빠르고 끊김 없는 사용자 경험을 제공하고자 할 때 효과적입니다.</li>
+</ul>
+</blockquote>
+<h3>마무리하며</h3>
+<p>페이지네이션은 단순히 데이터를 나누는 기술을 넘어, 사용자가 콘텐츠를 소비하는 방식과 서비스의 성능까지 결정하는 중요한 설계 요소입니다. 우리 서비스의 데이터가 어떻게 생겼고, 사용자는 무엇을 원하는지 고민하여 최적의 방식을 선택한다면, 사용자에게는 쾌적한 경험을, 서비스에는 안정적인 성능을 선물할 수 있을 것입니다.</p>
+
+        </div>
+    </main>
+
+    <!-- MOBILE MENU TOGGLE -->
+    <script src="../js/mobileMenuToggle.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+</body>
+</html>

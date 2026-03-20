@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="img/icon/favicon.svg" type="image/x-icon" />
+    <title>undefined | ABRAHAM</title>
+    <!-- ADSENSE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5988270223050126" crossorigin="anonymous"></script>
+    <!-- HIGHLIGHT.JS -->
+    <link rel="stylesheet" href="../library/highlight_default.min.css" />
+    <script src="../library/highlight_highlight.min.js"></script>
+    <link rel="stylesheet" href="../library/highlight_ally-light.min.css" />
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="../style/style.css" />
+    <!-- TAILWIND -->
+    <script src="../library/tailwind-3.4.1.js"></script>
+</head>
+<body class="font-sans w-full text-surface">
+    <header class="relative bg-white mx-auto border-b border-gray-300">
+        <nav class="container max-w-[1190px] mx-auto md:p-[19px] p-4 flex items-center relative">
+            <h1 id="blog-title" class="md:text-2xl text-lg leading-6 mr-auto font-semibold text-gray-900 cursor-pointer">
+                 <a href="/index.html">ABRAHAM</a>
+            </h1>
+            <div id="menu" class="hidden md:flex items-center">
+                <a href="/about.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">About</a><a href="/index.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Blog</a><a href="/calculator.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Calculator</a><a href="/contact.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden w-6 h-6">
+                <button id="menu-button"><span class="sr-only">메뉴 열기</span></button>
+            </div>
+        </nav>
+        <div id="mobileMenu" class="absolute bg-background w-full max-w-[1190px] border-b border-graylv2 z-10 md:hidden"></div>
+    </header>
+
+    <main class="container p-8 pb-4 w-full mx-auto max-w-[1190px] md:pt-[60px]">
+        <div id="contents" class="mt-6 mb-28 grid-cols-3 max-w-[990px] mx-auto">
+            <h1>Ubuntu에 Nginx 설치 및 서버 블록 설정 완벽 가이드</h1>
+<p>Nginx는 가볍고 높은 성능을 자랑하는 웹 서버, 리버스 프록시, 로드 밸런서 등으로 널리 사용됩니다. 이 가이드에서는 Ubuntu 22.04 환경에서 Nginx를 설치하고, 기본적인 설정을 거쳐 여러 웹사이트를 호스팅할 수 있는 &#39;서버 블록(Server Blocks)&#39;을 설정하는 방법까지 단계별로 안내합니다.</p>
+<h2>1. Nginx 설치하기</h2>
+<p>가장 먼저, 패키지 목록을 최신 상태로 업데이트하고 Nginx를 설치합니다.</p>
+<pre><code class="language-bash">sudo apt update
+sudo apt install nginx -y
+</code></pre>
+<p>설치가 완료되면 Nginx 서비스가 자동으로 시작됩니다.</p>
+<h2>2. 방화벽 설정</h2>
+<p>Ubuntu에서는 <code>ufw</code>(Uncomplicated Firewall)를 사용하여 방화벽을 관리합니다. Nginx는 설치 시 <code>ufw</code>에 몇 가지 프로필을 등록합니다.</p>
+<p>사용 가능한 Nginx 프로필을 확인합니다.</p>
+<pre><code class="language-bash">sudo ufw app list
+</code></pre>
+<p>출력 결과에서 다음과 같은 프로필을 볼 수 있습니다.</p>
+<ul>
+<li><strong>Nginx HTTP</strong>: 80번 포트 (암호화되지 않은 일반 웹 트래픽)</li>
+<li><strong>Nginx HTTPS</strong>: 443번 포트 (TLS/SSL 암호화된 트래픽)</li>
+<li><strong>Nginx Full</strong>: 80번과 443번 포트 모두 허용</li>
+</ul>
+<p>가장 기본적인 <code>Nginx HTTP</code> 프로필을 허용해 보겠습니다.</p>
+<pre><code class="language-bash">sudo ufw allow &#39;Nginx HTTP&#39;
+</code></pre>
+<p>방화벽 상태를 확인하여 규칙이 잘 적용되었는지 확인합니다.</p>
+<pre><code class="language-bash">sudo ufw status
+</code></pre>
+<h2>3. 웹 서버 상태 확인</h2>
+<p>Nginx 서비스가 정상적으로 실행되고 있는지 확인합니다.</p>
+<pre><code class="language-bash">systemctl status nginx
+</code></pre>
+<p><code>active (running)</code>이라는 메시지가 보이면 성공입니다. 이제 웹 브라우저에서 서버의 공인 IP 주소로 접속하여 Nginx 기본 환영 페이지가 나타나는지 확인하세요.</p>
+<h2>4. Nginx 주요 명령어 (프로세스 관리)</h2>
+<p>Nginx 서비스를 관리하기 위한 주요 <code>systemctl</code> 명령어는 다음과 같습니다.</p>
+<ul>
+<li><strong>서비스 중지</strong>: <code>sudo systemctl stop nginx</code></li>
+<li><strong>서비스 시작</strong>: <code>sudo systemctl start nginx</code></li>
+<li><strong>서비스 재시작</strong>: <code>sudo systemctl restart nginx</code></li>
+<li><strong>설정 파일 다시 불러오기 (서비스 중단 없음)</strong>: <code>sudo systemctl reload nginx</code></li>
+<li><strong>부팅 시 자동 시작 비활성화</strong>: <code>sudo systemctl disable nginx</code></li>
+<li><strong>부팅 시 자동 시작 활성화</strong>: <code>sudo systemctl enable nginx</code></li>
+</ul>
+<h2>5. 서버 블록(Server Blocks) 설정하기</h2>
+<p>서버 블록은 Apache의 가상 호스트(Virtual Host)와 같은 개념으로, 하나의 서버에서 여러 도메인의 웹사이트를 호스팅할 수 있게 해줍니다.</p>
+<p>예를 들어, <code>your_domain.com</code>이라는 도메인을 위한 서버 블록을 설정해 보겠습니다.</p>
+<h3>5.1. 디렉토리 구조 생성</h3>
+<p>먼저, 웹 콘텐츠를 저장할 디렉토리를 생성합니다. <code>/var/www</code> 디렉토리 아래에 도메인 이름으로 폴더를 만드는 것이 일반적입니다.</p>
+<pre><code class="language-bash">sudo mkdir -p /var/www/your_domain.com/html
+</code></pre>
+<p>소유권을 현재 사용자에게 부여하여 파일 수정이 용이하도록 합니다.</p>
+<pre><code class="language-bash">sudo chown -R $USER:$USER /var/www/your_domain.com/html
+</code></pre>
+<p>그리고 모든 사용자가 웹 콘텐츠를 읽을 수 있도록 권한을 설정합니다.</p>
+<pre><code class="language-bash">sudo chmod -R 755 /var/www
+</code></pre>
+<h3>5.2. 테스트용 HTML 파일 생성</h3>
+<p>방금 만든 디렉토리에 간단한 <code>index.html</code> 파일을 생성합니다.</p>
+<pre><code class="language-bash">nano /var/www/your_domain.com/html/index.html
+</code></pre>
+<p>파일 내용은 다음과 같이 작성합니다.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Welcome to your_domain.com!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Success! The your_domain.com server block is working!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3>5.3. 서버 블록 파일 생성</h3>
+<p>Nginx 설정 파일은 <code>/etc/nginx/</code>에 있습니다. 이 중 <code>sites-available</code> 디렉토리에 서버 블록 설정을 추가하고, <code>sites-enabled</code>에 링크하여 활성화하는 방식을 사용합니다.</p>
+<p><code>sites-available</code>에 새로운 설정 파일을 생성합니다.</p>
+<pre><code class="language-bash">sudo nano /etc/nginx/sites-available/your_domain.com
+</code></pre>
+<p>파일에 다음 내용을 입력합니다. <code>your_domain.com</code> 부분은 실제 도메인으로 변경해야 합니다.</p>
+<pre><code class="language-nginx">server {
+    listen 80;
+    listen [::]:80;
+
+    root /var/www/your_domain.com/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name your_domain.com www.your_domain.com;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+</code></pre>
+<h3>5.4. 서버 블록 활성화</h3>
+<p><code>sites-enabled</code> 디렉토리에 방금 만든 설정 파일의 심볼릭 링크를 생성하여 서버 블록을 활성화합니다.</p>
+<pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/your_domain.com /etc/nginx/sites-enabled/
+</code></pre>
+<h3>5.5. Nginx 설정 테스트 및 재시작</h3>
+<p>새로운 설정에 문법적 오류가 없는지 테스트합니다.</p>
+<pre><code class="language-bash">sudo nginx -t
+</code></pre>
+<p><code>syntax is ok</code>와 <code>test is successful</code> 메시지가 나타나면 성공입니다. 이제 Nginx를 재시작하여 변경사항을 적용합니다.</p>
+<pre><code class="language-bash">sudo systemctl restart nginx
+</code></pre>
+<p>이제 웹 브라우저에서 <code>http://your_domain.com</code>으로 접속하면, &quot;Success! The your_domain.com server block is working!&quot; 메시지가 담긴 페이지를 볼 수 있습니다.</p>
+<h2>마무리</h2>
+<p>이것으로 Ubuntu에 Nginx를 설치하고, 기본적인 방화벽 설정과 서버 블록을 구성하는 전체 과정을 마쳤습니다. 이제 여러분은 이 서버 블록 설정을 응용하여 하나의 서버에서 여러 개의 웹사이트를 효율적으로 관리할 수 있습니다.</p>
+
+        </div>
+    </main>
+
+    <!-- MOBILE MENU TOGGLE -->
+    <script src="../js/mobileMenuToggle.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+</body>
+</html>

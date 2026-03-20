@@ -1,202 +1,158 @@
 const fs = require('fs-extra');
 const path = require('path');
-const glob = require('glob');
+const { marked } = require('marked');
 
-// Dynamic import for marked
-let marked;
+// 기본 경로 설정
+const CWD = process.cwd();
+const DIST_DIR = path.join(CWD, 'dist');
+const BLOG_DIR = path.join(CWD, 'blog');
+const MENU_DIR = path.join(CWD, 'menu');
+const DATA_DIR = path.join(CWD, 'data');
+const ASSETS_DIR = ['style', 'img', 'library', 'js'];
 
-// Your existing config and user data
-// These would be better in their own files, but for simplicity, we'll define them here.
-const siteConfig = {
-    blogTitle: "ABRAHAM_BLOG",
-    username: "sungyoungyoo", // Replace with your GitHub username if different
-    repositoryName: "srypages", // Replace with your repo name if different
-};
+// 설정 파일 및 데이터 로드
+const config = require(path.join(CWD, 'config.js'));
+const blogList = require(path.join(DATA_DIR, 'local_blogList.json'));
+const blogMenu = require(path.join(DATA_DIR, 'local_blogMenu.json'));
+const users = config.users;
 
-const users = [
-    {
-        "id": 0,
-        "username": "Garry",
-        "img": "img/user/profile-gary.png"
-    },
-    // Add other users if you have them
-];
+// 템플릿 로드
+const listTemplate = fs.readFileSync(path.join(CWD, 'list-template.html'), 'utf-8');
+const postTemplate = fs.readFileSync(path.join(CWD, 'post-template.html'), 'utf-8');
 
-
-const distPath = path.join(__dirname, 'dist');
-const publicPath = __dirname; // Assumes assets are in the root
-
-// --- Helper Functions ---
-
+// 날짜 포맷 함수
 function formatDate(dateString) {
+    if (!dateString) return 'Unknown Date'; // 날짜가 없는 경우를 위한 방어 코드
     const year = dateString.substring(0, 4);
     const month = dateString.substring(4, 6);
     const day = dateString.substring(6, 8);
     return `${year}.${month}.${day}`;
 }
 
-function createSlug(fileName) {
-    const regex = /^\[(\d{8})\]_\[(.*?)\]\.(md|ipynb)$/;
-    const matches = fileName.match(regex);
-    if (matches) {
-        // A simple slug function, you might want a more robust one
-        return matches[2].toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') + '.html';
-    }
-    return fileName.replace('.md', '.html');
+// 메뉴 HTML 생성
+function generateMenuHtml() {
+    let menuHtml = '';
+    blogMenu.forEach(menu => {
+        const menuName = menu.name.split('.')[0];
+        // 'blog.md'는 'index.html'로, 나머지는 '/[name].html'로 링크
+        const link = menu.name === 'blog.md' ? '/index.html' : `/${menuName}.html`;
+        menuHtml += `<a href="${link}" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">${menuName.charAt(0).toUpperCase() + menuName.slice(1)}</a>`;
+    });
+    return menuHtml;
 }
 
+// 카드 엘리먼트 생성 (빌드 스크립트용으로 수정)
+function createCardHtml(postInfo, index) {
+    const postLink = `/blog/${postInfo.id}.html`;
+    const thumb = postInfo.thumbnail || `img/thumb${Math.floor(Math.random() * 10) + 1}.webp`;
+    const author = users[postInfo.author || 0];
 
-// --- Main Build Logic ---
-
-async function build() {
-    console.log("Starting build...");
-
-    // Dynamically import 'marked'
-    marked = (await import('marked')).marked;
-
-    // 1. Clean up dist directory
-    await fs.emptyDir(distPath);
-    console.log("Cleaned dist directory.");
-
-    // 2. Copy static assets
-    const assets = ['style', 'img', 'library', 'js', 'CNAME', 'googledc39fa84396297f2.html'];
-    for (const asset of assets) {
-        const sourcePath = path.join(publicPath, asset);
-        const destPath = path.join(distPath, asset);
-        if (await fs.pathExists(sourcePath)) {
-            await fs.copy(sourcePath, destPath);
-        }
-    }
-    console.log("Copied static assets.");
-
-    // 3. Load HTML template
-    const template = await fs.readFile(path.join(__dirname, 'index.html'), 'utf-8');
+    // 카드 스타일 (render.js의 스타일 클래스명을 참고하되, 단순화)
+    const cardClass = index === 0 ? 'md:col-span-2 lg:col-span-3 grid md:grid-cols-2 gap-8 items-center' : 'flex flex-col';
+    const imgClass = index === 0 ? 'w-full h-full object-cover rounded-lg' : 'w-full h-48 object-cover rounded-lg';
     
-    // 4. Process blog posts
-    const posts = [];
-    const postFiles = glob.sync('blog/*.md');
-
-    for (const file of postFiles) {
-        const fileName = path.basename(file);
-        const regex = /^\[(\d{8})\]_\[(.*?)\]\.(md|ipynb)$/;
-        const matches = fileName.match(regex);
-
-        if (matches) {
-            const postContentMd = await fs.readFile(file, 'utf-8');
-            const postContentHtml = marked(postContentMd);
-            
-            const slug = createSlug(fileName);
-            const postData = {
-                date: matches[1],
-                title: matches[2],
-                fileType: matches[3],
-                name: fileName,
-                slug: slug,
-                // Mocking some data that was in local_blogList.json
-                category: ["Tech"], // You might need a better way to manage categories
-                thumbnail: `img/thumb${Math.floor(Math.random() * 10) + 1}.webp`,
-                description: postContentMd.substring(0, 150) + '...', // Simple description
-                author: 0,
-            };
-            posts.push(postData);
-
-            // Create individual post HTML
-            let postHtml = template.replace('<div id="blog-posts" class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] lg:gap-y-10 gap-y-4 mb-20"></div>', '');
-            postHtml = postHtml.replace('<div id="pagination"></div>', '');
-            postHtml = postHtml.replace('<div id="contents" class="mt-6 mb-28 grid-cols-3 max-w-[990px] mx-auto"></div>', `<div id="contents" class="mt-6 mb-28 max-w-[990px] mx-auto markdown-body">${postContentHtml}</div>`);
-            postHtml = postHtml.replace(/<title>.*<\/title>/, `<title>${postData.title} - ${siteConfig.blogTitle}</title>`);
-            
-            // Adjust relative paths for assets in post pages
-            postHtml = postHtml.replace(/href="\.\//g, 'href="../').replace(/src="\.\//g, 'src="../');
-            postHtml = postHtml.replace(/href="style\//g, 'href="../style/').replace(/src="img\//g, 'src="../img/');
-            postHtml = postHtml.replace(/src="js\//g, 'src="../js/').replace(/href="CNAME"/g, 'href="../CNAME"');
-
-
-            await fs.outputFile(path.join(distPath, 'blog', slug), postHtml);
-        }
+    let categoryHtml = '';
+    if (postInfo.category) {
+        postInfo.category.forEach(cat => {
+            categoryHtml += `<span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">${cat}</span>`;
+        });
     }
-    posts.sort((a, b) => b.date.localeCompare(a.date));
-    console.log(`Processed ${posts.length} blog posts.`);
 
-    // 5. Create main index.html with blog list
-    let blogListHtml = '';
-    posts.forEach((post, index) => {
-        // This is a simplified card generator based on your render.js
-        const author = users[post.author] || users[0];
-        blogListHtml += `
-            <div class="flex flex-col rounded-lg shadow-lg overflow-hidden cursor-pointer" onclick="window.location.href='blog/${post.slug}'">
-                <div class="flex-shrink-0">
-                    <img class="h-48 w-full object-cover" src="${post.thumbnail}" alt="${post.title}">
-                </div>
-                <div class="flex-1 bg-white p-6 flex flex-col justify-between">
-                    <div class="flex-1">
-                        <p class="text-sm font-medium text-indigo-600">
-                            ${post.category.join(', ')}
-                        </p>
-                        <a href="blog/${post.slug}" class="block mt-2">
-                            <p class="text-xl font-semibold text-gray-900">${post.title}</p>
-                            <p class="mt-3 text-base text-gray-500">${post.description}</p>
-                        </a>
-                    </div>
-                    <div class="mt-6 flex items-center">
-                        <div class="flex-shrink-0">
-                            <img class="h-10 w-10 rounded-full" src="${author.img}" alt="${author.username}">
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-900">${author.username}</p>
-                            <div class="flex space-x-1 text-sm text-gray-500">
-                                <time datetime="${post.date}">${formatDate(post.date)}</time>
-                            </div>
-                        </div>
-                    </div>
+    return `
+        <a href="${postLink}" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden ${cardClass}">
+            <img src="/${thumb}" alt="${postInfo.title}" class="${imgClass}">
+            <div class="p-6 flex flex-col flex-grow">
+                <div class="flex gap-2 mb-2">${categoryHtml}</div>
+                <h2 class="text-xl font-bold mb-2 text-gray-800 flex-grow">${postInfo.title}</h2>
+                ${index === 0 ? `<p class="text-gray-600 mb-4">${postInfo.description || ''}</p>` : ''}
+                <div class="flex items-center text-sm text-gray-500 mt-auto">
+                    <img src="/${author.img}" alt="${author.username}" class="w-8 h-8 rounded-full mr-3">
+                    <span>${author.username}</span>
+                    <span class="mx-2">•</span>
+                    <span>${formatDate(postInfo.date)}</span>
                 </div>
             </div>
-        `;
-    });
-
-    let indexHtml = template.replace('<div id="contents" class="mt-6 mb-28 grid-cols-3 max-w-[990px] mx-auto"></div>', '');
-    indexHtml = indexHtml.replace('<div id="pagination"></div>', '<!-- Pagination can be added here if needed -->');
-    indexHtml = indexHtml.replace('<div id="blog-posts" class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] lg:gap-y-10 gap-y-4 mb-20"></div>', `<div id="blog-posts" class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] lg:gap-y-10 gap-y-4 mb-20">${blogListHtml}</div>`);
-    
-    // Fix menu links for root index.html
-    indexHtml = indexHtml.replace(/href="\.\/menu\/blog\.md"/g, `href="index.html"`);
-    indexHtml = indexHtml.replace(/href="\.\/menu\/about\.md"/g, `href="about.html"`);
-    indexHtml = indexHtml.replace(/href="\.\/menu\/contact\.md"/g, `href="contact.html"`);
-    indexHtml = indexHtml.replace(/href="\.\/menu\/calculator\.md"/g, `href="calculator.html"`);
-    indexHtml = indexHtml.replace(/href="\.\/menu\/privacy-policy\.md"/g, `href="privacy-policy.html"`);
-
-
-    await fs.outputFile(path.join(distPath, 'index.html'), indexHtml);
-    console.log("Created main index.html.");
-
-    // 6. Process other menu pages
-    const menuFiles = glob.sync('menu/*.md');
-    for (const file of menuFiles) {
-        const fileName = path.basename(file);
-        const slug = fileName.replace('.md', '.html');
-        const menuContentMd = await fs.readFile(file, 'utf-8');
-        const menuContentHtml = marked(menuContentMd);
-
-        let menuHtml = template.replace('<div id="blog-posts" class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] lg:gap-y-10 gap-y-4 mb-20"></div>', '');
-        menuHtml = menuHtml.replace('<div id="pagination"></div>', '');
-        menuHtml = menuHtml.replace('<div id="contents" class="mt-6 mb-28 grid-cols-3 max-w-[990px] mx-auto"></div>', `<div id="contents" class="mt-6 mb-28 max-w-[990px] mx-auto markdown-body">${menuContentHtml}</div>`);
-        menuHtml = menuHtml.replace(/<title>.*<\/title>/, `<title>${fileName.replace('.md', '')} - ${siteConfig.blogTitle}</title>`);
-        
-        // Fix menu links for menu pages
-        menuHtml = menuHtml.replace(/href="\.\/menu\/blog\.md"/g, `href="index.html"`);
-        menuHtml = menuHtml.replace(/href="\.\/menu\/about\.md"/g, `href="about.html"`);
-        menuHtml = menuHtml.replace(/href="\.\/menu\/contact\.md"/g, `href="contact.html"`);
-        menuHtml = menuHtml.replace(/href="\.\/menu\/calculator\.md"/g, `href="calculator.html"`);
-        menuHtml = menuHtml.replace(/href="\.\/menu\/privacy-policy\.md"/g, `href="privacy-policy.html"`);
-
-        await fs.outputFile(path.join(distPath, slug), menuHtml);
-    }
-    console.log("Processed menu pages.");
-
-
-    console.log("Build finished successfully!");
+        </a>
+    `;
 }
 
-build().catch(err => {
-    console.error("Build failed:", err);
-});
+
+async function build() {
+    console.log('🚀 빌드를 시작합니다...');
+
+    // 1. dist 폴더 초기화
+    await fs.emptyDir(DIST_DIR);
+    console.log('- dist 폴더를 초기화했습니다.');
+
+    // 2. 정적 에셋 복사
+    for (const dir of ASSETS_DIR) {
+        await fs.copy(path.join(CWD, dir), path.join(DIST_DIR, dir));
+    }
+    console.log('- 에셋 파일들을 복사했습니다.');
+
+    const menuHtml = generateMenuHtml();
+
+    // 3. 블로그 게시물 페이지 생성
+    const blogPostDir = path.join(DIST_DIR, 'blog');
+    await fs.ensureDir(blogPostDir);
+
+    // blogList에 id 부여
+    const processedBlogList = blogList.map((post, index) => ({ ...post, id: index + 1 }));
+
+    for (const post of processedBlogList) {
+        const mdContent = await fs.readFile(path.join(BLOG_DIR, post.name), 'utf-8');
+        const contentHtml = marked(mdContent);
+        
+        let finalHtml = postTemplate
+            .replace('<!-- PAGE_TITLE -->', `${post.title} | ${config.siteConfig.blogTitle}`)
+            .replace('<!-- BLOG_TITLE -->', config.siteConfig.blogTitle)
+            .replace('<!-- MENU_PLACEHOLDER -->', menuHtml)
+            .replace('<!-- POST_CONTENT_PLACEHOLDER -->', contentHtml);
+        
+        await fs.writeFile(path.join(blogPostDir, `${post.id}.html`), finalHtml);
+    }
+    console.log(`- ${processedBlogList.length}개의 블로그 게시물을 생성했습니다.`);
+
+    // 4. 메뉴 페이지 생성
+    for (const menu of blogMenu) {
+        if (menu.name === 'blog.md') continue; // 블로그는 index.html로 처리
+
+        const menuName = menu.name.split('.')[0];
+        const mdContent = await fs.readFile(path.join(MENU_DIR, menu.name), 'utf-8');
+        const contentHtml = marked(mdContent);
+
+        let finalHtml = postTemplate
+            .replace('<!-- PAGE_TITLE -->', `${menuName} | ${config.siteConfig.blogTitle}`)
+            .replace('<!-- BLOG_TITLE -->', config.siteConfig.blogTitle)
+            .replace('<!-- MENU_PLACEHOLDER -->', menuHtml)
+            .replace('<!-- POST_CONTENT_PLACEHOLDER -->', contentHtml);
+            
+        // 메뉴 페이지는 post-template을 사용하므로 경로 ../ 를 / 로 변경
+        finalHtml = finalHtml.replace(/\.\.\//g, '/');
+
+        await fs.writeFile(path.join(DIST_DIR, `${menuName}.html`), finalHtml);
+    }
+    console.log(`- ${blogMenu.length - 1}개의 메뉴 페이지를 생성했습니다.`);
+
+
+    // 5. 메인 index.html (블로그 목록) 생성
+    let postsHtml = '';
+    processedBlogList.slice(0, 10).forEach((post, index) => { // 페이지네이션은 일단 첫 10개만
+        postsHtml += createCardHtml(post, index);
+    });
+
+    const indexContent = `<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] lg:gap-y-10 gap-y-4 mb-20">${postsHtml}</div>`;
+    
+    const indexHtml = listTemplate
+        .replace('<!-- PAGE_TITLE -->', config.siteConfig.blogTitle)
+        .replace('<!-- BLOG_TITLE -->', config.siteConfig.blogTitle)
+        .replace('<!-- MENU_PLACEHOLDER -->', menuHtml)
+        .replace('<!-- BLOG_POSTS_PLACEHOLDER -->', indexContent);
+
+    await fs.writeFile(path.join(DIST_DIR, 'index.html'), indexHtml);
+    console.log('- 메인 index.html 페이지를 생성했습니다.');
+
+    console.log('✅ 빌드가 완료되었습니다! `dist` 폴더를 확인하세요.');
+}
+
+build();
