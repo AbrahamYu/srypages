@@ -127,9 +127,6 @@ async function build() {
             .replace('<!-- MENU_PLACEHOLDER -->', menuHtml)
             .replace('<!-- POST_CONTENT_PLACEHOLDER -->', contentHtml);
             
-        // 메뉴 페이지는 post-template을 사용하므로 경로 ../ 를 / 로 변경
-        finalHtml = finalHtml.replace(/\.\.\//g, '/');
-
         await fs.writeFile(path.join(DIST_DIR, `${menuName}.html`), finalHtml);
     }
     console.log(`- ${blogMenu.length - 1}개의 메뉴 페이지를 생성했습니다.`);
