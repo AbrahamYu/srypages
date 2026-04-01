@@ -23,7 +23,7 @@ async function initDataBlogList() {
 
     if (isLocal) {
         // 로컬 환경
-        const response = await fetch("./data/local_blogList.json");
+        const response = await fetch("/data/local_blogList.json");
         rawBlogList = await response.json();
     } else {
         // GitHub 배포 상태
@@ -45,7 +45,7 @@ async function initDataBlogList() {
             );
         } else {
             // 배포 상태에서 Local data를 사용(이용자가 많을 때)
-            response = await fetch("./data/local_blogList.json");
+            response = await fetch("/data/local_blogList.json");
         }
         rawBlogList = await response.json();
     }
@@ -89,7 +89,7 @@ async function initDataBlogMenu() {
 
     if (isLocal) {
         // 로컬환경
-        const response = await fetch("./data/local_blogMenu.json");
+        const response = await fetch("/data/local_blogMenu.json");
         blogMenu = await response.json();
     } else {
         // GitHub 배포 상태
@@ -111,7 +111,7 @@ async function initDataBlogMenu() {
             );
         } else {
             // 배포 상태에서 Local data를 사용(이용자가 많을 때)
-            response = await fetch("./data/local_blogMenu.json");
+            response = await fetch("/data/local_blogMenu.json");
         }
         blogMenu = await response.json();
     }
