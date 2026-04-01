@@ -1,7 +1,6 @@
 const defaultTitle = "SRY";
 // 현재 url 가져와서 parsing (url 스키마는 readme.md 참고)
 const url = new URL(window.location.href);
-const origin = url.origin + url.pathname;
 const pathParts = url.pathname.split("/").filter((part) => part.length > 0);
 // console.log(url)
 // console.log(pathParts)
@@ -65,7 +64,7 @@ window.addEventListener("popstate", (event) => {
     document.getElementById("blog-posts").style.display = "none";
     document.getElementById("contents").style.display = "block";
     // console.log(origin + "menu/" + url.search.split("=")[1])
-    fetch(origin + "menu/" + url.search.split("=")[1])
+    fetch("/menu/" + url.search.split("=")[1])
       .then((response) => response.text())
       .then((text) => {
         // console.log(text)
@@ -79,7 +78,7 @@ window.addEventListener("popstate", (event) => {
     // console.log(postNameDecode);
     postInfo = extractFileInfo(postNameDecode);
     document.title = postInfo.title;
-    fetch(origin + "blog/" + postNameDecode)
+    fetch("/blog/" + postNameDecode)
       .then((response) => response.text())
       .then((text) =>
         postInfo.fileType === "md"
