@@ -11,6 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
+    <!-- js-dos v7 WebAssembly DOS Emulator assets -->
+    <link href="https://js-dos.com/v7/build/js-dos.css" rel="stylesheet">
+    <script src="https://js-dos.com/v7/build/js-dos.js"></script>
+
     <!-- marked -->
     <script src="./library/marked.min.js"></script>
 
@@ -84,6 +88,12 @@
       }
       ::-webkit-scrollbar-thumb:hover {
         background: #3f3f46;
+      }
+      
+      /* Target the js-dos player UI wrapper to fit cleanly in dark mode */
+      .jsdos-canvas {
+        background: #000000 !important;
+        border-radius: 0.5rem;
       }
     </style>
   </head>
@@ -401,30 +411,32 @@
             <h2 class="text-lg font-bold text-red-500 tracking-tight flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span> DOOM OS v1.666
             </h2>
-            <p class="text-xs text-zinc-500">MS-DOS WebAssembly Emulator (Shareware DOOM 1)</p>
+            <p class="text-xs text-zinc-500">Local WebAssembly MS-DOS Emulator (Shareware DOOM 1)</p>
           </div>
           <div class="text-[10px] font-mono text-zinc-500 bg-zinc-950 px-2.5 py-1 rounded border border-zinc-900">
-            Click Load to run DOOM in browser
+            Click Load to run DOOM
           </div>
         </div>
 
         <div class="border border-zinc-900 bg-black rounded-xl p-4 md:p-8 flex flex-col items-center justify-center space-y-6">
-          <div class="w-full max-w-3xl aspect-[4/3] bg-zinc-950 border border-zinc-850 rounded-lg overflow-hidden relative group">
+          <div class="w-full max-w-3xl aspect-[4/3] bg-zinc-950 border border-zinc-850 rounded-lg overflow-hidden relative">
             
             <!-- Cover / Play Trigger -->
             <div id="doom-cover" class="absolute inset-0 z-20 bg-zinc-950/90 flex flex-col items-center justify-center space-y-4 transition-all duration-300">
               <span class="text-5xl">😈</span>
               <div class="text-center space-y-1">
                 <h3 class="text-sm font-bold text-white uppercase tracking-widest">Shareware DOOM 1</h3>
-                <p class="text-[11px] text-zinc-500 font-mono">Powered by WebAssembly & DOSZone player</p>
+                <p class="text-[11px] text-zinc-500 font-mono">Running Native WASM DOSBox Core</p>
               </div>
-              <button onclick="loadDoomEngine()" class="px-6 py-2.5 text-xs font-bold text-black bg-white hover:bg-zinc-200 rounded-lg transition-all shadow-lg shadow-white/5">
-                Load WAD Engine
+              <button onclick="loadDoomWasm()" class="px-6 py-2.5 text-xs font-bold text-black bg-white hover:bg-zinc-200 rounded-lg transition-all shadow-lg shadow-white/5">
+                Load WASM Engine
               </button>
             </div>
 
-            <!-- Iframe Player (will load dynamically) -->
-            <iframe id="doom-iframe" class="w-full h-full border-0 hidden" allow="autoplay; keyboard; fullscreen" src=""></iframe>
+            <!-- Canvas Container for js-dos -->
+            <div id="doom-canvas-container" class="w-full h-full hidden">
+              <div id="jsdos" class="w-full h-full"></div>
+            </div>
           </div>
 
           <div class="w-full max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-[10px] text-zinc-500 border-t border-zinc-900 pt-6">
@@ -460,14 +472,34 @@
 
     <!-- Interactive Tab Navigation -->
     <script>
-      function loadDoomEngine() {
+      let dosInstance = null;
+
+      function loadDoomWasm() {
         const cover = document.getElementById('doom-cover');
-        const iframe = document.getElementById('doom-iframe');
-        if (cover && iframe) {
-          // Play classic DOS Zone shareware DOOM v1 bundle
-          iframe.src = "https://dos.zone/player/?bundleUrl=https%3A%2F%2Fcdn.dos.zone%2Fcustom%2Fdos%2Fdoom.jsdos";
-          iframe.classList.remove('hidden');
+        const container = document.getElementById('doom-canvas-container');
+        if (cover && container) {
+          container.classList.remove('hidden');
           cover.classList.add('hidden');
+          
+          if (typeof Dos !== 'undefined') {
+            // Initialize js-dos player native instance
+            Dos(document.getElementById("jsdos"))
+              .run("https://cdn.dos.zone/custom/dos/doom.jsdos")
+              .then(ci => {
+                dosInstance = ci;
+                console.log("DOOM WASM Loaded successfully.");
+              })
+              .catch(err => {
+                console.error("DOOM WASM Load failed:", err);
+                document.getElementById("jsdos").innerHTML = `
+                  <div class="flex flex-col items-center justify-center h-full text-center p-4">
+                    <p class="text-red-500 text-xs font-mono font-bold">WASM engine load error. CORS policy or Network issue.</p>
+                  </div>
+                `;
+              });
+          } else {
+            console.error("js-dos library is not loaded from CDN.");
+          }
         }
       }
 
