@@ -316,6 +316,9 @@ function renderOtherContents(menu) {
   /*
     menu에 다른 콘텐츠, 예를 들어 about이나 contect를 클릭했을 때 렌더링 하는 함수
     */
+  if (typeof switchTab === 'function') {
+    switchTab('blog');
+  }
   // main 영역에 blog.md를 제외한 다른 파일을 렌더링
   document.getElementById("blog-posts").style.display = "none";
   document.getElementById("pagination").style.display = "none";
