@@ -132,22 +132,10 @@ async function build() {
     console.log(`- ${blogMenu.length - 1}개의 메뉴 페이지를 생성했습니다.`);
 
 
-    // 5. 메인 index.html (블로그 목록) 생성
-    let postsHtml = '';
-    processedBlogList.slice(0, 10).forEach((post, index) => { // 페이지네이션은 일단 첫 10개만
-        postsHtml += createCardHtml(post, index);
-    });
-
-    const indexContent = `<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] lg:gap-y-10 gap-y-4 mb-20">${postsHtml}</div>`;
-    
-    const indexHtml = listTemplate
-        .replace('<!-- PAGE_TITLE -->', config.siteConfig.blogTitle)
-        .replace('<!-- BLOG_TITLE -->', config.siteConfig.blogTitle)
-        .replace('<!-- MENU_PLACEHOLDER -->', menuHtml)
-        .replace('<!-- BLOG_POSTS_PLACEHOLDER -->', indexContent);
-
+    // 5. 메인 index.html 생성 (dynamic rendering을 위해 root의 index.html을 그대로 복사/작성합니다)
+    const indexHtml = await fs.readFile(path.join(CWD, 'index.html'), 'utf-8');
     await fs.writeFile(path.join(DIST_DIR, 'index.html'), indexHtml);
-    console.log('- 메인 index.html 페이지를 생성했습니다.');
+    console.log('- 메인 index.html 페이지를 생성(복사)했습니다.');
 
     console.log('✅ 빌드가 완료되었습니다! `dist` 폴더를 확인하세요.');
 }

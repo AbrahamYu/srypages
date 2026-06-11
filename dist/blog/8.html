@@ -1,133 +1,211 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="scroll-smooth">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="/img/icon/favicon.svg" type="image/x-icon" />
-    <title>undefined | ABRAHAM</title>
+    <title>undefined | Abraham.dev</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
     <!-- ADSENSE -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5988270223050126" crossorigin="anonymous"></script>
+    
     <!-- HIGHLIGHT.JS -->
     <link rel="stylesheet" href="/library/highlight_default.min.css" />
     <script src="/library/highlight_highlight.min.js"></script>
     <link rel="stylesheet" href="/library/highlight_ally-light.min.css" />
+    
     <!-- CUSTOM CSS -->
     <link rel="stylesheet" href="/style/style.css" />
+    
     <!-- TAILWIND -->
     <script src="/library/tailwind-3.4.1.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            colors: {
+              primary: "#6366f1",
+              background: "#020617",
+              surface: "#0f172a",
+              graylv1: "#1e293b",
+              graylv2: "#334155",
+              graylv3: "#64748b",
+              graylv4: "#94a3b8",
+              error: "#ef4444",
+              lowError: "#f59e0b",
+              activation: "#1e1b4b",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #020617;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #4f46e5 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .gradient-border {
+        position: relative;
+      }
+      .gradient-border::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 1rem;
+        padding: 1px;
+        background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.4), rgba(99, 102, 241, 0.05));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #020617;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1e293b;
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #334155;
+      }
+    </style>
 </head>
-<body class="font-sans w-full text-surface">
-    <header class="relative bg-white mx-auto border-b border-gray-300">
-        <nav class="container max-w-[1190px] mx-auto md:p-[19px] p-4 flex items-center relative">
-            <h1 id="blog-title" class="md:text-2xl text-lg leading-6 mr-auto font-semibold text-gray-900 cursor-pointer">
-                 <a href="/index.html">ABRAHAM</a>
-            </h1>
-            <div id="menu" class="hidden md:flex items-center">
+<body class="font-sans w-full text-slate-200 min-h-screen selection:bg-indigo-500/30 selection:text-indigo-200">
+    <!-- Background grid decoration -->
+    <div class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60"></div>
+
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-900/80">
+        <nav class="container max-w-[1190px] mx-auto md:px-8 px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer">
+                <a href="/index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">A</div>
+                    <span class="text-xl font-bold tracking-tight text-white">Abraham.dev</span>
+                </a>
+            </div>
+            <div id="menu" class="hidden md:flex items-center gap-2">
                 <a href="/about.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">About</a><a href="/index.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Blog</a><a href="/calculator.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Calculator</a><a href="/contact.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Contact</a>
             </div>
             <!-- Mobile Menu Button -->
-            <div class="md:hidden w-6 h-6">
-                <button id="menu-button"><span class="sr-only">메뉴 열기</span></button>
+            <div class="md:hidden flex items-center gap-2">
+                <button id="menu-button" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-900 border border-slate-900 hover:border-slate-800 transition-all duration-200">
+                    <span class="sr-only">메뉴 열기</span>
+                </button>
             </div>
         </nav>
-        <div id="mobileMenu" class="absolute bg-background w-full max-w-[1190px] border-b border-graylv2 z-10 md:hidden"></div>
+        <div id="mobileMenu" class="absolute bg-slate-950/95 backdrop-blur-lg w-full border-b border-slate-900 z-10 md:hidden hidden">
+            <div class="flex flex-col p-4 gap-2">
+                <a href="/index.html" class="py-3 px-4 text-left font-semibold text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg">Portfolio Home</a>
+            </div>
+        </div>
     </header>
 
-    <main class="container p-8 pb-4 w-full mx-auto max-w-[1190px] md:pt-[60px]">
-        <div id="contents" class="mt-6 mb-28 grid-cols-3 max-w-[990px] mx-auto">
-            <h1>Node.js 비동기 처리: 프로미스(Promise)와 Async/Await 완벽 가이드</h1>
-<p>Node.js는 뛰어난 성능을 자랑하는 비동기 이벤트 기반 JavaScript 런타임입니다. 비동기 처리는 Node.js의 핵심이며, 이를 효과적으로 다루는 것은 백엔드 개발자의 필수 역량입니다. 이 글에서는 콜백(Callback) 패턴의 한계부터 시작해, 이를 극복하기 위해 등장한 프로미스(Promise)와 최신 async/await 문법까지 자세히 알아보겠습니다.</p>
-<h2>1. 비동기 처리와 콜백 지옥(Callback Hell)</h2>
-<p>Node.js의 초기 비동기 모델은 콜백 함수에 크게 의존했습니다. 하지만 여러 비동기 작업을 순차적으로 처리해야 할 때, 코드는 깊게 중첩된 콜백 구조를 갖게 됩니다. 이를 &#39;콜백 지옥&#39;이라고 부르며, 가독성을 해치고 오류 처리를 복잡하게 만듭니다.</p>
-<pre><code class="language-javascript">// 콜백 지옥의 예시
-fs.readFile(&#39;file1.txt&#39;, &#39;utf8&#39;, (err, data1) =&gt; {
-  if (err) {
-    return console.error(err);
-  }
-  fs.readFile(&#39;file2.txt&#39;, &#39;utf8&#39;, (err, data2) =&gt; {
-    if (err) {
-      return console.error(err);
-    }
-    fs.readFile(&#39;file3.txt&#39;, &#39;utf8&#39;, (err, data3) =&gt; {
-      if (err) {
-        return console.error(err);
-      }
-      console.log(data1, data2, data3);
-    });
-  });
+    <main class="container p-4 md:p-8 pb-16 w-full mx-auto max-w-[1190px] md:pt-[40px]">
+        <div id="contents" class="mt-6 mb-16 max-w-[990px] mx-auto bg-slate-900/20 border border-slate-900/60 p-6 md:p-10 rounded-3xl">
+            <h1>Node.js 프로젝트 시작하기: 초보자를 위한 완벽 가이드</h1>
+<p>Node.js는 확장성 있는 네트워크 애플리케이션을 만들 수 있게 해주는 강력한 JavaScript 런타임입니다. 이 가이드에서는 Node.js와 npm(노드 패키지 매니저)을 사용하여 새로운 프로젝트를 설정하고, 간단한 웹 서버를 만들어보는 과정을 단계별로 안내합니다.</p>
+<h2>사전 준비</h2>
+<p>프로젝트를 시작하기 전에, 여러분의 컴퓨터에 Node.js와 npm이 설치되어 있어야 합니다. 설치되어 있지 않다면 아래 공식 사이트에서 다운로드하여 설치해주세요. LTS(Long Term Support) 버전을 설치하는 것을 권장합니다.</p>
+<ul>
+<li><a href="https://nodejs.org/">Node.js 공식 다운로드 사이트</a></li>
+</ul>
+<p>설치가 완료되었다면, 터미널(Windows의 경우 Command Prompt 또는 PowerShell)을 열고 아래 명령어를 실행하여 설치를 확인합니다.</p>
+<pre><code class="language-bash">node -v
+npm -v
+</code></pre>
+<p>각각 버전 번호가 출력된다면 성공적으로 설치된 것입니다.</p>
+<h2>1단계: 프로젝트 폴더 생성 및 이동</h2>
+<p>먼저 프로젝트를 저장할 새로운 폴더(디렉토리)를 만들고, 해당 폴더로 이동합니다.</p>
+<pre><code class="language-bash">mkdir my-node-project
+cd my-node-project
+</code></pre>
+<p>이제 <code>my-node-project</code>라는 이름의 폴더 안에서 모든 작업을 수행하게 됩니다.</p>
+<h2>2단계: npm으로 프로젝트 초기화</h2>
+<p>새로운 Node.js 프로젝트를 시작할 때 가장 먼저 해야 할 일은 <code>package.json</code> 파일을 생성하는 것입니다. 이 파일은 프로젝트에 대한 정보(이름, 버전 등)와 의존성(프로젝트가 사용하는 라이브러리) 목록을 관리합니다.</p>
+<p>아래 명령어를 실행하여 <code>package.json</code> 파일을 생성합니다.</p>
+<pre><code class="language-bash">npm init -y
+</code></pre>
+<p><code>-y</code> 플래그는 <code>npm init</code> 과정에서 묻는 모든 질문에 기본값으로 자동 응답해주는 옵션입니다. 이제 폴더 안에 <code>package.json</code> 파일이 생성된 것을 확인할 수 있습니다.</p>
+<h2>3단계: 기본 서버 파일 작성하기</h2>
+<p>이제 간단한 웹 서버를 만들어 보겠습니다. <code>index.js</code>라는 이름의 새 파일을 만들고, 아래 코드를 작성하세요. 이 코드는 Node.js에 내장된 <code>http</code> 모듈을 사용하여 &quot;Hello, World!&quot;를 응답하는 기본적인 서버를 생성합니다.</p>
+<pre><code class="language-javascript">// Node.js의 기본 http 모듈을 가져옵니다.
+const http = require(&#39;http&#39;);
+
+// 서버가 실행될 호스트 이름과 포트 번호를 정의합니다.
+const hostname = &#39;127.0.0.1&#39;;
+const port = 3000;
+
+// http.createServer 메서드를 사용하여 서버 인스턴스를 생성합니다.
+// 이 서버는 요청(req)을 받을 때마다 응답(res)을 보냅니다.
+const server = http.createServer((req, res) =&gt; {
+  // 상태 코드 200 (OK)을 설정합니다.
+  res.statusCode = 200;
+  // 응답 헤더의 Content-Type을 text/plain으로 설정합니다.
+  res.setHeader(&#39;Content-Type&#39;, &#39;text/plain&#39;);
+  // &quot;Hello, World!&quot; 메시지로 응답을 종료합니다.
+  res.end(&#39;Hello, World!\n&#39;);
+});
+
+// 서버가 지정된 포트와 호스트 이름에서 들어오는 요청을 수신 대기하도록 합니다.
+server.listen(port, hostname, () =&gt; {
+  console.log(`Server running at http://${hostname}:${port}/`);
 });
 </code></pre>
-<p>이러한 코드 구조는 유지보수를 매우 어렵게 만듭니다.</p>
-<h2>2. 프로미스(Promise)의 등장</h2>
-<p>ES6(ECMAScript 2015)에서 도입된 프로미스는 비동기 작업의 최종 완료 또는 실패를 나타내는 객체입니다. 프로미스는 세 가지 상태를 가집니다.</p>
-<ul>
-<li><strong>Pending(대기):</strong> 비동기 처리가 아직 완료되지 않은 초기 상태</li>
-<li><strong>Fulfilled(이행):</strong> 비동기 처리가 성공적으로 완료된 상태</li>
-<li><strong>Rejected(거부):</strong> 비동기 처리가 실패한 상태</li>
-</ul>
-<p>프로미스는 <code>.then()</code>을 통해 성공 결과를, <code>.catch()</code>를 통해 실패(오류)를 처리합니다. 이를 통해 콜백 지옥을 벗어나 코드를 훨씬 깔끔하게 작성할 수 있습니다.</p>
-<pre><code class="language-javascript">const readFilePromise = (filename) =&gt; {
-  return new Promise((resolve, reject) =&gt; {
-    fs.readFile(filename, &#39;utf8&#39;, (err, data) =&gt; {
-      if (err) {
-        reject(err); // 실패 시 reject 호출
-      } else {
-        resolve(data); // 성공 시 resolve 호출
-      }
-    });
-  });
-};
-
-readFilePromise(&#39;file1.txt&#39;)
-  .then(data1 =&gt; {
-    console.log(data1);
-    return readFilePromise(&#39;file2.txt&#39;);
-  })
-  .then(data2 =&gt; {
-    console.log(data2);
-    return readFilePromise(&#39;file3.txt&#39;);
-  })
-  .then(data3 =&gt; {
-    console.log(data3);
-  })
-  .catch(err =&gt; {
-    console.error(&#39;오류 발생:&#39;, err);
-  });
+<h2>4단계: 서버 실행하기</h2>
+<p>이제 작성한 서버를 실행할 차례입니다. 터미널에서 아래 명령어를 입력하세요.</p>
+<pre><code class="language-bash">node index.js
 </code></pre>
-<p>프로미스 체이닝(Promise Chaining)을 통해 비동기 작업을 순차적으로 연결하여 코드의 가독성이 크게 향상되었습니다.</p>
-<h2>3. 최신 문법: Async/Await</h2>
-<p>ES2017(ES8)에서 도입된 <code>async/await</code>는 프로미스를 더욱 직관적이고 동기적인 코드처럼 보이게 만드는 &quot;Syntactic Sugar&quot;(문법적 설탕)입니다.</p>
-<ul>
-<li><strong><code>async</code>:</strong> 함수 앞에 붙여 해당 함수가 항상 프로미스를 반환하도록 만듭니다.</li>
-<li><strong><code>await</code>:</strong> <code>async</code> 함수 내에서만 사용 가능하며, 프로미스가 처리될 때까지 함수의 실행을 일시 중지하고 기다립니다. 프로미스가 이행되면 그 결과를 반환하고, 거부되면 예외(exception)를 발생시킵니다.</li>
-</ul>
-<p><code>async/await</code>를 사용하면 이전의 프로미스 체이닝 코드를 다음과 같이 간결하게 바꿀 수 있습니다.</p>
-<pre><code class="language-javascript">const readAllFiles = async () =&gt; {
-  try {
-    const data1 = await readFilePromise(&#39;file1.txt&#39;);
-    console.log(data1);
-    const data2 = await readFilePromise(&#39;file2.txt&#39;);
-    console.log(data2);
-    const data3 = await readFilePromise(&#39;file3.txt&#39;);
-    console.log(data3);
-  } catch (err) {
-    console.error(&#39;오류 발생:&#39;, err);
-  }
-};
-
-readAllFiles();
+<p>&quot;Server running at <a href="http://127.0.0.1:3000/%22%EC%9D%B4%EB%9D%BC%EB%8A%94">http://127.0.0.1:3000/&quot;이라는</a> 메시지가 보이면 성공입니다. 이제 웹 브라우저를 열고 주소창에 <code>http://127.0.0.1:3000</code> 또는 <code>http://localhost:3000</code>을 입력하면 &quot;Hello, World!&quot;가 화면에 나타나는 것을 볼 수 있습니다.</p>
+<p>서버를 중지하려면 터미널에서 <code>Ctrl + C</code>를 누르세요.</p>
+<h2>(선택) 5단계: nodemon으로 개발 효율 높이기</h2>
+<p>개발 중에는 코드를 수정할 때마다 서버를 수동으로 껐다 켜야 하는 것이 번거롭습니다. <code>nodemon</code>은 파일 변경을 감지하여 자동으로 서버를 재시작해주는 매우 유용한 도구입니다.</p>
+<p>아래 명령어로 <code>nodemon</code>을 개발 의존성(devDependencies)으로 설치합니다.</p>
+<pre><code class="language-bash">npm install nodemon --save-dev
 </code></pre>
-<p>코드가 마치 동기적으로 실행되는 것처럼 보여 흐름을 이해하기 매우 쉬워졌습니다. 오류 처리도 <code>try...catch</code> 구문을 사용하여 동기 코드와 동일한 방식으로 처리할 수 있습니다.</p>
-<h2>결론</h2>
-<p>Node.js에서 비동기 처리는 필수적입니다. 콜백 패턴의 단점을 극복하기 위해 프로미스가 등장했고, <code>async/await</code>는 이를 한 단계 더 발전시켜 개발자가 비동기 코드를 더 쉽고 직관적으로 작성할 수 있도록 돕습니다.</p>
-<p>최신 Node.js 백엔드 개발에서는 <code>async/await</code>를 적극적으로 활용하여 코드의 가독성과 유지보수성을 높이는 것이 표준적인 접근 방식입니다. 이제 여러분의 프로젝트에 프로미스와 <code>async/await</code>를 적용하여 더 깨끗하고 효율적인 코드를 작성해보세요!</p>
+<p>설치가 완료되면 <code>package.json</code> 파일을 열고 <code>scripts</code> 부분을 아래와 같이 수정합니다.</p>
+<pre><code class="language-json">&quot;scripts&quot;: {
+  &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+  &quot;start&quot;: &quot;node index.js&quot;,
+  &quot;dev&quot;: &quot;nodemon index.js&quot;
+}
+</code></pre>
+<p>이제 아래 명령어를 사용하여 <code>nodemon</code>으로 서버를 시작할 수 있습니다.</p>
+<pre><code class="language-bash">npm run dev
+</code></pre>
+<p>이제 <code>index.js</code> 파일을 수정하고 저장할 때마다 서버가 자동으로 재시작되어 변경 사항이 즉시 반영됩니다.</p>
+<h2>마무리</h2>
+<p>축하합니다! 여러분은 방금 Node.js 프로젝트를 성공적으로 생성하고, 기본 웹 서버를 만들어 실행했습니다. <code>package.json</code>을 통해 프로젝트의 의존성을 관리하고, <code>npm</code>을 통해 다양한 패키지를 설치하며 프로젝트를 확장해 나갈 수 있습니다.</p>
+<p>이제 여러분의 아이디어를 Node.js를 통해 현실로 만들어보세요!</p>
 
         </div>
     </main>
 
+    <footer class="bg-slate-950 border-t border-slate-900 py-8 text-center text-slate-500 text-sm">
+        <div class="container max-w-[1190px] mx-auto px-4 space-y-2">
+            <p>&copy; 2026 Abraham Yoo. All rights reserved.</p>
+            <p class="text-xs text-slate-700">Built with Vanilla HTML, JS, Tailwind CSS. Deployed on Vercel.</p>
+        </div>
+    </footer>
+
     <!-- MOBILE MENU TOGGLE -->
     <script src="/js/mobileMenuToggle.js"></script>
-    <script src="/js/animations.js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             document.querySelectorAll('pre code').forEach((block) => {

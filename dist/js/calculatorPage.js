@@ -21,9 +21,8 @@ function setupCalculators() {
                     currentInput += value;
                 }
             } else if (newButton.classList.contains('calc-op')) {
-                if (!shouldResetDisplay) {
-                    currentInput += ` ${value} `;
-                }
+                currentInput += ` ${value} `;
+                shouldResetDisplay = false;
             } else if (value === '=') {
                 try {
                     let expression = currentInput.replace(/×/g, '*').replace(/÷/g, '/');

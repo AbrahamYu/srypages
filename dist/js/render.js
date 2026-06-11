@@ -324,7 +324,7 @@ function renderOtherContents(menu) {
   // 만약 menu가 string type 이라면 download_url, name을 menu로 설정
   if (typeof menu === "string") {
     menu = {
-      download_url: origin + "menu/" + menu,
+      download_url: "/menu/" + menu,
       name: menu.split("/")[menu.split("/").length - 1],
     };
   }
@@ -603,80 +603,86 @@ function renderPagination(totalPage, currentPage, targetList = null) {
 }
 
 async function initialize() {
-  /*
-    최초 실행 함수, URLparsing은 이 영역에서 담당하지 않고 index.html에서 로드 될 때 실행, blogList와 blogMenu는 initData.js에서 정의되고 로드될 때 실행. 다만 함수의 흐름을 파악하고자 이곳으로 옮겨올 필요성이 있음
-    
-    TODO: URL 파싱 결과 상세 블로그나 메뉴상태이면 검색 버튼을 누르기 전까지는 initDataBlogList()를 실행시킬 필요 없음. 이를 통해 API 호출 한 번을 아낄 수 있음.
-    */
-  if (!url.search.split("=")[1] || url.search.split("=")[1] === "blog.md") {
-    // 메뉴 로딩
+    // 항상 메뉴 데이터를 로드하고 정적 메뉴 부분을 렌더링합니다.
     await initDataBlogMenu();
     renderMenu();
 
-    // 블로그 리스트 로딩
+    const queryParams = new URLSearchParams(window.location.search);
+    const menuFileFromQuery = queryParams.get('menu');
+    const postFileFromQuery = queryParams.get('post');
+
+    // URLparsing.js의 pathParts: 예: /menu/about.md -> ['menu', 'about.md']
+    const pathType = pathParts[0];
+    const fileName = pathParts[1];
+
+    // 1. 직접 경로 탐색을 먼저 처리합니다 (예: /menu/about.md).
+    if (pathType === 'menu' && fileName) {
+        if (fileName.toLowerCase() === 'blog.md') {
+            await initDataBlogList();
+            renderBlogList();
+            renderBlogCategory();
+        } else {
+            renderOtherContents(fileName);
+        }
+        return;
+    }
+    if (pathType === 'blog' && fileName) {
+        await initDataBlogList();
+        const postName = decodeURI(fileName).replaceAll("+", " ");
+        const postInfo = blogList.find(p => p.name === postName);
+        if (postInfo) {
+            // 카드 클릭 핸들러의 로직을 재사용합니다.
+            document.getElementById("contents").style.display = "block";
+            document.getElementById("blog-posts").style.display = "none";
+            document.getElementById("pagination").style.display = "none";
+            fetch(postInfo.download_url)
+                .then(res => res.text())
+                .then(text => postInfo.fileType === 'md' ? styleMarkdown('post', text, postInfo) : styleJupyter('post', text, postInfo))
+                .then(() => {
+                    document.title = postInfo.title;
+                });
+        } else {
+            styleMarkdown("post", "# 오류: 포스트를 찾을 수 없습니다.");
+        }
+        return;
+    }
+
+    // 2. 쿼리 파라미터 탐색을 처리합니다 (예: ?menu=about.md).
+    if (menuFileFromQuery) {
+        if (menuFileFromQuery.toLowerCase() === "blog.md") {
+            await initDataBlogList();
+            renderBlogList();
+            renderBlogCategory();
+        } else {
+            renderOtherContents(menuFileFromQuery);
+        }
+        return;
+    }
+
+    if (postFileFromQuery) {
+        await initDataBlogList();
+        const postNameDecode = decodeURI(postFileFromQuery).replaceAll("+", " ");
+        const postInfo = blogList.find(p => p.name === postNameDecode);
+        if (postInfo) {
+            // 원래 ?post 핸들러의 로직을 재사용합니다.
+            document.getElementById("contents").style.display = "block";
+            document.getElementById("blog-posts").style.display = "none";
+            fetch(postInfo.download_url)
+                .then(res => res.text())
+                .then(text => postInfo.fileType === 'md' ? styleMarkdown('post', text, postInfo) : styleJupyter('post', text, postInfo))
+                .then(() => {
+                    document.title = postInfo.title;
+                });
+        } else {
+            styleMarkdown("post", "# 오류: 포스트를 찾을 수 없습니다.");
+        }
+        return;
+    }
+
+    // 3. 기본 사례: 루트 URL, 블로그 목록 표시
     await initDataBlogList();
     renderBlogList();
-
-    // 블로그 카테고리 로딩
     renderBlogCategory();
-  } else {
-    // 메뉴 로딩
-    await initDataBlogMenu();
-    renderMenu();
-
-    // 블로그 상세 정보 로딩
-    if (url.search.split("=")[0] === "?menu") {
-      document.getElementById("blog-posts").style.display = "none";
-      document.getElementById("contents").style.display = "block";
-      try {
-        fetch(origin + "menu/" + url.search.split("=")[1])
-          .then((response) => response.text())
-          .then((text) => styleMarkdown("menu", text))
-          .then(() => {
-            // 렌더링 후에는 URL 변경(query string으로 블로그 포스트 이름 추가)
-            const url = new URL(window.location.href);
-            window.history.pushState({}, "", url);
-          });
-      } catch (error) {
-        styleMarkdown("menu", "# Error입니다. 파일명을 확인해주세요.");
-      }
-    } else if (url.search.split("=")[0] === "?post") {
-        await initDataBlogList(); // Ensure blogList is loaded
-        document.getElementById("contents").style.display = "block";
-        document.getElementById("blog-posts").style.display = "none";
-        const postNameDecode = decodeURI(url.search.split("=")[1]).replaceAll("+", " ");
-
-        const postInfo = blogList.find(p => p.name === postNameDecode); // Find the post
-
-        if (postInfo) {
-            try {
-                let postDownloadUrl;
-                if (!isLocal && localDataUsing) {
-                    postDownloadUrl = `${url.origin}/${siteConfig.repositoryName}${postInfo.download_url}`;
-                } else {
-                    postDownloadUrl = postInfo.download_url;
-                }
-                fetch(postDownloadUrl)
-                    .then((response) => response.text())
-                    .then((text) =>
-                        postInfo.fileType === "md"
-                            ? styleMarkdown("post", text, postInfo)
-                            : styleJupyter("post", text, postInfo)
-                    )
-                    .then(() => {
-                        const url = new URL(window.location.href);
-                        window.history.pushState({}, "", url);
-                        document.title = postInfo.title;
-                    });
-            } catch (error) {
-                styleMarkdown("post", "# Error입니다. 파일명을 확인해주세요.");
-            }
-        } else {
-            // Post not found
-            styleMarkdown("post", "# Error: Post not found.");
-        }
-    }
-  }
 }
 
 initialize();

@@ -1,179 +1,738 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
+<html lang="ko" class="scroll-smooth">
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/img/icon/favicon.svg" type="image/x-icon" />
-    <title>ABRAHAM</title>
-    <!-- ADSENSE -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5988270223050126" crossorigin="anonymous"></script>
-    <!-- HIGHLIGHT.JS -->
-    <link rel="stylesheet" href="/library/highlight_default.min.css" />
-    <script src="/library/highlight_highlight.min.js"></script>
-    <link rel="stylesheet" href="/library/highlight_ally-light.min.css" />
-    <!-- CUSTOM CSS -->
-    <link rel="stylesheet" href="/style/style.css" />
-    <!-- TAILWIND -->
-    <script src="/library/tailwind-3.4.1.js"></script>
-</head>
-<body class="font-sans w-full text-surface">
-    <header class="relative bg-white mx-auto border-b border-gray-300">
-        <nav class="container max-w-[1190px] mx-auto md:p-[19px] p-4 flex items-center relative">
-            <h1 id="blog-title" class="md:text-2xl text-lg leading-6 mr-auto font-semibold text-gray-900 cursor-pointer">
-                <a href="/index.html">ABRAHAM</a>
-            </h1>
-            <div id="menu" class="hidden md:flex items-center">
-                <a href="/about.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">About</a><a href="/index.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Blog</a><a href="/calculator.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Calculator</a><a href="/contact.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Contact</a>
-            </div>
-            <!-- Mobile Menu Button -->
-            <div class="md:hidden w-6 h-6">
-                <button id="menu-button"><span class="sr-only">메뉴 열기</span></button>
-            </div>
-        </nav>
-        <div id="mobileMenu" class="absolute bg-background w-full max-w-[1190px] border-b border-graylv2 z-10 md:hidden"></div>
+    <link rel="shortcut icon" href="img/icon/favicon.svg" type="image/x-icon" />
+    <title>Abraham Yoo | Back-End Engineer Portfolio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- marked -->
+    <script src="./library/marked.min.js"></script>
+
+    <!-- hightlight.js -->
+    <link rel="stylesheet" href="./library/highlight_default.min.css" />
+    <script src="./library/highlight_highlight.min.js"></script>
+    <link rel="stylesheet" href="./library/highlight_ally-light.min.css" />
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="style/style.css" />
+
+    <!-- tailwind -->
+    <script src="./library/tailwind-3.4.1.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            colors: {
+              primary: "#6366f1",
+              background: "#020617",
+              surface: "#0f172a",
+              graylv1: "#1e293b",
+              graylv2: "#334155",
+              graylv3: "#64748b",
+              graylv4: "#94a3b8",
+              error: "#ef4444",
+              lowError: "#f59e0b",
+              activation: "#1e1b4b",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        background-color: #020617;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #4f46e5 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .gradient-border {
+        position: relative;
+      }
+      .gradient-border::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 1rem;
+        padding: 1px;
+        background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.4), rgba(99, 102, 241, 0.05));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #020617;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1e293b;
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #334155;
+      }
+    </style>
+  </head>
+  <body class="font-sans w-full text-slate-200 min-h-screen selection:bg-indigo-500/30 selection:text-indigo-200">
+    
+    <!-- Background grid decoration -->
+    <div class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60"></div>
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-900/80">
+      <nav class="container max-w-[1190px] mx-auto md:px-8 px-4 py-4 flex items-center justify-between">
+        <!-- Brand Logo -->
+        <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('portfolio')">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">A</div>
+          <span class="text-xl font-bold tracking-tight text-white">Abraham.dev</span>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="hidden md:flex items-center gap-2 bg-slate-900/40 p-1 rounded-xl border border-slate-800/80">
+          <button onclick="switchTab('portfolio')" id="tab-btn-portfolio" class="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 text-white bg-indigo-600 shadow-lg shadow-indigo-600/10">Portfolio</button>
+          <button onclick="switchTab('blog')" id="tab-btn-blog" class="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-400 hover:text-slate-200">Projects & Articles</button>
+          <button onclick="switchTab('resume')" id="tab-btn-resume" class="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-400 hover:text-slate-200">Resume</button>
+        </div>
+
+        <!-- Quick Links (GitHub, Contact) -->
+        <div class="hidden md:flex items-center gap-4">
+          <a href="https://github.com/AbrahamYoo" target="_blank" class="p-2 text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg border border-slate-900 hover:border-slate-800 transition-all duration-200">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          </a>
+          <a href="#contact" onclick="switchTab('portfolio'); setTimeout(() => document.getElementById('contact').scrollIntoView(), 100);" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-lg shadow-indigo-600/20">Contact Me</a>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="md:hidden flex items-center gap-2">
+          <button id="menu-button" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-900 border border-slate-900 hover:border-slate-800 transition-all duration-200">
+            <span class="sr-only">메뉴 열기</span>
+          </button>
+        </div>
+      </nav>
+      
+      <!-- Mobile Navigation Drawer -->
+      <div id="mobileMenu" class="absolute bg-slate-950/95 backdrop-blur-lg w-full border-b border-slate-900 z-10 md:hidden hidden">
+        <div class="flex flex-col p-4 gap-2">
+          <button onclick="switchTab('portfolio')" class="mobile-tab-btn py-3 px-4 text-left font-semibold text-white bg-indigo-600/20 border-l-4 border-indigo-500 rounded-r-lg">Portfolio</button>
+          <button onclick="switchTab('blog')" class="mobile-tab-btn py-3 px-4 text-left font-semibold text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg">Projects & Articles</button>
+          <button onclick="switchTab('resume')" class="mobile-tab-btn py-3 px-4 text-left font-semibold text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg">Resume</button>
+        </div>
+      </div>
     </header>
 
-    <main class="container p-8 pb-4 w-full mx-auto max-w-[1190px] md:pt-[60px]">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] lg:gap-y-10 gap-y-4 mb-20">
-        <a href="/blog/1.html" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden md:col-span-2 lg:col-span-3 grid md:grid-cols-2 gap-8 items-center">
-            <img src="/img/thumb9.webp" alt="undefined" class="w-full h-full object-cover rounded-lg">
-            <div class="p-6 flex flex-col flex-grow">
-                <div class="flex gap-2 mb-2"><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">AI</span><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Python</span><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Crypto</span></div>
-                <h2 class="text-xl font-bold mb-2 text-gray-800 flex-grow">undefined</h2>
-                <p class="text-gray-600 mb-4">AI를 활용해 비트코인 가격을 예측하고, 중요한 순간에 텔레그램으로 알림까지 보내주는 나만의 '투자 비서 봇'을 만드는 과정을 공유합니다.</p>
-                <div class="flex items-center text-sm text-gray-500 mt-auto">
-                    <img src="/img/user/profile-licat.png" alt="AbrahamYoo" class="w-8 h-8 rounded-full mr-3">
-                    <span>AbrahamYoo</span>
-                    <span class="mx-2">•</span>
-                    <span>Unknown Date</span>
-                </div>
+    <!-- Main Content Area -->
+    <main class="container p-4 md:p-8 pb-16 w-full mx-auto max-w-[1190px]">
+      
+      <!-- 1. PORTFOLIO SUMMARY TAB (Default) -->
+      <section id="section-portfolio" class="space-y-20 pt-4 md:pt-10">
+        
+        <!-- Hero Section -->
+        <div class="grid md:grid-cols-12 gap-8 items-center py-10 md:py-16">
+          <div class="md:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Available for Hire
             </div>
-        </a>
-    
-        <a href="/blog/2.html" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-            <img src="/img/thumb3.webp" alt="undefined" class="w-full h-48 object-cover rounded-lg">
-            <div class="p-6 flex flex-col flex-grow">
-                <div class="flex gap-2 mb-2"><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Git</span><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">DevOps</span></div>
-                <h2 class="text-xl font-bold mb-2 text-gray-800 flex-grow">undefined</h2>
-                
-                <div class="flex items-center text-sm text-gray-500 mt-auto">
-                    <img src="/img/user/profile-licat.png" alt="AbrahamYoo" class="w-8 h-8 rounded-full mr-3">
-                    <span>AbrahamYoo</span>
-                    <span class="mx-2">•</span>
-                    <span>Unknown Date</span>
-                </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+              Building Scalable & <br>
+              <span class="gradient-text">Robust Systems</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 font-normal leading-relaxed max-w-xl">
+              안녕하세요! 백엔드 개발자 <strong class="text-white">Abraham Yoo</strong>입니다. 데이터 안정성과 최적화된 아키텍처 설계를 깊이 고민하며, 비즈니스 성장을 견인할 수 있는 완성도 높은 백엔드 시스템을 만듭니다.
+            </p>
+            <div class="flex flex-wrap gap-4 pt-2">
+              <button onclick="switchTab('blog')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3.5 rounded-xl transition-all duration-200 shadow-xl shadow-indigo-600/25 flex items-center gap-2">
+                포트폴리오 프로젝트 보기
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+              </button>
+              <button onclick="switchTab('resume')" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-6 py-3.5 rounded-xl border border-slate-800 hover:border-slate-700 transition-all duration-200 flex items-center gap-2">
+                상세 이력서 읽기
+              </button>
             </div>
-        </a>
-    
-        <a href="/blog/3.html" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-            <img src="/img/thumb1.webp" alt="undefined" class="w-full h-48 object-cover rounded-lg">
-            <div class="p-6 flex flex-col flex-grow">
-                <div class="flex gap-2 mb-2"><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">docker</span></div>
-                <h2 class="text-xl font-bold mb-2 text-gray-800 flex-grow">undefined</h2>
-                
-                <div class="flex items-center text-sm text-gray-500 mt-auto">
-                    <img src="/img/user/profile-licat.png" alt="AbrahamYoo" class="w-8 h-8 rounded-full mr-3">
-                    <span>AbrahamYoo</span>
-                    <span class="mx-2">•</span>
-                    <span>Unknown Date</span>
+          </div>
+          <div class="md:col-span-5 flex justify-center">
+            <!-- Visual Graphic / Interactive Card -->
+            <div class="relative w-80 h-80 md:w-96 md:h-96 rounded-3xl bg-slate-900/60 border border-slate-800/80 p-8 flex flex-col justify-between shadow-2xl overflow-hidden group">
+              <!-- Glow backdrop decoration -->
+              <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/20 transition-all duration-500"></div>
+              
+              <div class="flex justify-between items-start">
+                <div class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-xl shadow-inner">⚡</div>
+                <div class="text-xs font-mono text-slate-500">Active Mode</div>
+              </div>
+              
+              <div class="space-y-4">
+                <div class="space-y-2">
+                  <div class="h-2 w-20 bg-indigo-500 rounded-full"></div>
+                  <div class="text-2xl font-bold text-white tracking-tight">Abraham Yoo</div>
+                  <div class="text-sm text-indigo-400 font-semibold">Back-End Engineer</div>
                 </div>
-            </div>
-        </a>
-    
-        <a href="/blog/4.html" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-            <img src="/img/thumb8.webp" alt="undefined" class="w-full h-48 object-cover rounded-lg">
-            <div class="p-6 flex flex-col flex-grow">
-                <div class="flex gap-2 mb-2"><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">nginx</span><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">ubuntu</span><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">server</span></div>
-                <h2 class="text-xl font-bold mb-2 text-gray-800 flex-grow">undefined</h2>
-                
-                <div class="flex items-center text-sm text-gray-500 mt-auto">
-                    <img src="/img/user/profile-licat.png" alt="AbrahamYoo" class="w-8 h-8 rounded-full mr-3">
-                    <span>AbrahamYoo</span>
-                    <span class="mx-2">•</span>
-                    <span>Unknown Date</span>
+                <div class="font-mono text-xs text-slate-400 space-y-1 bg-slate-950/40 p-4 rounded-xl border border-slate-800/30">
+                  <p><span class="text-indigo-400">const</span> dev = {</p>
+                  <p class="pl-4">mainStack: <span class="text-emerald-400">"Node.js & Python"</span>,</p>
+                  <p class="pl-4">passion: <span class="text-emerald-400">"System Architecture"</span>,</p>
+                  <p class="pl-4">goal: <span class="text-emerald-400">"Zero Downtime"</span></p>
+                  <p>};</p>
                 </div>
+              </div>
+              
+              <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/50 pt-4">
+                <span>Docker & Nginx Infra</span>
+                <span>Ubuntu 22.04 LTS</span>
+              </div>
             </div>
-        </a>
-    
-        <a href="/blog/5.html" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-            <img src="/img/thumb1.webp" alt="undefined" class="w-full h-48 object-cover rounded-lg">
-            <div class="p-6 flex flex-col flex-grow">
-                <div class="flex gap-2 mb-2"><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">linux</span></div>
-                <h2 class="text-xl font-bold mb-2 text-gray-800 flex-grow">undefined</h2>
-                
-                <div class="flex items-center text-sm text-gray-500 mt-auto">
-                    <img src="/img/user/profile-licat.png" alt="AbrahamYoo" class="w-8 h-8 rounded-full mr-3">
-                    <span>AbrahamYoo</span>
-                    <span class="mx-2">•</span>
-                    <span>Unknown Date</span>
+          </div>
+        </div>
+
+        <!-- About Me Section -->
+        <div class="space-y-8">
+          <div class="text-center space-y-2">
+            <h2 class="text-xs font-extrabold tracking-wider text-indigo-400 uppercase">Core Values</h2>
+            <p class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">개발에 임하는 나의 철학</p>
+          </div>
+          <div class="grid md:grid-cols-4 gap-6">
+            <!-- Card 1 -->
+            <div class="bg-slate-900/30 border border-slate-900 hover:border-indigo-500/30 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-sm group">
+              <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">📦</div>
+              <h3 class="text-lg font-bold text-white">안정적인 서비스 설계</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">트래픽 증가 상황에서도 무너지지 않는 효율적이고 분산 친화적인 서버 인프라 설계를 지향합니다.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="bg-slate-900/30 border border-slate-900 hover:border-indigo-500/30 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-sm group">
+              <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">⚙️</div>
+              <h3 class="text-lg font-bold text-white">개발 프로세스 자동화</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">Docker, Crontab 및 CI/CD 구축을 활용하여 수동 작업을 최소화하고 비즈니스 제품에 집중합니다.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="bg-slate-900/30 border border-slate-900 hover:border-indigo-500/30 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-sm group">
+              <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">📊</div>
+              <h3 class="text-lg font-bold text-white">데이터 기반 최적화</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">페이지네이션 기법 분석 등 데이터 조회의 구조적 원리를 공부하며 데이터베이스 튜닝 능력을 키웁니다.</p>
+            </div>
+            <!-- Card 4 -->
+            <div class="bg-slate-900/30 border border-slate-900 hover:border-indigo-500/30 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-sm group">
+              <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">🌐</div>
+              <h3 class="text-lg font-bold text-white">유연한 API 명세</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">프론트엔드 파트너의 관점을 존중하고 함께 조율하며 직관적이고 직결성 높은 RESTful API를 설계합니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="space-y-8">
+          <div class="text-center space-y-2">
+            <h2 class="text-xs font-extrabold tracking-wider text-indigo-400 uppercase">My Tech Stack</h2>
+            <p class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">주요 전문 기술 분야</p>
+          </div>
+          <div class="grid md:grid-cols-3 gap-8">
+            <!-- Back-end -->
+            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-900 p-8 rounded-2xl space-y-6">
+              <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-indigo-500"></span> Back-end Development
+              </h3>
+              <div class="flex flex-wrap gap-2.5">
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Node.js</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Express.js</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Python</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">RESTful API</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">JWT Authentication</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Middleware</span>
+              </div>
+            </div>
+            <!-- Database -->
+            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-900 p-8 rounded-2xl space-y-6">
+              <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Database & Query
+              </h3>
+              <div class="flex flex-wrap gap-2.5">
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">PostgreSQL</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">MySQL</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Redis (Caching)</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Pagination Design</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Query Optimization</span>
+              </div>
+            </div>
+            <!-- DevOps / Cloud -->
+            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-900 p-8 rounded-2xl space-y-6">
+              <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-indigo-500"></span> DevOps & Server Infra
+              </h3>
+              <div class="flex flex-wrap gap-2.5">
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Docker</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Nginx</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Linux (Ubuntu)</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Crontab Automation</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Vercel Deployment</span>
+                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Git / GitHub Actions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Projects Highlight -->
+        <div class="space-y-8">
+          <div class="text-center space-y-2">
+            <h2 class="text-xs font-extrabold tracking-wider text-indigo-400 uppercase">Selected Projects</h2>
+            <p class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">주요 프로젝트 성과</p>
+          </div>
+          <div class="space-y-6">
+            <!-- Project 1 -->
+            <div class="grid md:grid-cols-12 gap-6 bg-slate-900/40 border border-slate-900 rounded-3xl p-6 md:p-8 hover:border-indigo-500/20 transition-all duration-300 group items-center">
+              <div class="md:col-span-5 overflow-hidden rounded-2xl border border-slate-800">
+                <!-- Project Image Placeholder / Graphic -->
+                <div class="h-56 bg-gradient-to-br from-indigo-950 to-slate-950 flex items-center justify-center relative">
+                  <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('img/thumb8.webp')"></div>
+                  <span class="text-5xl z-10">🤖</span>
+                  <div class="absolute bottom-4 left-4 bg-slate-950/80 px-3 py-1 rounded-full text-xs text-indigo-400 border border-slate-800 font-mono">Python + AI</div>
                 </div>
-            </div>
-        </a>
-    
-        <a href="/blog/6.html" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-            <img src="/img/thumb6.webp" alt="undefined" class="w-full h-48 object-cover rounded-lg">
-            <div class="p-6 flex flex-col flex-grow">
-                <div class="flex gap-2 mb-2"><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">backend</span></div>
-                <h2 class="text-xl font-bold mb-2 text-gray-800 flex-grow">undefined</h2>
-                
-                <div class="flex items-center text-sm text-gray-500 mt-auto">
-                    <img src="/img/user/profile-licat.png" alt="AbrahamYoo" class="w-8 h-8 rounded-full mr-3">
-                    <span>AbrahamYoo</span>
-                    <span class="mx-2">•</span>
-                    <span>Unknown Date</span>
+              </div>
+              <div class="md:col-span-7 space-y-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-semibold px-2.5 py-1 bg-indigo-500/10 text-indigo-300 rounded-full border border-indigo-500/20">Solo Project</span>
+                  <span class="text-xs text-slate-500">2025.12</span>
                 </div>
-            </div>
-        </a>
-    
-        <a href="/blog/7.html" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-            <img src="/img/thumb7.webp" alt="undefined" class="w-full h-48 object-cover rounded-lg">
-            <div class="p-6 flex flex-col flex-grow">
-                <div class="flex gap-2 mb-2"><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">backend</span><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">nodejs</span></div>
-                <h2 class="text-xl font-bold mb-2 text-gray-800 flex-grow">undefined</h2>
-                
-                <div class="flex items-center text-sm text-gray-500 mt-auto">
-                    <img src="/img/user/profile-licat.png" alt="AbrahamYoo" class="w-8 h-8 rounded-full mr-3">
-                    <span>AbrahamYoo</span>
-                    <span class="mx-2">•</span>
-                    <span>Unknown Date</span>
+                <h3 class="text-2xl font-bold text-white group-hover:text-indigo-400 transition-colors">AI 비트코인 예측 알림 봇</h3>
+                <p class="text-slate-400 leading-relaxed text-sm md:text-base">
+                  비트코인 시세 예측 모델을 구동하여 일정한 주기에 맞춰 텔레그램 메신저로 매매 알림 및 요약 정보를 리포팅해주는 투자 비서 봇 시스템입니다. API 에러나 타임아웃 예외처리를 보강하였습니다.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">Python</span>
+                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">Telegram API</span>
+                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">Predictive Modeling</span>
                 </div>
-            </div>
-        </a>
-    
-        <a href="/blog/8.html" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-            <img src="/img/thumb1.webp" alt="undefined" class="w-full h-48 object-cover rounded-lg">
-            <div class="p-6 flex flex-col flex-grow">
-                <div class="flex gap-2 mb-2"><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">backend</span><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">nodejs</span></div>
-                <h2 class="text-xl font-bold mb-2 text-gray-800 flex-grow">undefined</h2>
-                
-                <div class="flex items-center text-sm text-gray-500 mt-auto">
-                    <img src="/img/user/profile-licat.png" alt="AbrahamYoo" class="w-8 h-8 rounded-full mr-3">
-                    <span>AbrahamYoo</span>
-                    <span class="mx-2">•</span>
-                    <span>Unknown Date</span>
+                <div class="pt-2">
+                  <button onclick="openProjectByPostName('[20251215]_[AI 비트코인 예측 알림 봇 만들기].md')" class="inline-flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 text-sm font-semibold transition-colors">
+                    상세 구현 내용 및 마크다운 읽기
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                  </button>
                 </div>
+              </div>
             </div>
-        </a>
-    
-        <a href="/blog/9.html" class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col">
-            <img src="/img/thumb2.webp" alt="undefined" class="w-full h-48 object-cover rounded-lg">
-            <div class="p-6 flex flex-col flex-grow">
-                <div class="flex gap-2 mb-2"><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">backend</span><span class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded-full">database</span></div>
-                <h2 class="text-xl font-bold mb-2 text-gray-800 flex-grow">undefined</h2>
-                
-                <div class="flex items-center text-sm text-gray-500 mt-auto">
-                    <img src="/img/user/profile-licat.png" alt="AbrahamYoo" class="w-8 h-8 rounded-full mr-3">
-                    <span>AbrahamYoo</span>
-                    <span class="mx-2">•</span>
-                    <span>Unknown Date</span>
+
+            <!-- Project 2 -->
+            <div class="grid md:grid-cols-12 gap-6 bg-slate-900/40 border border-slate-900 rounded-3xl p-6 md:p-8 hover:border-indigo-500/20 transition-all duration-300 group items-center">
+              <div class="md:col-span-5 overflow-hidden rounded-2xl border border-slate-800">
+                <div class="h-56 bg-gradient-to-br from-indigo-950 to-slate-950 flex items-center justify-center relative">
+                  <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('img/thumb4.webp')"></div>
+                  <span class="text-5xl z-10">🎟️</span>
+                  <div class="absolute bottom-4 left-4 bg-slate-950/80 px-3 py-1 rounded-full text-xs text-indigo-400 border border-slate-800 font-mono">Node.js + Express</div>
                 </div>
+              </div>
+              <div class="md:col-span-7 space-y-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-semibold px-2.5 py-1 bg-indigo-500/10 text-indigo-300 rounded-full border border-indigo-500/20">API Dev</span>
+                  <span class="text-xs text-slate-500">2026.03</span>
+                </div>
+                <h3 class="text-2xl font-bold text-white group-hover:text-indigo-400 transition-colors">로또 당첨 번호 조회 API</h3>
+                <p class="text-slate-400 leading-relaxed text-sm md:text-base">
+                  동행복권 로또 당첨 데이터의 원활한 조회를 위해 스크래핑 또는 원본 연동을 통해 특정 회차 조회를 지원하는 초경량 API입니다. Express 미들웨어 로깅 및 CORS 설정을 포함하고 있습니다.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">Node.js</span>
+                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">Express.js</span>
+                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">JSON API</span>
+                </div>
+                <div class="pt-2">
+                  <button onclick="openProjectByPostName('[20260323]_[Node.js와 Express로 로또 당첨 번호 조회 API 만들기].md')" class="inline-flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 text-sm font-semibold transition-colors">
+                    상세 구현 내용 및 마크다운 읽기
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                  </button>
+                </div>
+              </div>
             </div>
-        </a>
-    </div>
+          </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div id="contact" class="gradient-border bg-slate-900/25 border border-slate-900 rounded-3xl p-8 md:p-12 space-y-8 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-600/5 rounded-full blur-3xl -z-10"></div>
+          <div class="max-w-2xl mx-auto text-center space-y-4">
+            <h2 class="text-3xl font-extrabold text-white tracking-tight">프로젝트 협업 문의</h2>
+            <p class="text-slate-400 text-sm md:text-base">
+              백엔드 엔지니어링, 인프라 컨설팅, 신규 서비스 런칭 등 언제든지 제안이나 피드백을 환영합니다. 아래 이메일로 연락주시면 최대한 빠르게 답변드리겠습니다.
+            </p>
+            <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a href="mailto:yoo@abraham.dev" class="w-full sm:w-auto px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-indigo-600/20 flex items-center justify-center gap-2">
+                ✉️ yoo@abraham.dev
+              </a>
+              <a href="https://github.com/AbrahamYoo" target="_blank" class="w-full sm:w-auto px-6 py-3.5 bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                🐙 GitHub 프로필
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. BLOG & PROJECTS TAB (Unified) -->
+      <section id="section-blog" class="space-y-8 pt-4 md:pt-10 hidden">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-900 pb-6 mb-8">
+          <div>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Projects & Articles</h2>
+            <p class="text-slate-500 text-sm mt-1">마크다운 문서와 개발 가이드를 클라이언트에서 렌더링합니다.</p>
+          </div>
+          
+          <!-- Search box -->
+          <div class="search-cont relative w-full md:w-[280px]">
+            <input
+              type="text"
+              id="search-input"
+              class="w-full h-11 bg-slate-900/60 border border-slate-800 rounded-xl px-4 pr-10 text-sm font-medium text-gray-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-all duration-200"
+              placeholder="검색어를 입력하세요..."
+            />
+            <button class="search-inp-btn absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-indigo-400">
+              <span class="sr-only">검색하기</span>
+            </button>
+            <button class="reset-inp-btn absolute right-8 top-1/2 -translate-y-1/2 text-slate-500 hover:text-rose-400 hidden">
+              <span class="sr-only">검색어 초기화</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Buttons (Aside category fallback) -->
+        <div id="blog-category-container" class="flex flex-wrap gap-2 mb-6">
+          <!-- Dynamically populated via category script -->
+        </div>
+
+        <!-- Main Blog post list (target for renderBlogList) -->
+        <div
+          id="blog-posts"
+          class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+        ></div>
+
+        <!-- Content details (visible when viewing post/page) -->
+        <div
+          id="contents"
+          class="mt-6 mb-16 max-w-[990px] mx-auto hidden bg-slate-900/20 border border-slate-900/60 p-6 md:p-10 rounded-3xl"
+        ></div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="flex justify-center mt-12"></div>
+      </section>
+
+      <!-- 3. RESUME TAB -->
+      <section id="section-resume" class="space-y-12 pt-4 md:pt-10 hidden">
+        <div class="border-b border-slate-900 pb-6">
+          <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">이력서 (Resume)</h2>
+          <p class="text-slate-500 text-sm mt-1">백엔드 엔지니어로서의 경력과 기술적 도전을 기술합니다.</p>
+        </div>
+
+        <!-- Resume Detail -->
+        <div class="grid md:grid-cols-12 gap-8">
+          <!-- Left side: Timeline -->
+          <div class="md:col-span-8 space-y-10">
+            <div class="space-y-6">
+              <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                💼 Work Experience
+              </h3>
+              <!-- Career Timeline -->
+              <div class="border-l-2 border-slate-800 ml-4 pl-6 space-y-8 relative">
+                <!-- Job 1 -->
+                <div class="relative">
+                  <!-- Timeline dot -->
+                  <div class="absolute -left-[31px] top-1.5 w-4.5 h-4.5 rounded-full bg-slate-950 border-2 border-indigo-500"></div>
+                  <div class="space-y-2">
+                    <div class="flex justify-between items-start">
+                      <h4 class="text-lg font-bold text-white">프리랜서 백엔드 엔지니어</h4>
+                      <span class="text-xs bg-slate-900 px-2.5 py-1 rounded-md border border-slate-800 text-slate-400 font-mono">2025.06 - 현재</span>
+                    </div>
+                    <p class="text-sm text-indigo-400 font-medium">개인 사업자 및 외주 개발</p>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                      중소규모 웹 애플리케이션의 REST API 구축 및 Linux Ubuntu 기반의 인프라 구축 대행. Nginx와 Docker 컨테이너화를 통해 고객사의 배포 및 서버 리소스 관리 비용을 30% 이상 절감하였습니다.
+                    </p>
+                  </div>
+                </div>
+                <!-- Job 2 -->
+                <div class="relative">
+                  <!-- Timeline dot -->
+                  <div class="absolute -left-[31px] top-1.5 w-4.5 h-4.5 rounded-full bg-slate-950 border-2 border-slate-800"></div>
+                  <div class="space-y-2">
+                    <div class="flex justify-between items-start">
+                      <h4 class="text-lg font-bold text-white">IT 교육 플랫폼 콘텐츠 및 빌더 관리</h4>
+                      <span class="text-xs bg-slate-900 px-2.5 py-1 rounded-md border border-slate-800 text-slate-400 font-mono">2024.01 - 2025.05</span>
+                    </div>
+                    <p class="text-sm text-slate-400 font-medium">웹 개발자 및 컨트리뷰터</p>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                      정적 웹페이지 템플릿 제작 및 배포, 마크다운/IPYNB 문서 파싱 스크립트 작성 및 개선. 오픈소스 성향의 정적 블로그 템플릿 코어 기여.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Academic / Projects -->
+            <div class="space-y-6">
+              <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                🎓 Academic & Education
+              </h3>
+              <div class="border-l-2 border-slate-800 ml-4 pl-6 space-y-6 relative">
+                <div class="relative">
+                  <div class="absolute -left-[31px] top-1.5 w-4.5 h-4.5 rounded-full bg-slate-950 border-2 border-indigo-500"></div>
+                  <div class="space-y-1">
+                    <div class="flex justify-between items-start">
+                      <h4 class="text-base font-bold text-white">컴퓨터공학 학사 수료</h4>
+                      <span class="text-xs text-slate-500 font-mono">2020.03 - 2024.02</span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">자료구조, 알고리즘, 컴퓨터 네트워크, 데이터베이스 시스템 연구</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side: Sidebar Info -->
+          <div class="md:col-span-4 space-y-6">
+            <div class="bg-slate-900/40 border border-slate-900 p-6 rounded-2xl space-y-6">
+              <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3">Strength</h3>
+              <ul class="text-sm text-slate-400 space-y-3">
+                <li class="flex items-start gap-2">
+                  <span class="text-indigo-400">✔</span>
+                  <span><strong>클린 코드 지향:</strong> 비즈니스 요건 변화에 유연하도록 모듈화된 설계를 원칙으로 코드를 씁니다.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-indigo-400">✔</span>
+                  <span><strong>문제 해결력:</strong> 이슈가 발생했을 때 Nginx 로그와 시스템 프로세스를 신속하게 추적하여 원인을 격리합니다.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-indigo-400">✔</span>
+                  <span><strong>문서화:</strong> 동료와의 효율적인 의협을 위해 API 스펙, 인프라 토폴로지를 꼼꼼히 정리합니다.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-slate-900/40 border border-slate-900 p-6 rounded-2xl space-y-4">
+              <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3">Meta Info</h3>
+              <div class="space-y-3 text-sm font-mono text-slate-400">
+                <div>
+                  <div class="text-slate-500 text-xs">NAME</div>
+                  <div class="text-white">Abraham Yoo</div>
+                </div>
+                <div>
+                  <div class="text-slate-500 text-xs">LOCATION</div>
+                  <div class="text-white">Seoul, South Korea</div>
+                </div>
+                <div>
+                  <div class="text-slate-500 text-xs">SPECIALTY</div>
+                  <div class="text-white">Back-End / DevOps</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
     </main>
 
-    <!-- MOBILE MENU TOGGLE -->
-    <script src="/js/mobileMenuToggle.js"></script>
-    <script src="/js/animations.js" defer></script>
-</body>
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-8 text-center text-slate-500 text-sm">
+      <div class="container max-w-[1190px] mx-auto px-4 space-y-2">
+        <p>&copy; 2026 Abraham Yoo. All rights reserved.</p>
+        <p class="text-xs text-slate-700">Built with Vanilla HTML, JS, Tailwind CSS. Deployed on Vercel.</p>
+      </div>
+    </footer>
+
+    <!-- Interactive Tab Navigation Script -->
+    <script>
+      function switchTab(tabId) {
+        const sections = ['portfolio', 'blog', 'resume'];
+        
+        sections.forEach(sec => {
+          const sectionEl = document.getElementById(`section-${sec}`);
+          const tabBtn = document.getElementById(`tab-btn-${sec}`);
+          
+          if (sec === tabId) {
+            sectionEl.classList.remove('hidden');
+            if (tabBtn) {
+              tabBtn.classList.remove('text-slate-400', 'hover:text-slate-200');
+              tabBtn.classList.add('text-white', 'bg-indigo-600', 'shadow-lg', 'shadow-indigo-600/10');
+            }
+          } else {
+            sectionEl.classList.add('hidden');
+            if (tabBtn) {
+              tabBtn.classList.remove('text-white', 'bg-indigo-600', 'shadow-lg', 'shadow-indigo-600/10');
+              tabBtn.classList.add('text-slate-400', 'hover:text-slate-200');
+            }
+          }
+        });
+
+        // Mobile menu sync
+        const mobileTabs = document.querySelectorAll('.mobile-tab-btn');
+        mobileTabs.forEach(btn => {
+          const isSelected = btn.innerText.toLowerCase().includes(tabId === 'blog' ? 'project' : tabId);
+          if (isSelected) {
+            btn.classList.add('text-white', 'bg-indigo-600/20', 'border-l-4', 'border-indigo-500');
+            btn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
+          } else {
+            btn.classList.remove('text-white', 'bg-indigo-600/20', 'border-l-4', 'border-indigo-500');
+            btn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
+          }
+        });
+
+        // If switching to blog, make sure content renders properly
+        if (tabId === 'blog') {
+          // If we haven't rendered blog posts yet, render them
+          if (typeof renderBlogList === 'function') {
+            if (typeof blogList !== 'undefined' && blogList.length > 0) {
+              renderBlogList();
+            } else if (typeof initDataBlogList === 'function') {
+              initDataBlogList().then(() => {
+                renderBlogList();
+              });
+            }
+          }
+          renderCategoriesInTab();
+        }
+
+        // Close mobile menu
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (mobileMenu) {
+          mobileMenu.classList.add("hidden");
+        }
+      }
+
+      // Help trigger markdown rendering on link click from the main summary
+      function openProjectByPostName(name) {
+        switchTab('blog');
+        setTimeout(() => {
+          if (typeof blogList !== 'undefined') {
+            const foundPost = blogList.find(p => p.name === name);
+            if (foundPost) {
+              const cardElements = document.querySelectorAll('#blog-posts > div');
+              // Trigger click on the corresponding blog list card
+              let foundCard = null;
+              cardElements.forEach(card => {
+                const titleEl = card.querySelector('h2');
+                if (titleEl && titleEl.textContent.trim() === foundPost.title.trim()) {
+                  foundCard = card;
+                }
+              });
+
+              if (foundCard) {
+                foundCard.click();
+              } else {
+                // Direct render fallback
+                document.getElementById("contents").style.display = "block";
+                document.getElementById("blog-posts").style.display = "none";
+                document.getElementById("pagination").style.display = "none";
+                fetch(foundPost.download_url)
+                  .then(res => res.text())
+                  .then(text => {
+                    styleMarkdown("post", text, foundPost);
+                    document.title = foundPost.title;
+                  });
+              }
+            }
+          }
+        }, 150);
+      }
+
+      // Helper to render category tags directly in our customized Blog Tab header
+      function renderCategoriesInTab() {
+        if (typeof blogList === 'undefined') return;
+        
+        const catContainer = document.getElementById('blog-category-container');
+        if (!catContainer || catContainer.children.length > 0) return; // avoid duplication
+
+        const categoryList = {};
+        blogList.forEach((post) => {
+          post.category.forEach(cat => {
+            const lowerCat = cat.toLowerCase();
+            if (categoryList[lowerCat]) {
+              categoryList[lowerCat] += 1;
+            } else {
+              categoryList[lowerCat] = 1;
+            }
+          });
+        });
+
+        // Add 'All' category
+        const allBtn = document.createElement("button");
+        allBtn.className = "text-xs font-semibold px-3.5 py-2 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 transition-all duration-300 cursor-pointer";
+        allBtn.innerHTML = `All <span class="text-[10px] bg-indigo-600/40 px-1.5 py-0.5 rounded-md">${blogList.length}</span>`;
+        allBtn.onclick = () => {
+          // Reset style of other buttons
+          Array.from(catContainer.children).forEach(btn => {
+            btn.className = "text-xs font-medium px-3.5 py-2 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-indigo-500/30 hover:bg-indigo-500/10 text-gray-400 hover:text-indigo-300 transition-all duration-300 cursor-pointer flex items-center gap-1.5";
+          });
+          allBtn.className = "text-xs font-semibold px-3.5 py-2 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 transition-all duration-300 cursor-pointer";
+          renderBlogList();
+        };
+        catContainer.appendChild(allBtn);
+
+        Object.keys(categoryList).sort().forEach(cat => {
+          const btn = document.createElement("button");
+          btn.className = "text-xs font-medium px-3.5 py-2 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-indigo-500/30 hover:bg-indigo-500/10 text-gray-400 hover:text-indigo-300 transition-all duration-300 cursor-pointer flex items-center gap-1.5";
+          btn.innerHTML = `${cat} <span class="text-[10px] bg-slate-800/80 text-gray-500 font-semibold px-1.5 py-0.5 rounded-md border border-slate-700/50">${categoryList[cat]}</span>`;
+          btn.onclick = () => {
+            // Reset style of other buttons
+            Array.from(catContainer.children).forEach(b => {
+              b.className = "text-xs font-medium px-3.5 py-2 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-indigo-500/30 hover:bg-indigo-500/10 text-gray-400 hover:text-indigo-300 transition-all duration-300 cursor-pointer flex items-center gap-1.5";
+            });
+            btn.className = "text-xs font-semibold px-3.5 py-2 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 transition-all duration-300 cursor-pointer";
+            search(cat, "category");
+          };
+          catContainer.appendChild(btn);
+        });
+      }
+
+      // Mobile drawer toggle script logic override
+      document.addEventListener("DOMContentLoaded", () => {
+        const menuBtn = document.getElementById("menu-button");
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (menuBtn && mobileMenu) {
+          menuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle("hidden");
+          });
+          document.addEventListener("click", () => {
+            mobileMenu.classList.add("hidden");
+          });
+        }
+
+        // URL 분석을 통한 초기 탭 활성화
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('post') || urlParams.has('menu')) {
+          switchTab('blog');
+        } else {
+          switchTab('portfolio');
+        }
+      });
+    </script>
+
+    <!-- utils -->
+    <script src="js/utils.js"></script>
+    <!-- convert ipynb to html -->
+    <script src="style/convertIpynbToHtml.js"></script>
+
+    <!-- style -->
+    <script src="style/globalStyle.js"></script>
+    <script src="style/blogContentsStyle.js"></script>
+
+    <!-- mobile menu toggle -->
+    <script src="js/mobileMenuToggle.js"></script>
+
+    <!-- lender -->
+    <script src="config.js"></script>
+    <script src="js/URLparsing.js"></script>
+    <script src="js/initData.js"></script>
+    <script src="js/render.js"></script>
+
+    <!-- registry -->
+    <script src="js/registry.js"></script>
+  </body>
 </html>
