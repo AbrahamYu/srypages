@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="img/icon/favicon.svg" type="image/x-icon" />
-    <title>Abraham Yoo | Back-End Engineer Portfolio</title>
+    <title>Abraham Yoo | Backend Infrastructure Engineer Portfolio</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- marked -->
     <script src="./library/marked.min.js"></script>
@@ -55,7 +55,7 @@
         font-family: 'Plus Jakarta Sans', sans-serif;
       }
       .gradient-text {
-        background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #4f46e5 100%);
+        background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #818cf8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
@@ -67,8 +67,8 @@
         position: absolute;
         inset: 0;
         border-radius: 1rem;
-        padding: 1px;
-        background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.4), rgba(99, 102, 241, 0.05));
+        padding: 1.5px;
+        background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.4), rgba(99, 102, 241, 0.05));
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask-composite: exclude;
@@ -87,6 +87,32 @@
       }
       ::-webkit-scrollbar-thumb:hover {
         background: #334155;
+      }
+      
+      /* Active architecture pulse glow */
+      @keyframes pulse-glow {
+        0%, 100% {
+          box-shadow: 0 0 10px rgba(99, 102, 241, 0.2), inset 0 0 10px rgba(99, 102, 241, 0.1);
+          border-color: rgba(99, 102, 241, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 25px rgba(99, 102, 241, 0.5), inset 0 0 15px rgba(99, 102, 241, 0.3);
+          border-color: rgba(99, 102, 241, 0.8);
+        }
+      }
+      .node-active {
+        animation: pulse-glow 2s infinite alternate;
+      }
+      
+      /* Flow dashes along architecture connections */
+      .dash-flow {
+        stroke-dasharray: 8, 8;
+        animation: dash 30s linear infinite;
+      }
+      @keyframes dash {
+        to {
+          stroke-dashoffset: -1000;
+        }
       }
     </style>
   </head>
@@ -147,14 +173,14 @@
         <div class="grid md:grid-cols-12 gap-8 items-center py-10 md:py-16">
           <div class="md:col-span-7 space-y-6">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Available for Hire
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Infrastructure & Backend Architect
             </div>
             <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-              Building Scalable & <br>
-              <span class="gradient-text">Robust Systems</span>
+              Designing Scalable <br>
+              <span class="gradient-text">Backend Systems</span>
             </h1>
             <p class="text-lg md:text-xl text-slate-400 font-normal leading-relaxed max-w-xl">
-              안녕하세요! 백엔드 개발자 <strong class="text-white">Abraham Yoo</strong>입니다. 데이터 안정성과 최적화된 아키텍처 설계를 깊이 고민하며, 비즈니스 성장을 견인할 수 있는 완성도 높은 백엔드 시스템을 만듭니다.
+              안녕하세요! 시스템 아키텍처와 대용량 트래픽 처리를 고민하는 백엔드 엔지니어 <strong class="text-white">Abraham Yoo</strong>입니다. 인프라 모니터링부터 백엔드 API 설계, 쿼리 튜닝까지 안정적인 분산 환경 구축을 위해 도전하고 있습니다.
             </p>
             <div class="flex flex-wrap gap-4 pt-2">
               <button onclick="switchTab('blog')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3.5 rounded-xl transition-all duration-200 shadow-xl shadow-indigo-600/25 flex items-center gap-2">
@@ -167,34 +193,150 @@
             </div>
           </div>
           <div class="md:col-span-5 flex justify-center">
-            <!-- Visual Graphic / Interactive Card -->
-            <div class="relative w-80 h-80 md:w-96 md:h-96 rounded-3xl bg-slate-900/60 border border-slate-800/80 p-8 flex flex-col justify-between shadow-2xl overflow-hidden group">
-              <!-- Glow backdrop decoration -->
-              <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/20 transition-all duration-500"></div>
-              
-              <div class="flex justify-between items-start">
-                <div class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-xl shadow-inner">⚡</div>
-                <div class="text-xs font-mono text-slate-500">Active Mode</div>
-              </div>
-              
-              <div class="space-y-4">
-                <div class="space-y-2">
-                  <div class="h-2 w-20 bg-indigo-500 rounded-full"></div>
-                  <div class="text-2xl font-bold text-white tracking-tight">Abraham Yoo</div>
-                  <div class="text-sm text-indigo-400 font-semibold">Back-End Engineer</div>
+            <!-- IDE / Monitor Box -->
+            <div class="relative w-full max-w-md rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl overflow-hidden font-mono text-xs">
+              <div class="flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                  <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                  <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
                 </div>
-                <div class="font-mono text-xs text-slate-400 space-y-1 bg-slate-950/40 p-4 rounded-xl border border-slate-800/30">
-                  <p><span class="text-indigo-400">const</span> dev = {</p>
-                  <p class="pl-4">mainStack: <span class="text-emerald-400">"Node.js & Python"</span>,</p>
-                  <p class="pl-4">passion: <span class="text-emerald-400">"System Architecture"</span>,</p>
-                  <p class="pl-4">goal: <span class="text-emerald-400">"Zero Downtime"</span></p>
-                  <p>};</p>
-                </div>
+                <span class="text-slate-500 text-[10px]">process_monitor.sh</span>
+                <span class="w-4"></span>
               </div>
-              
-              <div class="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800/50 pt-4">
-                <span>Docker & Nginx Infra</span>
-                <span>Ubuntu 22.04 LTS</span>
+              <div class="p-5 space-y-3.5 text-slate-400">
+                <p><span class="text-indigo-400">$</span> ./run-healthcheck.sh</p>
+                <div class="space-y-1 bg-slate-900/60 p-3 rounded-lg border border-slate-900">
+                  <p class="text-emerald-400">✓ Nginx Service - Active (200 OK)</p>
+                  <p class="text-emerald-400">✓ Express API Server - Connected (12ms)</p>
+                  <p class="text-emerald-400">✓ PostgreSQL Database - Healthy (0.4ms)</p>
+                  <p class="text-indigo-400">✓ Redis Caching - Hit Rate: 94.2%</p>
+                  <p class="text-amber-400">✓ Telegram Alert Worker - Standby</p>
+                </div>
+                <p class="text-[10px] text-slate-600">// 아래 아키텍처 대시보드 노드를 클릭하여 각 인프라 구성에 기재된 백엔드 경험과 마크다운 기술 문서를 직접 확인해보세요.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🚀 3. INTERACTIVE ARCHITECTURE VISUALIZER SECTION -->
+        <div class="space-y-8">
+          <div class="text-center space-y-2">
+            <h2 class="text-xs font-extrabold tracking-wider text-indigo-400 uppercase">Live Architecture</h2>
+            <p class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">인터랙티브 시스템 아키텍처 대시보드</p>
+            <p class="text-slate-500 text-sm max-w-xl mx-auto">구조도의 동그란 노드를 클릭하면 연동된 인프라 구축 정보와 마크다운 기술 리포트 페이지로 이동합니다.</p>
+          </div>
+
+          <!-- Architecture Visualizer Wrap -->
+          <div class="grid md:grid-cols-12 gap-8 bg-slate-950 border border-slate-900 rounded-3xl p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl -z-10"></div>
+            
+            <!-- Dynamic Diagram Area (md:col-span-8) -->
+            <div class="md:col-span-8 flex flex-col justify-between min-h-[360px] relative">
+              <!-- Flow Packet SVG Overlay -->
+              <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 5;">
+                <defs>
+                  <!-- Glow filter for lines and dots -->
+                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="2" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                <!-- Connection lines with flowing dashes -->
+                <path d="M 90,180 H 220" stroke="#1e293b" stroke-width="2.5" fill="none" />
+                <path d="M 90,180 H 220" stroke="#6366f1" stroke-width="2" fill="none" class="dash-flow opacity-60" />
+
+                <!-- Nginx to Node API -->
+                <path d="M 280,180 H 420" stroke="#1e293b" stroke-width="2.5" fill="none" />
+                <path d="M 280,180 H 420" stroke="#6366f1" stroke-width="2" fill="none" class="dash-flow opacity-60" />
+
+                <!-- Node API to DB (PostgreSQL) - bottom route -->
+                <path d="M 470,200 C 470,270 560,270 600,270" stroke="#1e293b" stroke-width="2.5" fill="none" />
+                <path d="M 470,200 C 470,270 560,270 600,270" stroke="#10b981" stroke-width="2" fill="none" class="dash-flow opacity-50" />
+
+                <!-- Node API to Cache (Redis) - top route -->
+                <path d="M 470,160 C 470,90 560,90 600,90" stroke="#1e293b" stroke-width="2.5" fill="none" />
+                <path d="M 470,160 C 470,90 560,90 600,90" stroke="#6366f1" stroke-width="2" fill="none" class="dash-flow opacity-50" />
+
+                <!-- Node API to Telegram alert (outbound right) -->
+                <path d="M 500,180 H 600" stroke="#1e293b" stroke-width="2.5" fill="none" />
+                <path d="M 500,180 H 600" stroke="#f59e0b" stroke-width="2" fill="none" class="dash-flow opacity-50" />
+              </svg>
+
+              <!-- Node Placement Grid -->
+              <div class="h-full w-full grid grid-cols-3 items-center gap-y-16 relative z-10">
+                
+                <!-- Col 1: Entrance -->
+                <div class="flex flex-col gap-12 items-center justify-center">
+                  <!-- Node 1: Client/Browser -->
+                  <div onclick="selectArchNode('client')" id="node-client" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group node-active">
+                    <span class="text-3xl">💻</span>
+                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">Client/HTTP</span>
+                    <span class="text-[8px] font-mono text-slate-500">chrome-126.0</span>
+                  </div>
+                </div>
+
+                <!-- Col 2: Routing / Logic -->
+                <div class="flex flex-col gap-16 items-center justify-center">
+                  <!-- Node 2: Nginx (Proxy) -->
+                  <div onclick="selectArchNode('nginx')" id="node-nginx" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group">
+                    <span class="text-3xl">⚙️</span>
+                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">Nginx Proxy</span>
+                    <span class="text-[8px] font-mono text-slate-500">Port 80/443</span>
+                  </div>
+                  <!-- Node 3: Node API -->
+                  <div onclick="selectArchNode('nodejs')" id="node-nodejs" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group">
+                    <span class="text-3xl">🚀</span>
+                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">Node API</span>
+                    <span class="text-[8px] font-mono text-slate-500">Express Server</span>
+                  </div>
+                </div>
+
+                <!-- Col 3: Storage / Outbound -->
+                <div class="flex flex-col gap-8 items-center justify-center">
+                  <!-- Node 4: Redis Cache (Top) -->
+                  <div onclick="selectArchNode('redis')" id="node-redis" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group">
+                    <span class="text-3xl">⚡</span>
+                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">Redis Cache</span>
+                    <span class="text-[8px] font-mono text-slate-500">In-Memory</span>
+                  </div>
+                  <!-- Node 5: Outbound Worker (Middle) -->
+                  <div onclick="selectArchNode('alert')" id="node-alert" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group">
+                    <span class="text-3xl">🤖</span>
+                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">Telegram Bot</span>
+                    <span class="text-[8px] font-mono text-slate-500">Outbound Alerts</span>
+                  </div>
+                  <!-- Node 6: Database (Bottom) -->
+                  <div onclick="selectArchNode('database')" id="node-database" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group">
+                    <span class="text-3xl">💾</span>
+                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">PostgreSQL</span>
+                    <span class="text-[8px] font-mono text-slate-500">RDBMS Storage</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Terminal Logger Console (md:col-span-4) -->
+            <div class="md:col-span-4 flex flex-col justify-between h-[360px] bg-slate-950 border border-slate-900 rounded-2xl overflow-hidden font-mono text-[11px] text-slate-300 shadow-inner">
+              <div class="flex items-center justify-between px-3 py-2 bg-slate-900/50 border-b border-slate-900 text-[9px] text-slate-500 uppercase tracking-wider">
+                <span>Console Diagnostics</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+              </div>
+              <div id="arch-logger-body" class="p-4 flex-grow overflow-y-auto space-y-2 select-none">
+                <p class="text-slate-500">// Node를 클릭하여 상세 로그를 확인하세요.</p>
+                <p class="text-indigo-400">System initialization complete.</p>
+                <p class="text-slate-500">[SYSTEM] Listening on interfaces...</p>
+                <p class="text-emerald-400">[HEALTH] Nginx Reverse Proxy check passed.</p>
+                <p class="text-emerald-400">[DB] Cursors & offsets verified.</p>
+              </div>
+              <!-- Action Button inside Logger -->
+              <div id="arch-logger-action" class="p-3 bg-slate-900/30 border-t border-slate-900 flex justify-between items-center">
+                <span class="text-[9px] text-slate-500">target_article: none</span>
+                <button id="arch-link-btn" disabled class="px-2.5 py-1 text-[10px] font-semibold text-slate-500 bg-slate-900 rounded-md border border-slate-800 transition-all duration-200 cursor-not-allowed">
+                  상세 가이드 보기
+                </button>
               </div>
             </div>
           </div>
@@ -546,8 +688,134 @@
       </div>
     </footer>
 
-    <!-- Interactive Tab Navigation Script -->
+    <!-- Interactive Tab Navigation & Architecture Visualizer Script -->
     <script>
+      // Architecture Node Configurations and Mock logs mapping
+      const archNodeDetails = {
+        client: {
+          title: "Client / Browser Request",
+          docName: "Client Setup",
+          link: null,
+          logs: [
+            "<span class='text-indigo-400'>[CLIENT]</span> Initializing HTTP GET request...",
+            "<span class='text-indigo-400'>[CLIENT]</span> Resolving DNS for abraham.dev...",
+            "<span class='text-indigo-400'>[CLIENT]</span> IP Resolved to 76.76.21.21 (Vercel Edge)",
+            "<span class='text-indigo-400'>[CLIENT]</span> TLS Handshake completed (TLSv1.3)",
+            "<span class='text-emerald-400'>[CLIENT] Sent: GET /index.html (Status: 200)</span>"
+          ]
+        },
+        nginx: {
+          title: "Nginx Reverse Proxy & Load Balancer",
+          docName: "Ubuntu에 Nginx 설치 및 서버 블록 설정 완벽 가이드",
+          postName: "[20251111]_[Ubuntu에 Nginx 설치 및 서버 블록 설정 완벽 가이드].md",
+          logs: [
+            "<span class='text-indigo-400'>[NGINX]</span> Received connection from 211.234.12.90",
+            "<span class='text-indigo-400'>[NGINX]</span> Rule check: Proxy pass matching /api/*",
+            "<span class='text-indigo-400'>[NGINX]</span> Forwarding traffic to internal upstream pool",
+            "<span class='text-emerald-400'>[NGINX] upstream response status: 200 OK</span>",
+            "<span class='text-slate-500'>[NGINX] cache-control: no-store, private</span>"
+          ]
+        },
+        nodejs: {
+          title: "Node.js & Express REST API Server",
+          docName: "Node.js와 Express로 로또 당첨 번호 조회 API 만들기",
+          postName: "[20260323]_[Node.js와 Express로 로또 당첨 번호 조회 API 만들기].md",
+          logs: [
+            "<span class='text-indigo-400'>[EXPRESS]</span> Router matched: GET /api/lotto/latest",
+            "<span class='text-indigo-400'>[EXPRESS]</span> Executing async handler context...",
+            "<span class='text-slate-500'>[EXPRESS] auth check: public route bypassed</span>",
+            "<span class='text-emerald-400'>[EXPRESS] DB Query completed in 1.2ms</span>",
+            "<span class='text-emerald-400'>[EXPRESS] Response: 200 OK (size: 456b)</span>"
+          ]
+        },
+        redis: {
+          title: "Redis In-Memory Cache Store",
+          docName: "CRUD 기본 데이터 처리 방법 알아보기",
+          postName: "[20251106]_[CRUD 기본 데이터 처리 방법 알아보기].md",
+          logs: [
+            "<span class='text-indigo-400'>[REDIS]</span> Query: GET cache:lotto:latest",
+            "<span class='text-emerald-400'>[REDIS] Cache HIT for key cache:lotto:latest</span>",
+            "<span class='text-slate-500'>[REDIS] TTL verified: 3590s remaining</span>",
+            "<span class='text-indigo-400'>[REDIS] Connection pool active: 10 connections</span>"
+          ]
+        },
+        alert: {
+          title: "AI Bitcoin Predictor & Telegram Alert Worker",
+          docName: "AI 비트코인 예측 알림 봇 만들기",
+          postName: "[20251215]_[AI 비트코인 예측 알림 봇 만들기].md",
+          logs: [
+            "<span class='text-indigo-400'>[WORKER]</span> Triggered: cron schedules '*/5 * * * *'",
+            "<span class='text-indigo-400'>[WORKER]</span> Fetching latest crypto stats...",
+            "<span class='text-slate-500'>[AI] Run predictive model: LSTM validation</span>",
+            "<span class='text-amber-400'>[AI] Prediction: UPWARD trend detected (92%)</span>",
+            "<span class='text-emerald-400'>[WORKER] Telegram Alert Sent successfully!</span>"
+          ]
+        },
+        database: {
+          title: "PostgreSQL Relational Database System",
+          docName: "커서 오프셋 페이지네이션 비교",
+          postName: "[20251107]_[커서 오프셋 페이지네이션 비교].md",
+          logs: [
+            "<span class='text-emerald-400'>[POSTGRES] Connection established successfully</span>",
+            "<span class='text-indigo-400'>[POSTGRES] Query: SELECT * FROM posts ORDER BY id DESC LIMIT 10</span>",
+            "<span class='text-indigo-400'>[POSTGRES] Execution plan: Index Scan using pk_posts</span>",
+            "<span class='text-emerald-400'>[POSTGRES] Returned 10 rows in 0.8ms</span>"
+          ]
+        }
+      };
+
+      let selectedNodeId = 'client';
+
+      function selectArchNode(nodeId) {
+        // Reset old active node classes
+        if (selectedNodeId) {
+          const oldNode = document.getElementById(`node-${selectedNodeId}`);
+          if (oldNode) oldNode.classList.remove('node-active');
+        }
+
+        // Set new active node
+        selectedNodeId = nodeId;
+        const newNode = document.getElementById(`node-${nodeId}`);
+        if (newNode) newNode.classList.add('node-active');
+
+        // Load specific details and print to console
+        const nodeInfo = archNodeDetails[nodeId];
+        const loggerBody = document.getElementById('arch-logger-body');
+        const linkBtn = document.getElementById('arch-link-btn');
+        const loggerAction = document.getElementById('arch-logger-action');
+
+        loggerBody.innerHTML = '';
+        
+        // Render Console Header mock log
+        const titleLog = document.createElement('p');
+        titleLog.className = "text-white font-bold border-b border-slate-900 pb-1.5 mb-2";
+        titleLog.innerHTML = `> ACTIVE NODE: ${nodeInfo.title}`;
+        loggerBody.appendChild(titleLog);
+
+        // Print node specific logs
+        nodeInfo.logs.forEach(logText => {
+          const logLine = document.createElement('p');
+          logLine.innerHTML = logText;
+          loggerBody.appendChild(logLine);
+        });
+
+        // Set Link button active/inactive
+        if (nodeInfo.postName) {
+          linkBtn.disabled = false;
+          linkBtn.className = "px-2.5 py-1 text-[10px] font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-md border border-indigo-500 transition-all duration-200 cursor-pointer shadow-lg shadow-indigo-600/20";
+          linkBtn.onclick = () => openProjectByPostName(nodeInfo.postName);
+          loggerAction.querySelector('span').innerText = `target_article: ${nodeInfo.docName.substring(0, 15)}...`;
+        } else {
+          linkBtn.disabled = true;
+          linkBtn.className = "px-2.5 py-1 text-[10px] font-semibold text-slate-500 bg-slate-900 rounded-md border border-slate-800 transition-all duration-200 cursor-not-allowed";
+          linkBtn.onclick = null;
+          loggerAction.querySelector('span').innerText = `target_article: none`;
+        }
+
+        // Auto-scroll log box
+        loggerBody.scrollTop = loggerBody.scrollHeight;
+      }
+
       function switchTab(tabId) {
         const sections = ['portfolio', 'blog', 'resume'];
         
@@ -703,6 +971,9 @@
             mobileMenu.classList.add("hidden");
           });
         }
+
+        // Initialize architecture selector logs
+        selectArchNode('client');
 
         // URL 분석을 통한 초기 탭 활성화
         const urlParams = new URLSearchParams(window.location.search);
