@@ -6,10 +6,10 @@
     <link rel="shortcut icon" href="/img/icon/favicon.svg" type="image/x-icon" />
     <title>contact | Abraham.dev</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- ADSENSE -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5988270223050126" crossorigin="anonymous"></script>
@@ -29,20 +29,20 @@
         theme: {
           extend: {
             fontFamily: {
-              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              sans: ['"Inter"', 'sans-serif'],
               mono: ['"JetBrains Mono"', 'monospace'],
             },
             colors: {
-              primary: "#6366f1",
-              background: "#020617",
-              surface: "#0f172a",
-              graylv1: "#1e293b",
-              graylv2: "#334155",
-              graylv3: "#64748b",
-              graylv4: "#94a3b8",
+              primary: "#ffffff",
+              background: "#000000",
+              surface: "#09090b",
+              graylv1: "#18181b",
+              graylv2: "#27272a",
+              graylv3: "#52525b",
+              graylv4: "#a1a1aa",
               error: "#ef4444",
               lowError: "#f59e0b",
-              activation: "#1e1b4b",
+              activation: "#27272a",
             },
           },
         },
@@ -50,75 +50,39 @@
     </script>
     <style>
       body {
-        background-color: #020617;
-        font-family: 'Plus Jakarta Sans', sans-serif;
-      }
-      .gradient-text {
-        background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #4f46e5 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      .gradient-border {
-        position: relative;
-      }
-      .gradient-border::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 1rem;
-        padding: 1px;
-        background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.4), rgba(99, 102, 241, 0.05));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        pointer-events: none;
+        background-color: #000000;
+        font-family: 'Inter', sans-serif;
+        letter-spacing: -0.02em;
       }
       ::-webkit-scrollbar {
-        width: 10px;
+        width: 6px;
+        height: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #020617;
+        background: #000000;
       }
       ::-webkit-scrollbar-thumb {
-        background: #1e293b;
-        border-radius: 5px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #334155;
+        background: #27272a;
+        border-radius: 3px;
       }
     </style>
 </head>
-<body class="font-sans w-full text-slate-200 min-h-screen selection:bg-indigo-500/30 selection:text-indigo-200">
-    <!-- Background grid decoration -->
-    <div class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60"></div>
-
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-900/80">
-        <nav class="container max-w-[1190px] mx-auto md:px-8 px-4 py-4 flex items-center justify-between">
+<body class="font-sans w-full text-zinc-300 min-h-screen selection:bg-white selection:text-black">
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-black/85 border-b border-zinc-900">
+        <nav class="container max-w-[1000px] mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-2 cursor-pointer">
-                <a href="/index.html" class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">A</div>
-                    <span class="text-xl font-bold tracking-tight text-white">Abraham.dev</span>
+                <a href="/index.html" class="text-sm font-bold tracking-tight text-white hover:text-zinc-300 transition-colors">
+                    Abraham.dev
                 </a>
             </div>
-            <div id="menu" class="hidden md:flex items-center gap-2">
+            <div id="menu" class="flex items-center gap-1">
                 <a href="/about.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">About</a><a href="/index.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Blog</a><a href="/calculator.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Calculator</a><a href="/contact.html" class="text-gray-700 hover:text-primary transition-colors duration-300 px-4 py-2">Contact</a>
             </div>
-            <!-- Mobile Menu Button -->
-            <div class="md:hidden flex items-center gap-2">
-                <button id="menu-button" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-900 border border-slate-900 hover:border-slate-800 transition-all duration-200">
-                    <span class="sr-only">메뉴 열기</span>
-                </button>
-            </div>
         </nav>
-        <div id="mobileMenu" class="absolute bg-slate-950/95 backdrop-blur-lg w-full border-b border-slate-900 z-10 md:hidden hidden">
-            <div class="flex flex-col p-4 gap-2">
-                <a href="/index.html" class="py-3 px-4 text-left font-semibold text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg">Portfolio Home</a>
-            </div>
-        </div>
     </header>
 
-    <main class="container p-4 md:p-8 pb-16 w-full mx-auto max-w-[1190px] md:pt-[40px]">
-        <div id="contents" class="mt-6 mb-16 max-w-[990px] mx-auto bg-slate-900/20 border border-slate-900/60 p-6 md:p-10 rounded-3xl">
+    <main class="container p-6 w-full mx-auto max-w-[720px] md:py-16">
+        <div id="contents" class="bg-black border border-zinc-900 p-8 md:p-12 rounded-xl">
             <h1>Contact</h1>
 <p>안녕하세요.<br><strong>ABRAHAM_BLOG</strong>를 운영하는 <strong>AbrahamYoo</strong>입니다.</p>
 <p>이 블로그는 주로 <strong>백엔드(Backend)</strong>, <strong>DevOps</strong>, 그리고 개발 과정에서 배우고 정리한 내용을 기록하고 공유하는 공간입니다. 블로그에 올라오는 글 역시 Docker, CRUD, 페이지네이션, Git 전략, AI를 활용한 자동화/알림 프로젝트처럼 실무와 학습이 연결되는 주제를 중심으로 다루고 있습니다.</p>
@@ -168,10 +132,10 @@
         </div>
     </main>
 
-    <footer class="bg-slate-950 border-t border-slate-900 py-8 text-center text-slate-500 text-sm">
-        <div class="container max-w-[1190px] mx-auto px-4 space-y-2">
+    <footer class="bg-black border-t border-zinc-900 py-10 text-center text-zinc-650 text-[11px] font-mono">
+        <div class="container max-w-[1000px] mx-auto px-6 space-y-1.5">
             <p>&copy; 2026 Abraham Yoo. All rights reserved.</p>
-            <p class="text-xs text-slate-700">Built with Vanilla HTML, JS, Tailwind CSS. Deployed on Vercel.</p>
+            <p class="text-zinc-500">Powered by Vanilla JS, Tailwind CSS, Vercel Serverless.</p>
         </div>
     </footer>
 

@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="img/icon/favicon.svg" type="image/x-icon" />
-    <title>Abraham Yoo | Backend Infrastructure Engineer Portfolio</title>
+    <title>Abraham Yoo | Backend Engineer</title>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Inter for clean geometric sans-serif -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- marked -->
     <script src="./library/marked.min.js"></script>
@@ -29,20 +29,20 @@
         theme: {
           extend: {
             fontFamily: {
-              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+              sans: ['"Inter"', 'sans-serif'],
               mono: ['"JetBrains Mono"', 'monospace'],
             },
             colors: {
-              primary: "#6366f1",
-              background: "#020617",
-              surface: "#0f172a",
-              graylv1: "#1e293b",
-              graylv2: "#334155",
-              graylv3: "#64748b",
-              graylv4: "#94a3b8",
+              primary: "#ffffff",
+              background: "#000000",
+              surface: "#09090b",
+              graylv1: "#18181b",
+              graylv2: "#27272a",
+              graylv3: "#52525b",
+              graylv4: "#a1a1aa",
               error: "#ef4444",
               lowError: "#f59e0b",
-              activation: "#1e1b4b",
+              activation: "#27272a",
             },
           },
         },
@@ -51,516 +51,251 @@
 
     <style>
       body {
-        background-color: #020617;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #000000;
+        font-family: 'Inter', sans-serif;
+        letter-spacing: -0.02em;
       }
-      .gradient-text {
-        background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #818cf8 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      .gradient-border {
-        position: relative;
-      }
-      .gradient-border::before {
-        content: '';
+      
+      /* Subtle light leak gradient background for Vercel/Linear look */
+      .light-leak {
         position: absolute;
-        inset: 0;
-        border-radius: 1rem;
-        padding: 1.5px;
-        background: linear-gradient(to bottom right, rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.4), rgba(99, 102, 241, 0.05));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 1200px;
+        height: 400px;
+        background: radial-gradient(ellipse 50% 50% at 50% 0%, rgba(120, 119, 198, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
         pointer-events: none;
+        z-index: -1;
       }
-      /* Custom Scrollbar */
+
+      /* Custom scrollbar */
       ::-webkit-scrollbar {
-        width: 10px;
+        width: 6px;
+        height: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #020617;
+        background: #000000;
       }
       ::-webkit-scrollbar-thumb {
-        background: #1e293b;
-        border-radius: 5px;
+        background: #27272a;
+        border-radius: 3px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #334155;
-      }
-      
-      /* Active architecture pulse glow */
-      @keyframes pulse-glow {
-        0%, 100% {
-          box-shadow: 0 0 10px rgba(99, 102, 241, 0.2), inset 0 0 10px rgba(99, 102, 241, 0.1);
-          border-color: rgba(99, 102, 241, 0.3);
-        }
-        50% {
-          box-shadow: 0 0 25px rgba(99, 102, 241, 0.5), inset 0 0 15px rgba(99, 102, 241, 0.3);
-          border-color: rgba(99, 102, 241, 0.8);
-        }
-      }
-      .node-active {
-        animation: pulse-glow 2s infinite alternate;
-      }
-      
-      /* Flow dashes along architecture connections */
-      .dash-flow {
-        stroke-dasharray: 8, 8;
-        animation: dash 30s linear infinite;
-      }
-      @keyframes dash {
-        to {
-          stroke-dashoffset: -1000;
-        }
+        background: #3f3f46;
       }
     </style>
   </head>
-  <body class="font-sans w-full text-slate-200 min-h-screen selection:bg-indigo-500/30 selection:text-indigo-200">
+  <body class="font-sans w-full text-zinc-300 min-h-screen selection:bg-white selection:text-black">
     
-    <!-- Background grid decoration -->
-    <div class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60"></div>
+    <!-- Ambient light leakage -->
+    <div class="light-leak"></div>
     
     <!-- Header -->
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-900/80">
-      <nav class="container max-w-[1190px] mx-auto md:px-8 px-4 py-4 flex items-center justify-between">
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-black/85 border-b border-zinc-900">
+      <nav class="container max-w-[1000px] mx-auto px-6 py-4 flex items-center justify-between">
         <!-- Brand Logo -->
         <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('portfolio')">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">A</div>
-          <span class="text-xl font-bold tracking-tight text-white">Abraham.dev</span>
+          <span class="text-sm font-bold tracking-tight text-white hover:text-zinc-300 transition-colors">abraham.yoo</span>
         </div>
 
         <!-- Navigation Tabs -->
-        <div class="hidden md:flex items-center gap-2 bg-slate-900/40 p-1 rounded-xl border border-slate-800/80">
-          <button onclick="switchTab('portfolio')" id="tab-btn-portfolio" class="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 text-white bg-indigo-600 shadow-lg shadow-indigo-600/10">Portfolio</button>
-          <button onclick="switchTab('blog')" id="tab-btn-blog" class="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-400 hover:text-slate-200">Projects & Articles</button>
-          <button onclick="switchTab('resume')" id="tab-btn-resume" class="px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 text-slate-400 hover:text-slate-200">Resume</button>
+        <div class="flex items-center gap-1">
+          <button onclick="switchTab('portfolio')" id="tab-btn-portfolio" class="px-3 py-1.5 text-xs font-semibold rounded text-white bg-zinc-900 border border-zinc-800 transition-all">Portfolio</button>
+          <button onclick="switchTab('blog')" id="tab-btn-blog" class="px-3 py-1.5 text-xs font-semibold rounded text-zinc-400 hover:text-white transition-all">Writing</button>
+          <button onclick="switchTab('resume')" id="tab-btn-resume" class="px-3 py-1.5 text-xs font-semibold rounded text-zinc-400 hover:text-white transition-all">Resume</button>
         </div>
 
         <!-- Quick Links (GitHub, Contact) -->
-        <div class="hidden md:flex items-center gap-4">
-          <a href="https://github.com/AbrahamYoo" target="_blank" class="p-2 text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg border border-slate-900 hover:border-slate-800 transition-all duration-200">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        <div class="hidden sm:flex items-center gap-3">
+          <a href="https://github.com/AbrahamYoo" target="_blank" class="p-1.5 text-zinc-500 hover:text-white transition-colors duration-200">
+            <svg class="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
           </a>
-          <a href="#contact" onclick="switchTab('portfolio'); setTimeout(() => document.getElementById('contact').scrollIntoView(), 100);" class="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 shadow-lg shadow-indigo-600/20">Contact Me</a>
-        </div>
-
-        <!-- Mobile Menu Toggle -->
-        <div class="md:hidden flex items-center gap-2">
-          <button id="menu-button" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-900 border border-slate-900 hover:border-slate-800 transition-all duration-200">
-            <span class="sr-only">메뉴 열기</span>
-          </button>
         </div>
       </nav>
-      
-      <!-- Mobile Navigation Drawer -->
-      <div id="mobileMenu" class="absolute bg-slate-950/95 backdrop-blur-lg w-full border-b border-slate-900 z-10 md:hidden hidden">
-        <div class="flex flex-col p-4 gap-2">
-          <button onclick="switchTab('portfolio')" class="mobile-tab-btn py-3 px-4 text-left font-semibold text-white bg-indigo-600/20 border-l-4 border-indigo-500 rounded-r-lg">Portfolio</button>
-          <button onclick="switchTab('blog')" class="mobile-tab-btn py-3 px-4 text-left font-semibold text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg">Projects & Articles</button>
-          <button onclick="switchTab('resume')" class="mobile-tab-btn py-3 px-4 text-left font-semibold text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg">Resume</button>
-        </div>
-      </div>
     </header>
 
     <!-- Main Content Area -->
-    <main class="container p-4 md:p-8 pb-16 w-full mx-auto max-w-[1190px]">
+    <main class="container p-6 w-full mx-auto max-w-[1000px] md:py-16">
       
-      <!-- 1. PORTFOLIO SUMMARY TAB (Default) -->
-      <section id="section-portfolio" class="space-y-20 pt-4 md:pt-10">
+      <!-- 1. PORTFOLIO SUMMARY TAB (Bento Grid) -->
+      <section id="section-portfolio" class="space-y-16">
         
-        <!-- Hero Section -->
-        <div class="grid md:grid-cols-12 gap-8 items-center py-10 md:py-16">
-          <div class="md:col-span-7 space-y-6">
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Infrastructure & Backend Architect
-            </div>
-            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-              Designing Scalable <br>
-              <span class="gradient-text">Backend Systems</span>
-            </h1>
-            <p class="text-lg md:text-xl text-slate-400 font-normal leading-relaxed max-w-xl">
-              안녕하세요! 시스템 아키텍처와 대용량 트래픽 처리를 고민하는 백엔드 엔지니어 <strong class="text-white">Abraham Yoo</strong>입니다. 인프라 모니터링부터 백엔드 API 설계, 쿼리 튜닝까지 안정적인 분산 환경 구축을 위해 도전하고 있습니다.
-            </p>
-            <div class="flex flex-wrap gap-4 pt-2">
-              <button onclick="switchTab('blog')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3.5 rounded-xl transition-all duration-200 shadow-xl shadow-indigo-600/25 flex items-center gap-2">
-                포트폴리오 프로젝트 보기
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-              </button>
-              <button onclick="switchTab('resume')" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-6 py-3.5 rounded-xl border border-slate-800 hover:border-slate-700 transition-all duration-200 flex items-center gap-2">
-                상세 이력서 읽기
-              </button>
-            </div>
-          </div>
-          <div class="md:col-span-5 flex justify-center">
-            <!-- IDE / Monitor Box -->
-            <div class="relative w-full max-w-md rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl overflow-hidden font-mono text-xs">
-              <div class="flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800">
-                <div class="flex items-center gap-1.5">
-                  <span class="w-3 h-3 rounded-full bg-rose-500"></span>
-                  <span class="w-3 h-3 rounded-full bg-amber-500"></span>
-                  <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                </div>
-                <span class="text-slate-500 text-[10px]">process_monitor.sh</span>
-                <span class="w-4"></span>
-              </div>
-              <div class="p-5 space-y-3.5 text-slate-400">
-                <p><span class="text-indigo-400">$</span> ./run-healthcheck.sh</p>
-                <div class="space-y-1 bg-slate-900/60 p-3 rounded-lg border border-slate-900">
-                  <p class="text-emerald-400">✓ Nginx Service - Active (200 OK)</p>
-                  <p class="text-emerald-400">✓ Express API Server - Connected (12ms)</p>
-                  <p class="text-emerald-400">✓ PostgreSQL Database - Healthy (0.4ms)</p>
-                  <p class="text-indigo-400">✓ Redis Caching - Hit Rate: 94.2%</p>
-                  <p class="text-amber-400">✓ Telegram Alert Worker - Standby</p>
-                </div>
-                <p class="text-[10px] text-slate-600">// 아래 아키텍처 대시보드 노드를 클릭하여 각 인프라 구성에 기재된 백엔드 경험과 마크다운 기술 문서를 직접 확인해보세요.</p>
-              </div>
-            </div>
-          </div>
+        <!-- Hero Title Section -->
+        <div class="space-y-4 max-w-2xl">
+          <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tighter leading-none">
+            I build scalable <br>backend systems.
+          </h1>
+          <p class="text-base md:text-lg text-zinc-400 font-normal leading-relaxed">
+            안정적인 분산 아키텍처와 트래픽 최적화를 깊이 고민하며, 비즈니스 성장을 견인할 수 있는 견고한 백엔드 인프라를 개발합니다.
+          </p>
         </div>
 
-        <!-- 🚀 3. INTERACTIVE ARCHITECTURE VISUALIZER SECTION -->
-        <div class="space-y-8">
-          <div class="text-center space-y-2">
-            <h2 class="text-xs font-extrabold tracking-wider text-indigo-400 uppercase">Live Architecture</h2>
-            <p class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">인터랙티브 시스템 아키텍처 대시보드</p>
-            <p class="text-slate-500 text-sm max-w-xl mx-auto">구조도의 동그란 노드를 클릭하면 연동된 인프라 구축 정보와 마크다운 기술 리포트 페이지로 이동합니다.</p>
-          </div>
-
-          <!-- Architecture Visualizer Wrap -->
-          <div class="grid md:grid-cols-12 gap-8 bg-slate-950 border border-slate-900 rounded-3xl p-6 md:p-8 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl -z-10"></div>
-            
-            <!-- Dynamic Diagram Area (md:col-span-8) -->
-            <div class="md:col-span-8 flex flex-col justify-between min-h-[360px] relative">
-              <!-- Flow Packet SVG Overlay -->
-              <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 5;">
-                <defs>
-                  <!-- Glow filter for lines and dots -->
-                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="2" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                  </filter>
-                </defs>
-
-                <!-- Connection lines with flowing dashes -->
-                <path d="M 90,180 H 220" stroke="#1e293b" stroke-width="2.5" fill="none" />
-                <path d="M 90,180 H 220" stroke="#6366f1" stroke-width="2" fill="none" class="dash-flow opacity-60" />
-
-                <!-- Nginx to Node API -->
-                <path d="M 280,180 H 420" stroke="#1e293b" stroke-width="2.5" fill="none" />
-                <path d="M 280,180 H 420" stroke="#6366f1" stroke-width="2" fill="none" class="dash-flow opacity-60" />
-
-                <!-- Node API to DB (PostgreSQL) - bottom route -->
-                <path d="M 470,200 C 470,270 560,270 600,270" stroke="#1e293b" stroke-width="2.5" fill="none" />
-                <path d="M 470,200 C 470,270 560,270 600,270" stroke="#10b981" stroke-width="2" fill="none" class="dash-flow opacity-50" />
-
-                <!-- Node API to Cache (Redis) - top route -->
-                <path d="M 470,160 C 470,90 560,90 600,90" stroke="#1e293b" stroke-width="2.5" fill="none" />
-                <path d="M 470,160 C 470,90 560,90 600,90" stroke="#6366f1" stroke-width="2" fill="none" class="dash-flow opacity-50" />
-
-                <!-- Node API to Telegram alert (outbound right) -->
-                <path d="M 500,180 H 600" stroke="#1e293b" stroke-width="2.5" fill="none" />
-                <path d="M 500,180 H 600" stroke="#f59e0b" stroke-width="2" fill="none" class="dash-flow opacity-50" />
-              </svg>
-
-              <!-- Node Placement Grid -->
-              <div class="h-full w-full grid grid-cols-3 items-center gap-y-16 relative z-10">
-                
-                <!-- Col 1: Entrance -->
-                <div class="flex flex-col gap-12 items-center justify-center">
-                  <!-- Node 1: Client/Browser -->
-                  <div onclick="selectArchNode('client')" id="node-client" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group node-active">
-                    <span class="text-3xl">💻</span>
-                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">Client/HTTP</span>
-                    <span class="text-[8px] font-mono text-slate-500">chrome-126.0</span>
-                  </div>
+        <!-- Bento Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- Box 1: About Me (Large 2-column) -->
+          <div class="md:col-span-2 border border-zinc-900 bg-zinc-950/40 p-8 rounded-2xl flex flex-col justify-between space-y-6 hover:border-zinc-800 transition-colors">
+            <div class="space-y-4">
+              <div class="flex items-center gap-3">
+                <img src="img/user/profile-licat.png" alt="Abraham Yoo" class="w-10 h-10 rounded-full border border-zinc-800">
+                <div>
+                  <h3 class="text-sm font-semibold text-white">Abraham Yoo</h3>
+                  <p class="text-[11px] text-zinc-500 font-mono">Back-End & Infrastructure Engineer</p>
                 </div>
-
-                <!-- Col 2: Routing / Logic -->
-                <div class="flex flex-col gap-16 items-center justify-center">
-                  <!-- Node 2: Nginx (Proxy) -->
-                  <div onclick="selectArchNode('nginx')" id="node-nginx" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group">
-                    <span class="text-3xl">⚙️</span>
-                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">Nginx Proxy</span>
-                    <span class="text-[8px] font-mono text-slate-500">Port 80/443</span>
-                  </div>
-                  <!-- Node 3: Node API -->
-                  <div onclick="selectArchNode('nodejs')" id="node-nodejs" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group">
-                    <span class="text-3xl">🚀</span>
-                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">Node API</span>
-                    <span class="text-[8px] font-mono text-slate-500">Express Server</span>
-                  </div>
-                </div>
-
-                <!-- Col 3: Storage / Outbound -->
-                <div class="flex flex-col gap-8 items-center justify-center">
-                  <!-- Node 4: Redis Cache (Top) -->
-                  <div onclick="selectArchNode('redis')" id="node-redis" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group">
-                    <span class="text-3xl">⚡</span>
-                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">Redis Cache</span>
-                    <span class="text-[8px] font-mono text-slate-500">In-Memory</span>
-                  </div>
-                  <!-- Node 5: Outbound Worker (Middle) -->
-                  <div onclick="selectArchNode('alert')" id="node-alert" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group">
-                    <span class="text-3xl">🤖</span>
-                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">Telegram Bot</span>
-                    <span class="text-[8px] font-mono text-slate-500">Outbound Alerts</span>
-                  </div>
-                  <!-- Node 6: Database (Bottom) -->
-                  <div onclick="selectArchNode('database')" id="node-database" class="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1.5 cursor-pointer transition-all duration-300 hover:border-indigo-500/50 hover:bg-slate-900/80 group">
-                    <span class="text-3xl">💾</span>
-                    <span class="text-[10px] font-bold text-slate-300 group-hover:text-indigo-400 transition-colors">PostgreSQL</span>
-                    <span class="text-[8px] font-mono text-slate-500">RDBMS Storage</span>
-                  </div>
-                </div>
-
               </div>
+              <p class="text-sm text-zinc-400 leading-relaxed">
+                시스템 자원의 안정적인 관리와 복잡도가 낮은 깨끗한 설계를 가장 가치있게 생각합니다. 
+                Nginx를 활용한 로드 밸런싱, Docker 컨테이너 오케스트레이션, 인메모리 캐시를 이용한 쿼리 단축, 그리고 자동화 스크립팅 기반의 무중단 배포 환경을 만들어가고 있습니다.
+              </p>
             </div>
-
-            <!-- Terminal Logger Console (md:col-span-4) -->
-            <div class="md:col-span-4 flex flex-col justify-between h-[360px] bg-slate-950 border border-slate-900 rounded-2xl overflow-hidden font-mono text-[11px] text-slate-300 shadow-inner">
-              <div class="flex items-center justify-between px-3 py-2 bg-slate-900/50 border-b border-slate-900 text-[9px] text-slate-500 uppercase tracking-wider">
-                <span>Console Diagnostics</span>
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-              </div>
-              <div id="arch-logger-body" class="p-4 flex-grow overflow-y-auto space-y-2 select-none">
-                <p class="text-slate-500">// Node를 클릭하여 상세 로그를 확인하세요.</p>
-                <p class="text-indigo-400">System initialization complete.</p>
-                <p class="text-slate-500">[SYSTEM] Listening on interfaces...</p>
-                <p class="text-emerald-400">[HEALTH] Nginx Reverse Proxy check passed.</p>
-                <p class="text-emerald-400">[DB] Cursors & offsets verified.</p>
-              </div>
-              <!-- Action Button inside Logger -->
-              <div id="arch-logger-action" class="p-3 bg-slate-900/30 border-t border-slate-900 flex justify-between items-center">
-                <span class="text-[9px] text-slate-500">target_article: none</span>
-                <button id="arch-link-btn" disabled class="px-2.5 py-1 text-[10px] font-semibold text-slate-500 bg-slate-900 rounded-md border border-slate-800 transition-all duration-200 cursor-not-allowed">
-                  상세 가이드 보기
-                </button>
-              </div>
+            <div class="flex gap-2">
+              <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-850 text-xs font-medium text-zinc-300">Clean Code</span>
+              <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-850 text-xs font-medium text-zinc-300">Zero Downtime</span>
+              <span class="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-850 text-xs font-medium text-zinc-300">Automation</span>
             </div>
           </div>
+
+          <!-- Box 2: Quick Meta Info -->
+          <div class="border border-zinc-900 bg-zinc-950/40 p-8 rounded-2xl flex flex-col justify-between hover:border-zinc-800 transition-colors">
+            <div class="space-y-4">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Overview</h3>
+              <div class="space-y-3 font-mono text-[11px]">
+                <div>
+                  <div class="text-zinc-600 text-[9px] uppercase tracking-wider">Location</div>
+                  <div class="text-zinc-200">Seoul, South Korea</div>
+                </div>
+                <div>
+                  <div class="text-zinc-600 text-[9px] uppercase tracking-wider">Specialty</div>
+                  <div class="text-zinc-200">Express / Python / DevOps</div>
+                </div>
+                <div>
+                  <div class="text-zinc-600 text-[9px] uppercase tracking-wider">Status</div>
+                  <div class="text-emerald-500 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Active & Open to Offers
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a href="mailto:yoo@abraham.dev" class="w-full text-center text-xs font-semibold text-black bg-white hover:bg-zinc-200 py-2.5 rounded transition-all">
+              Contact Email
+            </a>
+          </div>
+
+          <!-- Box 3: Stack (1-column) -->
+          <div class="border border-zinc-900 bg-zinc-950/40 p-8 rounded-2xl space-y-4 hover:border-zinc-800 transition-colors">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Tech Stack</h3>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-2 py-1 bg-zinc-900 text-zinc-300 text-xs rounded font-mono">Node.js</span>
+              <span class="px-2 py-1 bg-zinc-900 text-zinc-300 text-xs rounded font-mono">Express</span>
+              <span class="px-2 py-1 bg-zinc-900 text-zinc-300 text-xs rounded font-mono">Python</span>
+              <span class="px-2 py-1 bg-zinc-900 text-zinc-300 text-xs rounded font-mono">PostgreSQL</span>
+              <span class="px-2 py-1 bg-zinc-900 text-zinc-300 text-xs rounded font-mono">MySQL</span>
+              <span class="px-2 py-1 bg-zinc-900 text-zinc-300 text-xs rounded font-mono">Redis</span>
+              <span class="px-2 py-1 bg-zinc-900 text-zinc-300 text-xs rounded font-mono">Docker</span>
+              <span class="px-2 py-1 bg-zinc-900 text-zinc-300 text-xs rounded font-mono">Nginx</span>
+              <span class="px-2 py-1 bg-zinc-900 text-zinc-300 text-xs rounded font-mono">Linux</span>
+              <span class="px-2 py-1 bg-zinc-900 text-zinc-300 text-xs rounded font-mono">Git</span>
+            </div>
+          </div>
+
+          <!-- Box 4: Featured Project 1 (Large 2-column) -->
+          <div onclick="openProjectByPostName('[20251215]_[AI 비트코인 예측 알림 봇 만들기].md')" class="md:col-span-2 border border-zinc-900 bg-zinc-950/40 p-8 rounded-2xl flex flex-col justify-between hover:border-zinc-700 transition-colors cursor-pointer group">
+            <div class="space-y-4">
+              <div class="flex justify-between items-start">
+                <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest font-mono">Solo Project</span>
+                <span class="text-[10px] text-zinc-600 font-mono">2025.12</span>
+              </div>
+              <h3 class="text-xl font-bold text-white group-hover:text-zinc-300 transition-colors tracking-tight">AI 비트코인 예측 알림 봇</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">
+                Python과 AI 기술을 융합하여 실시간 비트코인 가격 동향을 예측하고, 매매 포인트를 탐지하여 Telegram 메신저로 실시간 노티파이를 전송해주는 자율 백엔드 모듈 서비스입니다.
+              </p>
+            </div>
+            <div class="pt-4 flex justify-between items-center text-xs font-semibold text-zinc-500 group-hover:text-white transition-colors">
+              <span>Python • LSTM • Telegram API</span>
+              <span class="inline-flex items-center gap-1">Read case study <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></span>
+            </div>
+          </div>
+
+          <!-- Box 5: Featured Project 2 (1-column) -->
+          <div onclick="openProjectByPostName('[20260323]_[Node.js와 Express로 로또 당첨 번호 조회 API 만들기].md')" class="border border-zinc-900 bg-zinc-950/40 p-8 rounded-2xl flex flex-col justify-between hover:border-zinc-700 transition-colors cursor-pointer group">
+            <div class="space-y-3">
+              <div class="flex justify-between items-start">
+                <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest font-mono">API Design</span>
+                <span class="text-[10px] text-zinc-600 font-mono">2026.03</span>
+              </div>
+              <h3 class="text-lg font-bold text-white group-hover:text-zinc-300 transition-colors tracking-tight">로또 번호 조회 API</h3>
+              <p class="text-xs text-zinc-400 leading-relaxed">
+                동행복권 당첨 데이터를 긁어와 안정적인 REST 엔드포인트로 노출해주는 초경량 백엔드 API 서비스입니다.
+              </p>
+            </div>
+            <div class="pt-4 flex justify-between items-center text-[11px] font-semibold text-zinc-500 group-hover:text-white transition-colors">
+              <span>Node.js • Express</span>
+              <span>➔</span>
+            </div>
+          </div>
+
+          <!-- Box 6: Infrastructure Practice (Large 2-column) -->
+          <div onclick="openProjectByPostName('[20251111]_[Ubuntu에 Nginx 설치 및 서버 블록 설정 완벽 가이드].md')" class="md:col-span-2 border border-zinc-900 bg-zinc-950/40 p-8 rounded-2xl flex flex-col justify-between hover:border-zinc-700 transition-colors cursor-pointer group">
+            <div class="space-y-4">
+              <div class="flex justify-between items-start">
+                <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest font-mono">Infrastructure</span>
+                <span class="text-[10px] text-zinc-600 font-mono">2025.11</span>
+              </div>
+              <h3 class="text-xl font-bold text-white group-hover:text-zinc-300 transition-colors tracking-tight">Nginx Reverse Proxy & Server Blocks</h3>
+              <p class="text-sm text-zinc-400 leading-relaxed">
+                Ubuntu Linux 환경 위에 Nginx 엔진을 다중 리버스 프록시 노드로 수립하여 도메인별 디렉토리 라우팅을 모듈화하고 최적의 TLS 인증을 구성한 실무 가이드 및 기록입니다.
+              </p>
+            </div>
+            <div class="pt-4 flex justify-between items-center text-xs font-semibold text-zinc-500 group-hover:text-white transition-colors">
+              <span>Linux • Nginx • SSL/TLS</span>
+              <span class="inline-flex items-center gap-1">Read case study <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></span>
+            </div>
+          </div>
+
         </div>
 
-        <!-- About Me Section -->
-        <div class="space-y-8">
-          <div class="text-center space-y-2">
-            <h2 class="text-xs font-extrabold tracking-wider text-indigo-400 uppercase">Core Values</h2>
-            <p class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">개발에 임하는 나의 철학</p>
-          </div>
-          <div class="grid md:grid-cols-4 gap-6">
-            <!-- Card 1 -->
-            <div class="bg-slate-900/30 border border-slate-900 hover:border-indigo-500/30 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-sm group">
-              <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">📦</div>
-              <h3 class="text-lg font-bold text-white">안정적인 서비스 설계</h3>
-              <p class="text-sm text-slate-400 leading-relaxed">트래픽 증가 상황에서도 무너지지 않는 효율적이고 분산 친화적인 서버 인프라 설계를 지향합니다.</p>
-            </div>
-            <!-- Card 2 -->
-            <div class="bg-slate-900/30 border border-slate-900 hover:border-indigo-500/30 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-sm group">
-              <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">⚙️</div>
-              <h3 class="text-lg font-bold text-white">개발 프로세스 자동화</h3>
-              <p class="text-sm text-slate-400 leading-relaxed">Docker, Crontab 및 CI/CD 구축을 활용하여 수동 작업을 최소화하고 비즈니스 제품에 집중합니다.</p>
-            </div>
-            <!-- Card 3 -->
-            <div class="bg-slate-900/30 border border-slate-900 hover:border-indigo-500/30 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-sm group">
-              <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">📊</div>
-              <h3 class="text-lg font-bold text-white">데이터 기반 최적화</h3>
-              <p class="text-sm text-slate-400 leading-relaxed">페이지네이션 기법 분석 등 데이터 조회의 구조적 원리를 공부하며 데이터베이스 튜닝 능력을 키웁니다.</p>
-            </div>
-            <!-- Card 4 -->
-            <div class="bg-slate-900/30 border border-slate-900 hover:border-indigo-500/30 p-6 rounded-2xl transition-all duration-300 space-y-4 shadow-sm group">
-              <div class="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg text-indigo-400 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-300">🌐</div>
-              <h3 class="text-lg font-bold text-white">유연한 API 명세</h3>
-              <p class="text-sm text-slate-400 leading-relaxed">프론트엔드 파트너의 관점을 존중하고 함께 조율하며 직관적이고 직결성 높은 RESTful API를 설계합니다.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Skills Section -->
-        <div class="space-y-8">
-          <div class="text-center space-y-2">
-            <h2 class="text-xs font-extrabold tracking-wider text-indigo-400 uppercase">My Tech Stack</h2>
-            <p class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">주요 전문 기술 분야</p>
-          </div>
-          <div class="grid md:grid-cols-3 gap-8">
-            <!-- Back-end -->
-            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-900 p-8 rounded-2xl space-y-6">
-              <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-indigo-500"></span> Back-end Development
-              </h3>
-              <div class="flex flex-wrap gap-2.5">
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Node.js</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Express.js</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Python</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">RESTful API</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">JWT Authentication</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Middleware</span>
-              </div>
-            </div>
-            <!-- Database -->
-            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-900 p-8 rounded-2xl space-y-6">
-              <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Database & Query
-              </h3>
-              <div class="flex flex-wrap gap-2.5">
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">PostgreSQL</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">MySQL</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Redis (Caching)</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Pagination Design</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Query Optimization</span>
-              </div>
-            </div>
-            <!-- DevOps / Cloud -->
-            <div class="bg-slate-900/50 backdrop-blur-md border border-slate-900 p-8 rounded-2xl space-y-6">
-              <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-indigo-500"></span> DevOps & Server Infra
-              </h3>
-              <div class="flex flex-wrap gap-2.5">
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Docker</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Nginx</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Linux (Ubuntu)</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Crontab Automation</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Vercel Deployment</span>
-                <span class="px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm font-medium text-slate-200">Git / GitHub Actions</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Featured Projects Highlight -->
-        <div class="space-y-8">
-          <div class="text-center space-y-2">
-            <h2 class="text-xs font-extrabold tracking-wider text-indigo-400 uppercase">Selected Projects</h2>
-            <p class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">주요 프로젝트 성과</p>
-          </div>
-          <div class="space-y-6">
-            <!-- Project 1 -->
-            <div class="grid md:grid-cols-12 gap-6 bg-slate-900/40 border border-slate-900 rounded-3xl p-6 md:p-8 hover:border-indigo-500/20 transition-all duration-300 group items-center">
-              <div class="md:col-span-5 overflow-hidden rounded-2xl border border-slate-800">
-                <!-- Project Image Placeholder / Graphic -->
-                <div class="h-56 bg-gradient-to-br from-indigo-950 to-slate-950 flex items-center justify-center relative">
-                  <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('img/thumb8.webp')"></div>
-                  <span class="text-5xl z-10">🤖</span>
-                  <div class="absolute bottom-4 left-4 bg-slate-950/80 px-3 py-1 rounded-full text-xs text-indigo-400 border border-slate-800 font-mono">Python + AI</div>
-                </div>
-              </div>
-              <div class="md:col-span-7 space-y-4">
-                <div class="flex items-center gap-2">
-                  <span class="text-xs font-semibold px-2.5 py-1 bg-indigo-500/10 text-indigo-300 rounded-full border border-indigo-500/20">Solo Project</span>
-                  <span class="text-xs text-slate-500">2025.12</span>
-                </div>
-                <h3 class="text-2xl font-bold text-white group-hover:text-indigo-400 transition-colors">AI 비트코인 예측 알림 봇</h3>
-                <p class="text-slate-400 leading-relaxed text-sm md:text-base">
-                  비트코인 시세 예측 모델을 구동하여 일정한 주기에 맞춰 텔레그램 메신저로 매매 알림 및 요약 정보를 리포팅해주는 투자 비서 봇 시스템입니다. API 에러나 타임아웃 예외처리를 보강하였습니다.
-                </p>
-                <div class="flex flex-wrap gap-2">
-                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">Python</span>
-                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">Telegram API</span>
-                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">Predictive Modeling</span>
-                </div>
-                <div class="pt-2">
-                  <button onclick="openProjectByPostName('[20251215]_[AI 비트코인 예측 알림 봇 만들기].md')" class="inline-flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 text-sm font-semibold transition-colors">
-                    상세 구현 내용 및 마크다운 읽기
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Project 2 -->
-            <div class="grid md:grid-cols-12 gap-6 bg-slate-900/40 border border-slate-900 rounded-3xl p-6 md:p-8 hover:border-indigo-500/20 transition-all duration-300 group items-center">
-              <div class="md:col-span-5 overflow-hidden rounded-2xl border border-slate-800">
-                <div class="h-56 bg-gradient-to-br from-indigo-950 to-slate-950 flex items-center justify-center relative">
-                  <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('img/thumb4.webp')"></div>
-                  <span class="text-5xl z-10">🎟️</span>
-                  <div class="absolute bottom-4 left-4 bg-slate-950/80 px-3 py-1 rounded-full text-xs text-indigo-400 border border-slate-800 font-mono">Node.js + Express</div>
-                </div>
-              </div>
-              <div class="md:col-span-7 space-y-4">
-                <div class="flex items-center gap-2">
-                  <span class="text-xs font-semibold px-2.5 py-1 bg-indigo-500/10 text-indigo-300 rounded-full border border-indigo-500/20">API Dev</span>
-                  <span class="text-xs text-slate-500">2026.03</span>
-                </div>
-                <h3 class="text-2xl font-bold text-white group-hover:text-indigo-400 transition-colors">로또 당첨 번호 조회 API</h3>
-                <p class="text-slate-400 leading-relaxed text-sm md:text-base">
-                  동행복권 로또 당첨 데이터의 원활한 조회를 위해 스크래핑 또는 원본 연동을 통해 특정 회차 조회를 지원하는 초경량 API입니다. Express 미들웨어 로깅 및 CORS 설정을 포함하고 있습니다.
-                </p>
-                <div class="flex flex-wrap gap-2">
-                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">Node.js</span>
-                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">Express.js</span>
-                  <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-800 text-slate-300 rounded-lg">JSON API</span>
-                </div>
-                <div class="pt-2">
-                  <button onclick="openProjectByPostName('[20260323]_[Node.js와 Express로 로또 당첨 번호 조회 API 만들기].md')" class="inline-flex items-center gap-1.5 text-indigo-400 hover:text-indigo-300 text-sm font-semibold transition-colors">
-                    상세 구현 내용 및 마크다운 읽기
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Contact Section -->
-        <div id="contact" class="gradient-border bg-slate-900/25 border border-slate-900 rounded-3xl p-8 md:p-12 space-y-8 relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-600/5 rounded-full blur-3xl -z-10"></div>
-          <div class="max-w-2xl mx-auto text-center space-y-4">
-            <h2 class="text-3xl font-extrabold text-white tracking-tight">프로젝트 협업 문의</h2>
-            <p class="text-slate-400 text-sm md:text-base">
-              백엔드 엔지니어링, 인프라 컨설팅, 신규 서비스 런칭 등 언제든지 제안이나 피드백을 환영합니다. 아래 이메일로 연락주시면 최대한 빠르게 답변드리겠습니다.
-            </p>
-            <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a href="mailto:yoo@abraham.dev" class="w-full sm:w-auto px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-indigo-600/20 flex items-center justify-center gap-2">
-                ✉️ yoo@abraham.dev
-              </a>
-              <a href="https://github.com/AbrahamYoo" target="_blank" class="w-full sm:w-auto px-6 py-3.5 bg-slate-950 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
-                🐙 GitHub 프로필
-              </a>
-            </div>
-          </div>
-        </div>
       </section>
 
-      <!-- 2. BLOG & PROJECTS TAB (Unified) -->
-      <section id="section-blog" class="space-y-8 pt-4 md:pt-10 hidden">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-900 pb-6 mb-8">
+      <!-- 2. BLOG & WRITING TAB -->
+      <section id="section-blog" class="space-y-8 hidden">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-zinc-900 pb-5 mb-8">
           <div>
-            <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Projects & Articles</h2>
-            <p class="text-slate-500 text-sm mt-1">마크다운 문서와 개발 가이드를 클라이언트에서 렌더링합니다.</p>
+            <h2 class="text-lg font-bold text-white tracking-tight">Writing & Notes</h2>
+            <p class="text-xs text-zinc-500">배우고 경험한 인프라 튜닝 및 서버 개발 일지를 기록합니다.</p>
           </div>
           
           <!-- Search box -->
-          <div class="search-cont relative w-full md:w-[280px]">
+          <div class="search-cont relative w-full md:w-[240px]">
             <input
               type="text"
               id="search-input"
-              class="w-full h-11 bg-slate-900/60 border border-slate-800 rounded-xl px-4 pr-10 text-sm font-medium text-gray-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-all duration-200"
-              placeholder="검색어를 입력하세요..."
+              class="w-full h-9 bg-zinc-950 border border-zinc-900 rounded px-3 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-700 transition-colors"
+              placeholder="Search articles..."
             />
-            <button class="search-inp-btn absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-indigo-400">
+            <button class="search-inp-btn absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white">
               <span class="sr-only">검색하기</span>
             </button>
-            <button class="reset-inp-btn absolute right-8 top-1/2 -translate-y-1/2 text-slate-500 hover:text-rose-400 hidden">
+            <button class="reset-inp-btn absolute right-8 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white hidden">
               <span class="sr-only">검색어 초기화</span>
             </button>
           </div>
         </div>
 
-        <!-- Category Buttons (Aside category fallback) -->
-        <div id="blog-category-container" class="flex flex-wrap gap-2 mb-6">
-          <!-- Dynamically populated via category script -->
-        </div>
+        <!-- Category Buttons -->
+        <div id="blog-category-container" class="flex flex-wrap gap-1.5 mb-6"></div>
 
-        <!-- Main Blog post list (target for renderBlogList) -->
+        <!-- Main Blog post list -->
         <div
           id="blog-posts"
-          class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         ></div>
 
-        <!-- Content details (visible when viewing post/page) -->
+        <!-- Content details (Markdown read mode) -->
         <div
           id="contents"
-          class="mt-6 mb-16 max-w-[990px] mx-auto hidden bg-slate-900/20 border border-slate-900/60 p-6 md:p-10 rounded-3xl"
+          class="mt-6 mb-16 max-w-[720px] mx-auto hidden bg-black border border-zinc-900 p-8 md:p-12 rounded-xl"
         ></div>
 
         <!-- Pagination -->
@@ -568,254 +303,106 @@
       </section>
 
       <!-- 3. RESUME TAB -->
-      <section id="section-resume" class="space-y-12 pt-4 md:pt-10 hidden">
-        <div class="border-b border-slate-900 pb-6">
-          <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">이력서 (Resume)</h2>
-          <p class="text-slate-500 text-sm mt-1">백엔드 엔지니어로서의 경력과 기술적 도전을 기술합니다.</p>
+      <section id="section-resume" class="space-y-10 hidden">
+        <div class="border-b border-zinc-900 pb-5">
+          <h2 class="text-lg font-bold text-white tracking-tight">Resume</h2>
+          <p class="text-xs text-zinc-500 font-mono">ABRAHAM YOO — CURRICULUM VITAE</p>
         </div>
 
-        <!-- Resume Detail -->
-        <div class="grid md:grid-cols-12 gap-8">
-          <!-- Left side: Timeline -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 font-sans">
+          
+          <!-- Left: Detailed Work & Projects -->
           <div class="md:col-span-8 space-y-10">
             <div class="space-y-6">
-              <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                💼 Work Experience
-              </h3>
-              <!-- Career Timeline -->
-              <div class="border-l-2 border-slate-800 ml-4 pl-6 space-y-8 relative">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Experience</h3>
+              
+              <div class="border-l border-zinc-900 ml-2 pl-6 space-y-8 relative">
+                
                 <!-- Job 1 -->
                 <div class="relative">
-                  <!-- Timeline dot -->
-                  <div class="absolute -left-[31px] top-1.5 w-4.5 h-4.5 rounded-full bg-slate-950 border-2 border-indigo-500"></div>
-                  <div class="space-y-2">
+                  <div class="absolute -left-[29px] top-1.5 w-2.5 h-2.5 rounded-full bg-black border border-zinc-700"></div>
+                  <div class="space-y-1.5">
                     <div class="flex justify-between items-start">
-                      <h4 class="text-lg font-bold text-white">프리랜서 백엔드 엔지니어</h4>
-                      <span class="text-xs bg-slate-900 px-2.5 py-1 rounded-md border border-slate-800 text-slate-400 font-mono">2025.06 - 현재</span>
+                      <h4 class="text-sm font-bold text-white">프리랜서 백엔드 엔지니어</h4>
+                      <span class="text-[10px] font-mono text-zinc-500">2025.06 - 현재</span>
                     </div>
-                    <p class="text-sm text-indigo-400 font-medium">개인 사업자 및 외주 개발</p>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                      중소규모 웹 애플리케이션의 REST API 구축 및 Linux Ubuntu 기반의 인프라 구축 대행. Nginx와 Docker 컨테이너화를 통해 고객사의 배포 및 서버 리소스 관리 비용을 30% 이상 절감하였습니다.
+                    <p class="text-xs text-zinc-400">외주 설계 및 인프라 구축</p>
+                    <p class="text-xs text-zinc-500 leading-relaxed">
+                      중소규모 정적 사이트 빌더 커스텀 작업 및 Nginx 리버스 프록시, Docker 환경 구성을 담당했습니다. 
+                      CI/CD 무중단 배포 플로우 대행 및 로그 모니터링을 설정하여 인프라 유지보수 공수를 축소시켰습니다.
                     </p>
                   </div>
                 </div>
+
                 <!-- Job 2 -->
                 <div class="relative">
-                  <!-- Timeline dot -->
-                  <div class="absolute -left-[31px] top-1.5 w-4.5 h-4.5 rounded-full bg-slate-950 border-2 border-slate-800"></div>
-                  <div class="space-y-2">
+                  <div class="absolute -left-[29px] top-1.5 w-2.5 h-2.5 rounded-full bg-black border border-zinc-900"></div>
+                  <div class="space-y-1.5">
                     <div class="flex justify-between items-start">
-                      <h4 class="text-lg font-bold text-white">IT 교육 플랫폼 콘텐츠 및 빌더 관리</h4>
-                      <span class="text-xs bg-slate-900 px-2.5 py-1 rounded-md border border-slate-800 text-slate-400 font-mono">2024.01 - 2025.05</span>
+                      <h4 class="text-sm font-bold text-white">IT 교육 플랫폼 콘텐츠 및 빌더 기여</h4>
+                      <span class="text-[10px] font-mono text-zinc-500">2024.01 - 2025.05</span>
                     </div>
-                    <p class="text-sm text-slate-400 font-medium">웹 개발자 및 컨트리뷰터</p>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                      정적 웹페이지 템플릿 제작 및 배포, 마크다운/IPYNB 문서 파싱 스크립트 작성 및 개선. 오픈소스 성향의 정적 블로그 템플릿 코어 기여.
+                    <p class="text-xs text-zinc-400">웹 개발 연구원</p>
+                    <p class="text-xs text-zinc-500 leading-relaxed">
+                      마크다운 파싱을 연계한 SPA(Single Page Application) 정적 블로그 템플릿의 코어 렌더링 기능을 설계했습니다.
                     </p>
                   </div>
                 </div>
+
               </div>
             </div>
 
-            <!-- Academic / Projects -->
+            <!-- Academic -->
             <div class="space-y-6">
-              <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                🎓 Academic & Education
-              </h3>
-              <div class="border-l-2 border-slate-800 ml-4 pl-6 space-y-6 relative">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Education</h3>
+              <div class="border-l border-zinc-900 ml-2 pl-6 space-y-6 relative">
                 <div class="relative">
-                  <div class="absolute -left-[31px] top-1.5 w-4.5 h-4.5 rounded-full bg-slate-950 border-2 border-indigo-500"></div>
+                  <div class="absolute -left-[29px] top-1.5 w-2.5 h-2.5 rounded-full bg-black border border-zinc-750"></div>
                   <div class="space-y-1">
                     <div class="flex justify-between items-start">
-                      <h4 class="text-base font-bold text-white">컴퓨터공학 학사 수료</h4>
-                      <span class="text-xs text-slate-500 font-mono">2020.03 - 2024.02</span>
+                      <h4 class="text-sm font-bold text-white">컴퓨터공학 학사 수료</h4>
+                      <span class="text-[10px] font-mono text-zinc-500">2020.03 - 2024.02</span>
                     </div>
-                    <p class="text-sm text-slate-400 leading-relaxed">자료구조, 알고리즘, 컴퓨터 네트워크, 데이터베이스 시스템 연구</p>
+                    <p class="text-xs text-zinc-500">자료구조, OS, 컴퓨터 네트워크, 데이터베이스 시스템 연구</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Right side: Sidebar Info -->
+          <!-- Right: Summary Sidebar -->
           <div class="md:col-span-4 space-y-6">
-            <div class="bg-slate-900/40 border border-slate-900 p-6 rounded-2xl space-y-6">
-              <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3">Strength</h3>
-              <ul class="text-sm text-slate-400 space-y-3">
-                <li class="flex items-start gap-2">
-                  <span class="text-indigo-400">✔</span>
-                  <span><strong>클린 코드 지향:</strong> 비즈니스 요건 변화에 유연하도록 모듈화된 설계를 원칙으로 코드를 씁니다.</span>
+            <div class="border border-zinc-900 p-6 rounded-xl space-y-4">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Core Strengths</h3>
+              <ul class="text-xs text-zinc-400 space-y-2.5 leading-relaxed">
+                <li>
+                  <strong class="text-zinc-200">클린 백엔드 아키텍처:</strong> Express와 Python 모듈을 깔끔하게 구조화하여 유지보수가 편하고 직관적인 API를 만듭니다.
                 </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-indigo-400">✔</span>
-                  <span><strong>문제 해결력:</strong> 이슈가 발생했을 때 Nginx 로그와 시스템 프로세스를 신속하게 추적하여 원인을 격리합니다.</span>
+                <li>
+                  <strong class="text-zinc-200">인프라 경량화:</strong> Docker, Nginx, Linux 스크립팅을 활용하여 배포 비용과 빌드 타임을 감소시킵니다.
                 </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-indigo-400">✔</span>
-                  <span><strong>문서화:</strong> 동료와의 효율적인 의협을 위해 API 스펙, 인프라 토폴로지를 꼼꼼히 정리합니다.</span>
+                <li>
+                  <strong class="text-zinc-200">정밀한 튜닝:</strong> SQL 쿼리 로딩 속도를 분석하고, 커서 기반 페이지네이션 등 최적의 데이터 조회 방식을 구현합니다.
                 </li>
               </ul>
             </div>
-
-            <div class="bg-slate-900/40 border border-slate-900 p-6 rounded-2xl space-y-4">
-              <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3">Meta Info</h3>
-              <div class="space-y-3 text-sm font-mono text-slate-400">
-                <div>
-                  <div class="text-slate-500 text-xs">NAME</div>
-                  <div class="text-white">Abraham Yoo</div>
-                </div>
-                <div>
-                  <div class="text-slate-500 text-xs">LOCATION</div>
-                  <div class="text-white">Seoul, South Korea</div>
-                </div>
-                <div>
-                  <div class="text-slate-500 text-xs">SPECIALTY</div>
-                  <div class="text-white">Back-End / DevOps</div>
-                </div>
-              </div>
-            </div>
           </div>
+
         </div>
       </section>
       
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-950 border-t border-slate-900 py-8 text-center text-slate-500 text-sm">
-      <div class="container max-w-[1190px] mx-auto px-4 space-y-2">
+    <footer class="bg-black border-t border-zinc-900 py-10 text-center text-zinc-650 text-[11px] font-mono">
+      <div class="container max-w-[1000px] mx-auto px-6 space-y-1.5">
         <p>&copy; 2026 Abraham Yoo. All rights reserved.</p>
-        <p class="text-xs text-slate-700">Built with Vanilla HTML, JS, Tailwind CSS. Deployed on Vercel.</p>
+        <p class="text-zinc-500">Powered by Vanilla JS, Tailwind CSS, Vercel Serverless.</p>
       </div>
     </footer>
 
-    <!-- Interactive Tab Navigation & Architecture Visualizer Script -->
+    <!-- Interactive Tab Navigation -->
     <script>
-      // Architecture Node Configurations and Mock logs mapping
-      const archNodeDetails = {
-        client: {
-          title: "Client / Browser Request",
-          docName: "Client Setup",
-          link: null,
-          logs: [
-            "<span class='text-indigo-400'>[CLIENT]</span> Initializing HTTP GET request...",
-            "<span class='text-indigo-400'>[CLIENT]</span> Resolving DNS for abraham.dev...",
-            "<span class='text-indigo-400'>[CLIENT]</span> IP Resolved to 76.76.21.21 (Vercel Edge)",
-            "<span class='text-indigo-400'>[CLIENT]</span> TLS Handshake completed (TLSv1.3)",
-            "<span class='text-emerald-400'>[CLIENT] Sent: GET /index.html (Status: 200)</span>"
-          ]
-        },
-        nginx: {
-          title: "Nginx Reverse Proxy & Load Balancer",
-          docName: "Ubuntu에 Nginx 설치 및 서버 블록 설정 완벽 가이드",
-          postName: "[20251111]_[Ubuntu에 Nginx 설치 및 서버 블록 설정 완벽 가이드].md",
-          logs: [
-            "<span class='text-indigo-400'>[NGINX]</span> Received connection from 211.234.12.90",
-            "<span class='text-indigo-400'>[NGINX]</span> Rule check: Proxy pass matching /api/*",
-            "<span class='text-indigo-400'>[NGINX]</span> Forwarding traffic to internal upstream pool",
-            "<span class='text-emerald-400'>[NGINX] upstream response status: 200 OK</span>",
-            "<span class='text-slate-500'>[NGINX] cache-control: no-store, private</span>"
-          ]
-        },
-        nodejs: {
-          title: "Node.js & Express REST API Server",
-          docName: "Node.js와 Express로 로또 당첨 번호 조회 API 만들기",
-          postName: "[20260323]_[Node.js와 Express로 로또 당첨 번호 조회 API 만들기].md",
-          logs: [
-            "<span class='text-indigo-400'>[EXPRESS]</span> Router matched: GET /api/lotto/latest",
-            "<span class='text-indigo-400'>[EXPRESS]</span> Executing async handler context...",
-            "<span class='text-slate-500'>[EXPRESS] auth check: public route bypassed</span>",
-            "<span class='text-emerald-400'>[EXPRESS] DB Query completed in 1.2ms</span>",
-            "<span class='text-emerald-400'>[EXPRESS] Response: 200 OK (size: 456b)</span>"
-          ]
-        },
-        redis: {
-          title: "Redis In-Memory Cache Store",
-          docName: "CRUD 기본 데이터 처리 방법 알아보기",
-          postName: "[20251106]_[CRUD 기본 데이터 처리 방법 알아보기].md",
-          logs: [
-            "<span class='text-indigo-400'>[REDIS]</span> Query: GET cache:lotto:latest",
-            "<span class='text-emerald-400'>[REDIS] Cache HIT for key cache:lotto:latest</span>",
-            "<span class='text-slate-500'>[REDIS] TTL verified: 3590s remaining</span>",
-            "<span class='text-indigo-400'>[REDIS] Connection pool active: 10 connections</span>"
-          ]
-        },
-        alert: {
-          title: "AI Bitcoin Predictor & Telegram Alert Worker",
-          docName: "AI 비트코인 예측 알림 봇 만들기",
-          postName: "[20251215]_[AI 비트코인 예측 알림 봇 만들기].md",
-          logs: [
-            "<span class='text-indigo-400'>[WORKER]</span> Triggered: cron schedules '*/5 * * * *'",
-            "<span class='text-indigo-400'>[WORKER]</span> Fetching latest crypto stats...",
-            "<span class='text-slate-500'>[AI] Run predictive model: LSTM validation</span>",
-            "<span class='text-amber-400'>[AI] Prediction: UPWARD trend detected (92%)</span>",
-            "<span class='text-emerald-400'>[WORKER] Telegram Alert Sent successfully!</span>"
-          ]
-        },
-        database: {
-          title: "PostgreSQL Relational Database System",
-          docName: "커서 오프셋 페이지네이션 비교",
-          postName: "[20251107]_[커서 오프셋 페이지네이션 비교].md",
-          logs: [
-            "<span class='text-emerald-400'>[POSTGRES] Connection established successfully</span>",
-            "<span class='text-indigo-400'>[POSTGRES] Query: SELECT * FROM posts ORDER BY id DESC LIMIT 10</span>",
-            "<span class='text-indigo-400'>[POSTGRES] Execution plan: Index Scan using pk_posts</span>",
-            "<span class='text-emerald-400'>[POSTGRES] Returned 10 rows in 0.8ms</span>"
-          ]
-        }
-      };
-
-      let selectedNodeId = 'client';
-
-      function selectArchNode(nodeId) {
-        // Reset old active node classes
-        if (selectedNodeId) {
-          const oldNode = document.getElementById(`node-${selectedNodeId}`);
-          if (oldNode) oldNode.classList.remove('node-active');
-        }
-
-        // Set new active node
-        selectedNodeId = nodeId;
-        const newNode = document.getElementById(`node-${nodeId}`);
-        if (newNode) newNode.classList.add('node-active');
-
-        // Load specific details and print to console
-        const nodeInfo = archNodeDetails[nodeId];
-        const loggerBody = document.getElementById('arch-logger-body');
-        const linkBtn = document.getElementById('arch-link-btn');
-        const loggerAction = document.getElementById('arch-logger-action');
-
-        loggerBody.innerHTML = '';
-        
-        // Render Console Header mock log
-        const titleLog = document.createElement('p');
-        titleLog.className = "text-white font-bold border-b border-slate-900 pb-1.5 mb-2";
-        titleLog.innerHTML = `> ACTIVE NODE: ${nodeInfo.title}`;
-        loggerBody.appendChild(titleLog);
-
-        // Print node specific logs
-        nodeInfo.logs.forEach(logText => {
-          const logLine = document.createElement('p');
-          logLine.innerHTML = logText;
-          loggerBody.appendChild(logLine);
-        });
-
-        // Set Link button active/inactive
-        if (nodeInfo.postName) {
-          linkBtn.disabled = false;
-          linkBtn.className = "px-2.5 py-1 text-[10px] font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-md border border-indigo-500 transition-all duration-200 cursor-pointer shadow-lg shadow-indigo-600/20";
-          linkBtn.onclick = () => openProjectByPostName(nodeInfo.postName);
-          loggerAction.querySelector('span').innerText = `target_article: ${nodeInfo.docName.substring(0, 15)}...`;
-        } else {
-          linkBtn.disabled = true;
-          linkBtn.className = "px-2.5 py-1 text-[10px] font-semibold text-slate-500 bg-slate-900 rounded-md border border-slate-800 transition-all duration-200 cursor-not-allowed";
-          linkBtn.onclick = null;
-          loggerAction.querySelector('span').innerText = `target_article: none`;
-        }
-
-        // Auto-scroll log box
-        loggerBody.scrollTop = loggerBody.scrollHeight;
-      }
-
       function switchTab(tabId) {
         const sections = ['portfolio', 'blog', 'resume'];
         
@@ -826,34 +413,20 @@
           if (sec === tabId) {
             sectionEl.classList.remove('hidden');
             if (tabBtn) {
-              tabBtn.classList.remove('text-slate-400', 'hover:text-slate-200');
-              tabBtn.classList.add('text-white', 'bg-indigo-600', 'shadow-lg', 'shadow-indigo-600/10');
+              tabBtn.classList.remove('text-zinc-400', 'hover:text-white');
+              tabBtn.classList.add('text-white', 'bg-zinc-900', 'border', 'border-zinc-800');
             }
           } else {
             sectionEl.classList.add('hidden');
             if (tabBtn) {
-              tabBtn.classList.remove('text-white', 'bg-indigo-600', 'shadow-lg', 'shadow-indigo-600/10');
-              tabBtn.classList.add('text-slate-400', 'hover:text-slate-200');
+              tabBtn.classList.remove('text-white', 'bg-zinc-900', 'border', 'border-zinc-800');
+              tabBtn.classList.add('text-zinc-400', 'hover:text-white');
             }
           }
         });
 
-        // Mobile menu sync
-        const mobileTabs = document.querySelectorAll('.mobile-tab-btn');
-        mobileTabs.forEach(btn => {
-          const isSelected = btn.innerText.toLowerCase().includes(tabId === 'blog' ? 'project' : tabId);
-          if (isSelected) {
-            btn.classList.add('text-white', 'bg-indigo-600/20', 'border-l-4', 'border-indigo-500');
-            btn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
-          } else {
-            btn.classList.remove('text-white', 'bg-indigo-600/20', 'border-l-4', 'border-indigo-500');
-            btn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-900');
-          }
-        });
-
-        // If switching to blog, make sure content renders properly
+        // Sync with Blog rendering
         if (tabId === 'blog') {
-          // If we haven't rendered blog posts yet, render them
           if (typeof renderBlogList === 'function') {
             if (typeof blogList !== 'undefined' && blogList.length > 0) {
               renderBlogList();
@@ -864,12 +437,6 @@
             }
           }
           renderCategoriesInTab();
-        }
-
-        // Close mobile menu
-        const mobileMenu = document.getElementById("mobileMenu");
-        if (mobileMenu) {
-          mobileMenu.classList.add("hidden");
         }
       }
 
@@ -930,52 +497,34 @@
 
         // Add 'All' category
         const allBtn = document.createElement("button");
-        allBtn.className = "text-xs font-semibold px-3.5 py-2 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 transition-all duration-300 cursor-pointer";
-        allBtn.innerHTML = `All <span class="text-[10px] bg-indigo-600/40 px-1.5 py-0.5 rounded-md">${blogList.length}</span>`;
+        allBtn.className = "text-xs font-semibold px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-white transition-colors cursor-pointer";
+        allBtn.innerHTML = `All <span class="text-[10px] bg-zinc-850 px-1 py-0.2 rounded">${blogList.length}</span>`;
         allBtn.onclick = () => {
-          // Reset style of other buttons
           Array.from(catContainer.children).forEach(btn => {
-            btn.className = "text-xs font-medium px-3.5 py-2 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-indigo-500/30 hover:bg-indigo-500/10 text-gray-400 hover:text-indigo-300 transition-all duration-300 cursor-pointer flex items-center gap-1.5";
+            btn.className = "text-xs font-medium px-2.5 py-1 rounded bg-zinc-950 border border-zinc-900 hover:border-zinc-700 text-zinc-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1";
           });
-          allBtn.className = "text-xs font-semibold px-3.5 py-2 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 transition-all duration-300 cursor-pointer";
+          allBtn.className = "text-xs font-semibold px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-white transition-colors cursor-pointer";
           renderBlogList();
         };
         catContainer.appendChild(allBtn);
 
         Object.keys(categoryList).sort().forEach(cat => {
           const btn = document.createElement("button");
-          btn.className = "text-xs font-medium px-3.5 py-2 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-indigo-500/30 hover:bg-indigo-500/10 text-gray-400 hover:text-indigo-300 transition-all duration-300 cursor-pointer flex items-center gap-1.5";
-          btn.innerHTML = `${cat} <span class="text-[10px] bg-slate-800/80 text-gray-500 font-semibold px-1.5 py-0.5 rounded-md border border-slate-700/50">${categoryList[cat]}</span>`;
+          btn.className = "text-xs font-medium px-2.5 py-1 rounded bg-zinc-950 border border-zinc-900 hover:border-zinc-700 text-zinc-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1";
+          btn.innerHTML = `${cat} <span class="text-[10px] bg-zinc-900 text-zinc-500 font-semibold px-1 py-0.2 rounded border border-zinc-800">${categoryList[cat]}</span>`;
           btn.onclick = () => {
-            // Reset style of other buttons
             Array.from(catContainer.children).forEach(b => {
-              b.className = "text-xs font-medium px-3.5 py-2 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-indigo-500/30 hover:bg-indigo-500/10 text-gray-400 hover:text-indigo-300 transition-all duration-300 cursor-pointer flex items-center gap-1.5";
+              b.className = "text-xs font-medium px-2.5 py-1 rounded bg-zinc-950 border border-zinc-900 hover:border-zinc-700 text-zinc-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1";
             });
-            btn.className = "text-xs font-semibold px-3.5 py-2 rounded-lg bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 transition-all duration-300 cursor-pointer";
+            btn.className = "text-xs font-semibold px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 text-white transition-colors cursor-pointer";
             search(cat, "category");
           };
           catContainer.appendChild(btn);
         });
       }
 
-      // Mobile drawer toggle script logic override
+      // Initial tab settings
       document.addEventListener("DOMContentLoaded", () => {
-        const menuBtn = document.getElementById("menu-button");
-        const mobileMenu = document.getElementById("mobileMenu");
-        if (menuBtn && mobileMenu) {
-          menuBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            mobileMenu.classList.toggle("hidden");
-          });
-          document.addEventListener("click", () => {
-            mobileMenu.classList.add("hidden");
-          });
-        }
-
-        // Initialize architecture selector logs
-        selectArchNode('client');
-
-        // URL 분석을 통한 초기 탭 활성화
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('post') || urlParams.has('menu')) {
           switchTab('blog');
