@@ -101,10 +101,13 @@
         </div>
 
         <!-- Navigation Tabs -->
-        <div class="flex items-center gap-1">
+        <div class="flex items-center gap-1.5">
           <button onclick="switchTab('portfolio')" id="tab-btn-portfolio" class="px-3 py-1.5 text-xs font-semibold rounded text-white bg-zinc-900 border border-zinc-800 transition-all">Portfolio</button>
           <button onclick="switchTab('blog')" id="tab-btn-blog" class="px-3 py-1.5 text-xs font-semibold rounded text-zinc-400 hover:text-white transition-all">Writing</button>
           <button onclick="switchTab('resume')" id="tab-btn-resume" class="px-3 py-1.5 text-xs font-semibold rounded text-zinc-400 hover:text-white transition-all">Resume</button>
+          <button onclick="switchTab('doom')" id="tab-btn-doom" class="px-3 py-1.5 text-xs font-semibold rounded text-red-500 hover:text-red-400 hover:bg-red-950/20 border border-transparent transition-all flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> DOOM
+          </button>
         </div>
 
         <!-- Quick Links (GitHub, Contact) -->
@@ -390,6 +393,60 @@
 
         </div>
       </section>
+
+      <!-- 4. DOOM EASTER EGG TAB -->
+      <section id="section-doom" class="space-y-6 hidden">
+        <div class="border-b border-zinc-900 pb-5 flex justify-between items-center">
+          <div>
+            <h2 class="text-lg font-bold text-red-500 tracking-tight flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span> DOOM OS v1.666
+            </h2>
+            <p class="text-xs text-zinc-500">MS-DOS WebAssembly Emulator (Shareware DOOM 1)</p>
+          </div>
+          <div class="text-[10px] font-mono text-zinc-500 bg-zinc-950 px-2.5 py-1 rounded border border-zinc-900">
+            Click Load to run DOOM in browser
+          </div>
+        </div>
+
+        <div class="border border-zinc-900 bg-black rounded-xl p-4 md:p-8 flex flex-col items-center justify-center space-y-6">
+          <div class="w-full max-w-3xl aspect-[4/3] bg-zinc-950 border border-zinc-850 rounded-lg overflow-hidden relative group">
+            
+            <!-- Cover / Play Trigger -->
+            <div id="doom-cover" class="absolute inset-0 z-20 bg-zinc-950/90 flex flex-col items-center justify-center space-y-4 transition-all duration-300">
+              <span class="text-5xl">😈</span>
+              <div class="text-center space-y-1">
+                <h3 class="text-sm font-bold text-white uppercase tracking-widest">Shareware DOOM 1</h3>
+                <p class="text-[11px] text-zinc-500 font-mono">Powered by WebAssembly & DOSZone player</p>
+              </div>
+              <button onclick="loadDoomEngine()" class="px-6 py-2.5 text-xs font-bold text-black bg-white hover:bg-zinc-200 rounded-lg transition-all shadow-lg shadow-white/5">
+                Load WAD Engine
+              </button>
+            </div>
+
+            <!-- Iframe Player (will load dynamically) -->
+            <iframe id="doom-iframe" class="w-full h-full border-0 hidden" allow="autoplay; keyboard; fullscreen" src=""></iframe>
+          </div>
+
+          <div class="w-full max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-[10px] text-zinc-500 border-t border-zinc-900 pt-6">
+            <div>
+              <span class="text-zinc-400 block font-semibold">MOVE</span>
+              <span>Arrow Keys / WASD</span>
+            </div>
+            <div>
+              <span class="text-zinc-400 block font-semibold">FIRE / USE</span>
+              <span>Ctrl (Fire) / Space (Use)</span>
+            </div>
+            <div>
+              <span class="text-zinc-400 block font-semibold">STRAFE</span>
+              <span>Alt + Arrows / A, D</span>
+            </div>
+            <div>
+              <span class="text-zinc-400 block font-semibold">WEAPONS</span>
+              <span>1 - 7 Numbers</span>
+            </div>
+          </div>
+        </div>
+      </section>
       
     </main>
 
@@ -403,8 +460,19 @@
 
     <!-- Interactive Tab Navigation -->
     <script>
+      function loadDoomEngine() {
+        const cover = document.getElementById('doom-cover');
+        const iframe = document.getElementById('doom-iframe');
+        if (cover && iframe) {
+          // Play classic DOS Zone shareware DOOM v1 bundle
+          iframe.src = "https://dos.zone/player/?bundleUrl=https%3A%2F%2Fcdn.dos.zone%2Fcustom%2Fdos%2Fdoom.jsdos";
+          iframe.classList.remove('hidden');
+          cover.classList.add('hidden');
+        }
+      }
+
       function switchTab(tabId) {
-        const sections = ['portfolio', 'blog', 'resume'];
+        const sections = ['portfolio', 'blog', 'resume', 'doom'];
         
         sections.forEach(sec => {
           const sectionEl = document.getElementById(`section-${sec}`);
@@ -413,14 +481,23 @@
           if (sec === tabId) {
             sectionEl.classList.remove('hidden');
             if (tabBtn) {
-              tabBtn.classList.remove('text-zinc-400', 'hover:text-white');
-              tabBtn.classList.add('text-white', 'bg-zinc-900', 'border', 'border-zinc-800');
+              tabBtn.classList.remove('text-zinc-400', 'hover:text-white', 'text-red-500', 'hover:text-red-400');
+              if (sec === 'doom') {
+                tabBtn.classList.add('text-red-400', 'bg-red-950/30', 'border', 'border-red-900/60');
+              } else {
+                tabBtn.classList.add('text-white', 'bg-zinc-900', 'border', 'border-zinc-800');
+              }
             }
           } else {
             sectionEl.classList.add('hidden');
             if (tabBtn) {
-              tabBtn.classList.remove('text-white', 'bg-zinc-900', 'border', 'border-zinc-800');
-              tabBtn.classList.add('text-zinc-400', 'hover:text-white');
+              if (sec === 'doom') {
+                // Restore classes to doom tab
+                tabBtn.className = "px-3 py-1.5 text-xs font-semibold rounded text-red-500 hover:text-red-400 hover:bg-red-950/20 border border-transparent transition-all flex items-center gap-1";
+              } else {
+                tabBtn.classList.remove('text-white', 'bg-zinc-900', 'border', 'border-zinc-800');
+                tabBtn.classList.add('text-zinc-400', 'hover:text-white');
+              }
             }
           }
         });
