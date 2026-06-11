@@ -11,10 +11,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <!-- js-dos v7 WebAssembly DOS Emulator assets -->
-    <link href="https://js-dos.com/v7/build/js-dos.css" rel="stylesheet">
-    <script src="https://js-dos.com/v7/build/js-dos.js"></script>
-
     <!-- marked -->
     <script src="./library/marked.min.js"></script>
 
@@ -89,12 +85,6 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #3f3f46;
       }
-      
-      /* Target the js-dos player UI wrapper to fit cleanly in dark mode */
-      .jsdos-canvas {
-        background: #000000 !important;
-        border-radius: 0.5rem;
-      }
     </style>
   </head>
   <body class="font-sans w-full text-zinc-300 min-h-screen selection:bg-white selection:text-black">
@@ -111,13 +101,10 @@
         </div>
 
         <!-- Navigation Tabs -->
-        <div class="flex items-center gap-1.5">
+        <div class="flex items-center gap-1">
           <button onclick="switchTab('portfolio')" id="tab-btn-portfolio" class="px-3 py-1.5 text-xs font-semibold rounded text-white bg-zinc-900 border border-zinc-800 transition-all">Portfolio</button>
           <button onclick="switchTab('blog')" id="tab-btn-blog" class="px-3 py-1.5 text-xs font-semibold rounded text-zinc-400 hover:text-white transition-all">Writing</button>
           <button onclick="switchTab('resume')" id="tab-btn-resume" class="px-3 py-1.5 text-xs font-semibold rounded text-zinc-400 hover:text-white transition-all">Resume</button>
-          <button onclick="switchTab('doom')" id="tab-btn-doom" class="px-3 py-1.5 text-xs font-semibold rounded text-red-500 hover:text-red-400 hover:bg-red-950/20 border border-transparent transition-all flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> DOOM
-          </button>
         </div>
 
         <!-- Quick Links (GitHub, Contact) -->
@@ -403,62 +390,6 @@
 
         </div>
       </section>
-
-      <!-- 4. DOOM EASTER EGG TAB -->
-      <section id="section-doom" class="space-y-6 hidden">
-        <div class="border-b border-zinc-900 pb-5 flex justify-between items-center">
-          <div>
-            <h2 class="text-lg font-bold text-red-500 tracking-tight flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span> DOOM OS v1.666
-            </h2>
-            <p class="text-xs text-zinc-500">Local WebAssembly MS-DOS Emulator (Shareware DOOM 1)</p>
-          </div>
-          <div class="text-[10px] font-mono text-zinc-500 bg-zinc-950 px-2.5 py-1 rounded border border-zinc-900">
-            Click Load to run DOOM
-          </div>
-        </div>
-
-        <div class="border border-zinc-900 bg-black rounded-xl p-4 md:p-8 flex flex-col items-center justify-center space-y-6">
-          <div class="w-full max-w-3xl aspect-[4/3] bg-zinc-950 border border-zinc-850 rounded-lg overflow-hidden relative">
-            
-            <!-- Cover / Play Trigger -->
-            <div id="doom-cover" class="absolute inset-0 z-20 bg-zinc-950/90 flex flex-col items-center justify-center space-y-4 transition-all duration-300">
-              <span class="text-5xl">😈</span>
-              <div class="text-center space-y-1">
-                <h3 class="text-sm font-bold text-white uppercase tracking-widest">Shareware DOOM 1</h3>
-                <p class="text-[11px] text-zinc-500 font-mono">Running Native WASM DOSBox Core</p>
-              </div>
-              <button onclick="loadDoomWasm()" class="px-6 py-2.5 text-xs font-bold text-black bg-white hover:bg-zinc-200 rounded-lg transition-all shadow-lg shadow-white/5">
-                Load WASM Engine
-              </button>
-            </div>
-
-            <!-- Canvas Container for js-dos -->
-            <div id="doom-canvas-container" class="w-full h-full hidden">
-              <div id="jsdos" class="w-full h-full"></div>
-            </div>
-          </div>
-
-          <div class="w-full max-w-3xl grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-[10px] text-zinc-500 border-t border-zinc-900 pt-6">
-            <div>
-              <span class="text-zinc-400 block font-semibold">MOVE</span>
-              <span>Arrow Keys / WASD</span>
-            </div>
-            <div>
-              <span class="text-zinc-400 block font-semibold">FIRE / USE</span>
-              <span>Ctrl (Fire) / Space (Use)</span>
-            </div>
-            <div>
-              <span class="text-zinc-400 block font-semibold">STRAFE</span>
-              <span>Alt + Arrows / A, D</span>
-            </div>
-            <div>
-              <span class="text-zinc-400 block font-semibold">WEAPONS</span>
-              <span>1 - 7 Numbers</span>
-            </div>
-          </div>
-        </div>
-      </section>
       
     </main>
 
@@ -472,39 +403,8 @@
 
     <!-- Interactive Tab Navigation -->
     <script>
-      let dosInstance = null;
-
-      function loadDoomWasm() {
-        const cover = document.getElementById('doom-cover');
-        const container = document.getElementById('doom-canvas-container');
-        if (cover && container) {
-          container.classList.remove('hidden');
-          cover.classList.add('hidden');
-          
-          if (typeof Dos !== 'undefined') {
-            // Initialize js-dos player native instance
-            Dos(document.getElementById("jsdos"))
-              .run("https://cdn.dos.zone/custom/dos/doom.jsdos")
-              .then(ci => {
-                dosInstance = ci;
-                console.log("DOOM WASM Loaded successfully.");
-              })
-              .catch(err => {
-                console.error("DOOM WASM Load failed:", err);
-                document.getElementById("jsdos").innerHTML = `
-                  <div class="flex flex-col items-center justify-center h-full text-center p-4">
-                    <p class="text-red-500 text-xs font-mono font-bold">WASM engine load error. CORS policy or Network issue.</p>
-                  </div>
-                `;
-              });
-          } else {
-            console.error("js-dos library is not loaded from CDN.");
-          }
-        }
-      }
-
       function switchTab(tabId) {
-        const sections = ['portfolio', 'blog', 'resume', 'doom'];
+        const sections = ['portfolio', 'blog', 'resume'];
         
         sections.forEach(sec => {
           const sectionEl = document.getElementById(`section-${sec}`);
@@ -513,23 +413,14 @@
           if (sec === tabId) {
             sectionEl.classList.remove('hidden');
             if (tabBtn) {
-              tabBtn.classList.remove('text-zinc-400', 'hover:text-white', 'text-red-500', 'hover:text-red-400');
-              if (sec === 'doom') {
-                tabBtn.classList.add('text-red-400', 'bg-red-950/30', 'border', 'border-red-900/60');
-              } else {
-                tabBtn.classList.add('text-white', 'bg-zinc-900', 'border', 'border-zinc-800');
-              }
+              tabBtn.classList.remove('text-zinc-400', 'hover:text-white');
+              tabBtn.classList.add('text-white', 'bg-zinc-900', 'border', 'border-zinc-800');
             }
           } else {
             sectionEl.classList.add('hidden');
             if (tabBtn) {
-              if (sec === 'doom') {
-                // Restore classes to doom tab
-                tabBtn.className = "px-3 py-1.5 text-xs font-semibold rounded text-red-500 hover:text-red-400 hover:bg-red-950/20 border border-transparent transition-all flex items-center gap-1";
-              } else {
-                tabBtn.classList.remove('text-white', 'bg-zinc-900', 'border', 'border-zinc-800');
-                tabBtn.classList.add('text-zinc-400', 'hover:text-white');
-              }
+              tabBtn.classList.remove('text-white', 'bg-zinc-900', 'border', 'border-zinc-800');
+              tabBtn.classList.add('text-zinc-400', 'hover:text-white');
             }
           }
         });
